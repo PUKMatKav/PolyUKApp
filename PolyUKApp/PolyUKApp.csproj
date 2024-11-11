@@ -7,6 +7,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>True</UseWindowsForms>
+    <ApplicationIcon>PUKIco.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +17,10 @@
     <None Remove="Windows\Images\PUKIco.ico" />
     <None Remove="Windows\Images\PUK_Blue_Logo.png" />
     <None Remove="Windows\Images\PUK_Blue_Logo_512.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="PUKIco.ico" />
   </ItemGroup>
 
   <ItemGroup>
