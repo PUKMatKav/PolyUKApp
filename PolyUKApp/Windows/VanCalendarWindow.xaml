@@ -1,0 +1,376 @@
+﻿<Window x:Class="PolyUKApp.Windows.VanCalendarWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PolyUKApp.Windows"
+        mc:Ignorable="d"
+        Title="VanCalendarWindow" Height="900" Width="1600" MinHeight="600" MinWidth="1000"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResizeWithGrip"
+        Icon="Images/PUKIco.ico">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <Border x:Name="TopBar0"
+       Background="White"
+       CornerRadius="10,10,0,0"
+       BorderBrush="#F1F2F7"
+       BorderThickness="0,0,0,1"
+       MouseDown="TopBar0_MouseDown"/>
+
+        <Border Background="#F1F2F7"
+       Grid.Row="2"
+       RenderOptions.EdgeMode="Aliased"
+       Opacity="0.9"/>
+
+        <Border x:Name="MainBorder"
+           Background="White"
+           Margin="25"
+           Grid.Row="2"
+           CornerRadius="10">
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="5" Direction="300" Opacity="0.2"/>
+            </Border.Effect>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="0.4*"/>
+                </Grid.ColumnDefinitions>
+
+                <!--Year Bar-->
+                <StackPanel Orientation="Horizontal"
+                   HorizontalAlignment="Center"
+                           VerticalAlignment="Top"
+                           Margin="0,15,0,0"
+                           Height="35"
+                           Background="Transparent">
+                    <Button x:Name="BtnLeftYR"
+                           Content="&lt;"
+                           Style="{StaticResource CalButtonTheme}"
+                           Click="BtnLeftYR_Click"/>
+                    <TextBlock x:Name="TextBlockYear" Text="Year" FontSize="24" Foreground="#007fff"/>
+                    <Button x:Name="BtnRightYR"
+                           Content=">"
+                           Style="{StaticResource CalButtonTheme}"
+                           Click="BtnRightYR_Click"/>
+                </StackPanel>
+                <StackPanel Background="Transparent"
+                           Orientation="Horizontal"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Top"
+                           Margin="0,50,0,0"
+                           Height="30">
+                    <Button x:Name="BtnLeft"
+                           Content="&lt;"
+                           Style="{StaticResource CalButtonTheme}"
+                           Click="BtnLeft_Click"/>
+                    <TextBlock Width="30" Text="M2" x:Name="TextBlockMonthM2" FontSize="18" Foreground="#5daeff" Margin="6 2" TextAlignment="Center"/>
+                    <TextBlock Width="30" Text="M1" x:Name="TextBlockMonthM1" FontSize="18" Foreground="#5daeff" Margin="6 2" TextAlignment="Center"/>
+                    <TextBlock Width="30" Text="C" x:Name="TextBlockMonthC" FontSize="22" Foreground="#007fff" FontWeight="SemiBold" Margin="6 0" TextAlignment="Center"/>
+                    <TextBlock Width="30" Text="P1" x:Name="TextBlockMonthP1" FontSize="18" Foreground="#5daeff" Margin="6 2" TextAlignment="Center"/>
+                    <TextBlock Width="30" Text="P2" x:Name="TextBlockMonthP2" FontSize="18" Foreground="#5daeff" Margin="6 2" TextAlignment="Center"/>
+
+                    <Button x:Name="BtnRight"
+                           Content=">"
+                           Style="{StaticResource CalButtonTheme}"
+                           Click="BtnRight_Click"/>
+                </StackPanel>
+
+                <Separator Height="0.8" Background="LightGray" Margin="40,85,40,5" VerticalAlignment="Top"/>
+
+                <TextBlock x:Name="TextBlockMonth"
+                          VerticalAlignment="Top"
+                          Text="Selected Month" 
+                          Foreground="#007fff" 
+                          FontSize="20" FontFamily="Aptos" FontWeight="SemiBold"
+                          TextAlignment="Center"
+                          Margin="0,95,0,0"/>
+
+                <WrapPanel x:Name="CalBase" VerticalAlignment="Top" Width="1050" HorizontalAlignment="Center" Orientation="Horizontal" Margin="20,125,20,20">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock Text="Sun" FontFamily="Aptos" FontSize="16" FontWeight="SemiBold" Foreground="#007fff" Height="20" Padding="5,0,0,0" HorizontalAlignment="Center" MinWidth="150"/>
+                        <TextBlock Text="Mon" FontFamily="Aptos" FontSize="16" FontWeight="SemiBold" Foreground="#007fff" Height="20" Padding="5,0,0,0" HorizontalAlignment="Center" MinWidth="150"/>
+                        <TextBlock Text="Tue" FontFamily="Aptos" FontSize="16" FontWeight="SemiBold" Foreground="#007fff" Height="20" Padding="5,0,0,0" HorizontalAlignment="Center" MinWidth="150"/>
+                        <TextBlock Text="Wed" FontFamily="Aptos" FontSize="16" FontWeight="SemiBold" Foreground="#007fff" Height="20" Padding="5,0,0,0" HorizontalAlignment="Center" MinWidth="150"/>
+                        <TextBlock Text="Thu" FontFamily="Aptos" FontSize="16" FontWeight="SemiBold" Foreground="#007fff" Height="20" Padding="5,0,0,0" HorizontalAlignment="Center" MinWidth="150"/>
+                        <TextBlock Text="Fri" FontFamily="Aptos" FontSize="16" FontWeight="SemiBold" Foreground="#007fff" Height="20" Padding="5,0,0,0" HorizontalAlignment="Center" MinWidth="150"/>
+                        <TextBlock Text="Sat" FontFamily="Aptos" FontSize="16" FontWeight="SemiBold" Foreground="#007fff" Height="20" Padding="5,0,0,0" HorizontalAlignment="Center" MinWidth="150"/>
+                    </StackPanel>
+                    <Separator Height="0.8" Background="LightGray" MinWidth="1050"/>
+                    <WrapPanel x:Name="CalData" Orientation="Horizontal" Margin="0,-3,0,0" Width="1050" MaxHeight="1050" VerticalAlignment="Stretch">
+                    </WrapPanel>
+                </WrapPanel>
+
+                <Border x:Name="VisitBorder"
+                       Background="#007FFF"
+                       Grid.Column="1"
+                       CornerRadius="0,10,10,0">
+                    <StackPanel x:Name="VisitStackPanel"
+                               HorizontalAlignment="Center"
+                               Margin="0,6,0,0"
+                               MaxWidth="420"
+                               MinHeight="500">
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center"
+                                    Margin="10">
+                            <Button x:Name="BtnViewVisits"
+                                    Content="View Visits"
+                                    Click="BtnViewVisits_Click"
+                                    Width="100"
+                                    Height="30"
+                                    Margin="0,0,15,0"
+                                    Style="{StaticResource SearchButtonTheme}"/>
+                            <Button x:Name="BtnViewPending"
+                                    Content="View Pending"
+                                    Click="BtnViewPending_Click"
+                                    Width="100"
+                                    Height="30"
+                                    Margin="15,0,0,0"
+                                    Style="{StaticResource SearchButtonTheme}"/>
+                            <Rectangle x:Name="RectangleNotification"
+                                       Width="12"
+                                       Height="12"
+                                       VerticalAlignment="Top"
+                                       Fill="Orange"
+                                       RadiusX="6"
+                                       RadiusY="6"
+                                       Margin="-18,3,0,0"
+                                       Visibility="Visible"/>
+                            <TextBox x:Name="NotificationNumber"
+                                       Margin="-18,3.5,0,0"
+                                       Width="12"
+                                       Height="12"
+                                       VerticalAlignment="Top"
+                                       Text="0"
+                                       FontSize="8"
+                                       FontWeight="Bold"
+                                       FontFamily="Aptos"
+                                     HorizontalContentAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                       Foreground="Black"
+                                     Background="Transparent"
+                                     BorderThickness="0"/>
+                        </StackPanel>
+                        <Separator Height="0.8" Background="White" Width="420"/>
+                        <TextBlock x:Name="TxtGridName"
+                                   Text="TxtGridName"
+                                   FontSize="20"
+                                   HorizontalAlignment="Center"
+                                   Margin="10"
+                                   Foreground="White"/>
+                        <Separator Height="0.8" Background="White" Width="420"/>
+                    </StackPanel>
+                </Border>
+                <Border x:Name="DataGridBorder"
+                       Background="Transparent"
+                       Grid.Column="1"
+                       Margin="10,110,10,80">
+                    <DataGrid x:Name="VanDataGrid"
+                            VerticalAlignment="Stretch"
+                            Margin="5,20"
+                            VerticalScrollBarVisibility="Auto"
+                            Style="{StaticResource DataGridThemeWOList}"
+                            CellStyle="{StaticResource DataGridCellStockThemeWOList}"
+                            ColumnHeaderStyle="{StaticResource ColumnHeaderStockThemeWOList}"
+                            IsReadOnly="True"
+                            MouseDoubleClick="VanDataGrid_MouseDoubleClick"
+                            SelectionChanged="VanDataGrid_SelectionChanged">
+                    </DataGrid>
+
+                </Border>
+                <Border x:Name="DataGridBorderPending"
+                       Background="Transparent"
+                       Grid.Column="1"
+                       Margin="10,110,10,80">
+                    <DataGrid x:Name="VanDataGridPending"
+                            VerticalAlignment="Stretch"
+                            Margin="5,20"
+                            VerticalScrollBarVisibility="Auto"
+                            Style="{StaticResource DataGridThemeWOList}"
+                            CellStyle="{StaticResource DataGridCellStockThemeWOList}"
+                            ColumnHeaderStyle="{StaticResource ColumnHeaderStockThemeWOList}"
+                            IsReadOnly="True"
+                            MouseDoubleClick="VanDataGridPending_MouseDoubleClick"
+                            SelectionChanged="VanDataGridPending_SelectionChanged">
+                    </DataGrid>
+                </Border>
+                <Border x:Name="BorderButtonsBottom"
+                        Grid.Column="1"
+                        Margin="10"
+                        VerticalAlignment="Bottom"
+                        Height="50">
+                    <StackPanel x:Name="StackPanelButtonsBottom"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Center">
+                        <Button x:Name="BtnAddVisit"
+                             Content="Add New Visit"
+                            Click="BtnAddVisit_Click"
+                            Width="100"
+                                Height="30"
+                                Margin="5"
+                            Style="{StaticResource SearchButtonTheme}"/>
+                        <Button x:Name="BtnEditVisit"
+                             Content="Edit"
+                                Visibility="Collapsed"
+                            Click="BtnEditVisit_Click"
+                            Width="80"
+                                Margin="5"
+                            Style="{StaticResource SearchButtonTheme}"/>
+                        <Button x:Name="BtnDeleteVisit"
+                             Content="Delete"
+                                Visibility="Collapsed"
+                            Click="BtnDeleteVisit_Click"
+                            Width="80"
+                                Margin="5"
+                            Style="{StaticResource SearchButtonTheme}"/>
+                        <Button x:Name="BtnCOmpleteVisit"
+                             Content="Complete"
+                                Visibility="Collapsed"
+                            Click="BtnCOmpleteVisit_Click"
+                            Width="80"
+                                Margin="5"
+                            Style="{StaticResource SearchButtonTheme}"/>
+                    </StackPanel>
+
+                </Border>
+                <Border x:Name="BorderPendingButtons"
+                        Grid.Column="1"
+                        Margin="10"
+                        VerticalAlignment="Bottom"
+                        Height="50"
+                        Visibility="Collapsed">
+                    <StackPanel x:Name="StackPanelButtonsPending"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Center">
+                        <Button x:Name="BtnAddRequest"
+                             Content="Request Visit"
+                            Click="BtnAddRequest_Click"
+                            Width="100"
+                                Height="30"
+                                Margin="5"
+                            Style="{StaticResource SearchButtonTheme}"/>
+                        <Button x:Name="BtnEditRequest"
+                                Content="Edit"
+                                Visibility="Collapsed"
+                                Click="BtnEditRequest_Click"
+                                Width="80"
+                                Margin="5"
+                                Style="{StaticResource SearchButtonTheme}"/>
+                        <Button x:Name="BtnDeleteRequest"
+                                Content="Delete"
+                                Visibility="Collapsed"
+                                Click="BtnDeleteRequest_Click"
+                                Width="80"
+                                Margin="5"
+                                Style="{StaticResource SearchButtonTheme}"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+
+        <Border x:Name="BotBar0"
+       Background="White"
+       Grid.Row="3"
+       RenderOptions.EdgeMode="Aliased"
+       BorderBrush="#F1F2F7">
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="5" Direction="90" Opacity="0.2"/>
+            </Border.Effect>
+        </Border>
+
+        <Border x:Name="LogoBar0"
+           Background="White"
+           Grid.Row="1"
+           >
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="5" Direction="280" Opacity="0.2"/>
+            </Border.Effect>
+            <StackPanel x:Name="controlstackpanel" Orientation="Horizontal" Margin="200,0,0,0">
+                <Button x:Name="BtnRefresh"
+               Content="Refresh"
+               Click="BtnRefresh_Click"
+               Width="80"
+               Style="{StaticResource GeneralButtonTheme}"/>
+                <Button x:Name="BtnCSVExport"
+                        Margin="20,0,0,0"
+               Content="Export CSV"
+               Click="BtnCSVExport_Click"
+               Width="80"
+               Style="{StaticResource GeneralButtonTheme}"/>
+                <Button x:Name="BtnviewlOldJobs"
+                        Margin="20,0,0,0"
+               Content="View Old Jobs"
+               Click="BtnviewlOldJobs_Click"
+               Width="100"
+               Style="{StaticResource GeneralButtonTheme}"/>
+                <Button x:Name="BtnMap"
+                        Margin="20,0,0,0"
+               Content="View Map 🌍"
+               Click="BtnMap_Click"
+               Width="100"
+               Style="{StaticResource GeneralButtonTheme}"/>
+                <Button x:Name="BtnMapGOOG"
+                        Margin="20,0,0,0"
+               Content="View Map Built In🌍"
+               Click="BtnMapGOOG_Click"
+               Width="120"
+               Style="{StaticResource GeneralButtonTheme}"/>
+            </StackPanel>
+        </Border>
+
+        <StackPanel Orientation="Horizontal"
+HorizontalAlignment="Right"
+        Margin="0,0,10,0">
+            <Button x:Name="BtnMinimise"
+            Width="40" Height="35"
+            Content="_"
+            Style="{StaticResource ControlButtonTheme}"
+            Click="BtnMinimise_Click"/>
+            <Button x:Name="BtnMaximise"
+            Width="40" Height="35"
+            Content="🗖"
+            Style="{StaticResource ControlButtonTheme}"
+            Click="BtnMaximise_Click"/>
+            <Button x:Name="BtnClose"
+            Width="40" Height="35"
+            Content="X"
+            Style="{StaticResource ControlButtonTheme}"
+            Click="BtnClose_Click"/>
+        </StackPanel>
+
+        <Image x:Name="PUKLogo"
+   Source="Images\PUK_Blue_Logo_512.png"
+   Grid.Row="1"
+   Margin="20,8,15,8"
+   HorizontalAlignment="Left"/>
+
+        <TextBlock x:Name="versionbox"
+       Text="v0.1"
+       Grid.Row="3"
+       FontFamily="Aptos"
+       Foreground="Gray"
+       VerticalAlignment="Center"
+       Margin="10 0 0 0"/>
+        <StackPanel x:Name="ReturnTabPanel"
+               Grid.Row="1"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Center"
+               Margin="375,0,25,0">
+            <Button x:Name="BtnMainMenu"
+               Content="Main Menu"
+               Click="BtnMainMenu_Click"
+               Width="80"
+               Style="{StaticResource GeneralButtonTheme}"/>
+        </StackPanel>
+
+    </Grid>
+</Window>

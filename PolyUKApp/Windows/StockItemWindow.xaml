@@ -1,0 +1,222 @@
+﻿<Window x:Class="PolyUKApp.Windows.StockItemWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PolyUKApp.Windows"
+        mc:Ignorable="d"
+        Title="StockItemWindow" Height="800" Width="1400" MinHeight="800" MinWidth="1200"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResizeWithGrip"
+        Icon="Images/PUKIco.ico">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <Border x:Name="TopBar0"
+            Background="White"
+            CornerRadius="10,10,0,0"
+            BorderBrush="#F1F2F7"
+            BorderThickness="0,0,0,1"
+            MouseDown="TopBar0_MouseDown"/>
+
+        <Border Background="#F1F2F7"
+            Grid.Row="2"
+            RenderOptions.EdgeMode="Aliased"
+            Opacity="0.9"/>
+
+        <Border x:Name="MainBorder"
+                Background="White"
+                Margin="25"
+                Grid.Row="2"
+                CornerRadius="10">
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="5" Direction="300" Opacity="0.2"/>
+            </Border.Effect>
+            <Grid>
+                <TextBlock x:Name="TextBlockStock"
+                   Text="Stock Item Viewer"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   FontSize="18"
+                   Margin="20,20,0,0"
+                   Foreground="#007FFF"
+                   FontFamily="Aptos"
+                   FontWeight="Bold"/>
+                <TextBlock Text="Filter"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="27,70,0,0"
+                FontSize="12"
+                Foreground="#007FFF"
+                FontWeight="Normal"
+                FontFamily="Aptos"/>
+                
+                <ComboBox x:Name="ComboBoxSearch"
+                      Width="200"
+                      Height="30"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Top"
+                      Margin="20,100,0,0"
+                      Background="Transparent"
+                      Style="{StaticResource ComboBoxFlatStyle}"
+                      DisplayMemberPath="ColumnName">
+                </ComboBox>
+                <Border Background="#F1F2F7"
+                        CornerRadius="10"
+                        Height="35"
+                        Width="300"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Margin="20,150,0,0">
+                    <TextBox x:Name="TxtBxSearch"
+                        Background="Transparent"
+                         BorderThickness="0"
+                        HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                        VerticalContentAlignment="Center"
+                        HorizontalContentAlignment="Left"
+                        Padding="7"
+                        Height="35"
+                        Width="300"
+                        FontFamily="Aptos">
+                    </TextBox>
+
+                </Border>
+                <DataGrid x:Name="DataGridStock"
+                    Grid.Row="2"
+                    Margin="20,210,20,20"
+                    MinColumnWidth="100"
+                    Style="{StaticResource DataGridTheme}"
+                    CellStyle="{StaticResource DataGridCellStockTheme}"
+                    ColumnHeaderStyle="{StaticResource ColumnHeaderStockTheme}"
+                    MouseDoubleClick="DataGridStock_MouseDoubleClick"
+                    SelectionChanged="DataGridStock_SelectionChanged"
+                    AutoGenerateColumns="True"
+                    AutoGeneratingColumn="OnAutoGeneratingColumn">
+                </DataGrid>
+                <StackPanel x:Name="SearchPanel"
+                            Orientation="Horizontal"
+                            Margin="350,150,147,0"
+                            VerticalAlignment="Top"
+                            Height="35">
+                    <Button x:Name="BtnSearchStock"
+                                Content="Search"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource SearchButtonTheme}"
+                                Click="BtnSearchStock_Click"/>
+                    <Button x:Name="BtnResetStock"
+                            Content="Reset"
+                            Margin="20,0,0,0"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource SearchButtonTheme}"
+                            Click="BtnResetStock_Click"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            Margin="500,150,20,0"
+                            VerticalAlignment="Top"
+                            Height="35">
+                    <Button x:Name="BtnItemView"
+                            Style="{StaticResource GeneralButtonTheme}"
+                            Content="View Item"
+                            Visibility="Hidden"
+                            Click="BtnItemView_Click"/>
+                </StackPanel>
+                <TextBlock x:Name="TextBlockComboError"
+                   Text="Please Select Catagory!!"
+                   Margin="230,108,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   FontFamily="Aptos"
+                   FontSize="14"
+                   Foreground="Red"
+                   Visibility="Hidden"
+                   IsHitTestVisible="False"/>
+                <TextBlock x:Name="TextBlockCopied"
+                   Text="Copied"
+                   Margin="20"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Top"
+                   FontFamily="Aptos"
+                   FontSize="14"
+                   Foreground="#007FFF"
+                   Visibility="Hidden"
+                   IsHitTestVisible="False"/>
+            </Grid>
+        </Border>
+
+        <Border x:Name="BotBar0"
+            Background="White"
+            Grid.Row="3"
+            RenderOptions.EdgeMode="Aliased"
+            BorderBrush="#F1F2F7">
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="5" Direction="90" Opacity="0.2"/>
+            </Border.Effect>
+        </Border>
+
+        <Border x:Name="LogoBar0"
+                Background="White"
+                Grid.Row="1"
+                RenderOptions.EdgeMode="Aliased">
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="5" Direction="280" Opacity="0.2"/>
+            </Border.Effect>
+        </Border>
+        
+        <StackPanel Orientation="Horizontal"
+     HorizontalAlignment="Right"
+             Margin="0,0,10,0">
+            <Button x:Name="BtnMinimise"
+                 Width="40" Height="35"
+                 Content="_"
+                 Style="{StaticResource ControlButtonTheme}"
+                 Click="BtnMinimise_Click"/>
+            <Button x:Name="BtnMaximise"
+                 Width="40" Height="35"
+                 Content="🗖"
+                 Style="{StaticResource ControlButtonTheme}"
+                 Click="BtnMaximise_Click"/>
+            <Button x:Name="BtnClose"
+                 Width="40" Height="35"
+                 Content="X"
+                 Style="{StaticResource ControlButtonTheme}"
+                 Click="BtnClose_Click"/>
+        </StackPanel>
+
+        <Image x:Name="PUKLogo"
+        Source="Images\PUK_Blue_Logo_512.png"
+        Grid.Row="1"
+        Margin="20,8,15,8"
+        HorizontalAlignment="Left"/>
+
+        <TextBlock x:Name="versionbox"
+            Text="v0.1"
+            Grid.Row="3"
+            FontFamily="Aptos"
+            Foreground="Gray"
+            VerticalAlignment="Center"
+            Margin="10 0 0 0"/>
+        <StackPanel x:Name="ReturnTabPanel"
+                    Grid.Row="1"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Margin="375,0,25,0">
+            <Button x:Name="BtnMainMenu"
+                    Content="Main Menu"
+                    Click="BtnMainMenu_Click"
+                    Width="80"
+                    Style="{StaticResource GeneralButtonTheme}"/>
+        </StackPanel>
+
+
+    </Grid>
+</Window>
