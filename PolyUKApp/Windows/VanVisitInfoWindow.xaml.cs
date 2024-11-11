@@ -85,11 +85,13 @@ namespace PolyUKApp.Windows
             ComboAdminStaff.Items.Add("Ant");
             ComboAdminStaff.Items.Add("Jake");
             ComboAdminStaff.Items.Add("Both");
+            ComboAdminStaff.Items.Add("James");
 
             ComboType.Items.Add("Technical");
             ComboType.Items.Add("Collection");
             ComboType.Items.Add("Delivery");
             ComboType.Items.Add("Part Collected");
+            ComboType.Items.Add("Sales");
             ComboType.Items.Add("Other");
 
             ComboSalesStaff.Items.Add("Donna Rivera");
