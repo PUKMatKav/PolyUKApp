@@ -20,6 +20,7 @@ namespace PolyUKApp.SQL
                 return output;
             }
         }
+
         public List<ItemList> GetItemList(string SearchSubject, string SearchName)
         {
             using (IDbConnection connection = new SqlConnection(Helper.ConnValue("polysql01")))
@@ -95,6 +96,11 @@ namespace PolyUKApp.SQL
                                                  "FROM STKStockItemView " +
                                                  "ORDER BY Code";
 
+            public static String StockOrderQuery = "SELECT Code, Name, FreeStockQuantity, StockUnitName AS 'Unit', ProductGroupDescription AS 'Type' " +
+                                     "FROM STKStockItemView " +
+                                     "WHERE (Code = 'PUK/MACHAIR/001') or (Code = 'PUK/MACHAIR/002') or (Code = 'PUK/MACHINE/001')" +
+                                     "ORDER BY Code";
+
             public static String WOItemListQuery = "SELECT Code, Name, Description, StockUnitName AS 'Unit', ProductGroupDescription AS 'Type' " +
                                                  "FROM STKStockItemView " +
                                                  "WHERE Code = @Code";
@@ -149,11 +155,11 @@ namespace PolyUKApp.SQL
         public static class GlobalSQLNonQueries
         {
             public static String UpdateVanList = "UPDATE collection_database " +
-                "SET company_name = @COText, town = @TownText, collection_date = @PlannedDate, address = @AddressText, postcode = @PostcodeText, contact_name = @NameText, contact_email = @EmailText, contact_phone = @NumberText, description_collection = @DescText, sales_person = @SalesText, visit_type = @VisitText, staff_member = @StaffText, weight_waste = @WeightText, scrap_type = @WasteTypeText, credit_checked = @CreditCheckedText, planned_start = @PlannedStartText, job_time = @JobTimeText " +
+                "SET company_name = @COText, town = @TownText, collection_date = @PlannedDate, address = @AddressText, postcode = @PostcodeText, contact_name = @NameText, contact_email = @EmailText, contact_phone = @NumberText, description_collection = @DescText, sales_person = @SalesText, visit_type = @VisitText, staff_member = @StaffText, weight_waste = @WeightText, scrap_type = @WasteTypeText, credit_checked = @CreditCheckedText, planned_start = @PlannedStartText, job_time = @JobTimeText, job_notes = @NotesText " +
                 "WHERE id = @IDTEXT";
 
             public static String AddVanList = "INSERT INTO collection_database " +
-                "SET company_name = @COText, town = @TownText, collection_date = @PlannedDate, address = @AddressText, postcode = @PostcodeText, contact_name = @NameText, contact_email = @EmailText, contact_phone = @NumberText, description_collection = @DescText, sales_person = @SalesText, visit_type = @VisitText, staff_member = @StaffText, id = @IDTEXT, credit_checked = @CreditCheckedText, planned_start = @PlannedStartText, job_time = @JobTimeText, weight_waste = '0', leads = '0', completed = 'No', scrap_type = 'N/A'  ";
+                "SET company_name = @COText, town = @TownText, collection_date = @PlannedDate, address = @AddressText, postcode = @PostcodeText, contact_name = @NameText, contact_email = @EmailText, contact_phone = @NumberText, description_collection = @DescText, sales_person = @SalesText, visit_type = @VisitText, staff_member = @StaffText, id = @IDTEXT, credit_checked = @CreditCheckedText, planned_start = @PlannedStartText, job_time = @JobTimeText, weight_waste = '0', leads = '0', completed = 'No', scrap_type = 'N/A', job_notes = ''  ";
 
             public static String DeleteFromVanList = "DELETE FROM collection_database " +
                 "WHERE id = @IDTEXT";
@@ -167,7 +173,7 @@ namespace PolyUKApp.SQL
                 "WHERE id = @IDTEXT";
 
             public static String AddVanRequestList = "INSERT INTO pending_database " +
-                "SET company_name = @COText, town = @TownText, collection_date = @PlannedDate, address = @AddressText, postcode = @PostcodeText, contact_name = @NameText, contact_email = @EmailText, contact_phone = @NumberText, description_collection = @DescText, sales_person = @SalesText, visit_type = @VisitText, staff_member = @StaffText, id = @IDTEXT, credit_checked = @CreditCheckedText, planned_start = @PlannedStartText, job_time = @JobTimeText, weight_waste = '0', leads = '0', completed = 'No', scrap_type = 'N/A' ";
+                "SET company_name = @COText, town = @TownText, collection_date = @PlannedDate, address = @AddressText, postcode = @PostcodeText, contact_name = @NameText, contact_email = @EmailText, contact_phone = @NumberText, description_collection = @DescText, sales_person = @SalesText, visit_type = @VisitText, staff_member = @StaffText, id = @IDTEXT, credit_checked = @CreditCheckedText, planned_start = @PlannedStartText, job_time = @JobTimeText, weight_waste = '0', leads = '0', completed = 'No', scrap_type = 'N/A', job_notes = '' ";
 
             public static String UpdateVanPendingList = "UPDATE pending_database " +
                 "SET company_name = @COText, town = @TownText, collection_date = @PlannedDate, address = @AddressText, postcode = @PostcodeText, contact_name = @NameText, contact_email = @EmailText, contact_phone = @NumberText, description_collection = @DescText, sales_person = @SalesText, visit_type = @VisitText, staff_member = @StaffText, credit_checked = @CreditCheckedText, planned_start = @PlannedStartText, job_time = @JobTimeText " +

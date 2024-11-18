@@ -75,6 +75,7 @@ namespace PolyUKApp.Windows
                     _dap.Fill(OldTable);
                     _con.Close();
                 }
+                ComboBoxSearch.ItemsSource = OldTable.Columns;
                 VanDataGrid.ItemsSource = null;
                 VanDataGrid.ItemsSource = OldTable.DefaultView;
             }
@@ -104,6 +105,38 @@ namespace PolyUKApp.Windows
             {
                 var VisitInfoBox = new VanVisitInfoWindow { Left = WindowLeft, Top = WindowTop, Width = WindowWidth, Height = WindowHeight };
                 VisitInfoBox.Show();
+            }
+        }
+
+        private void BtnResetJobs_Click(object sender, RoutedEventArgs e)
+        {
+            BindingSource bsR = new BindingSource
+            {
+                DataSource = VanDataGrid.ItemsSource,
+                Filter = ""
+            };
+            VanDataGrid.ItemsSource = bsR;
+            ComboBoxSearch.Text = "";
+            TxtBxSearch.Text = "";
+            TextBlockComboError.Visibility = Visibility.Hidden;
+        }
+
+        private void BtnSearchJobs_Click(object sender, RoutedEventArgs e)
+        {
+            string SearchColumn = ComboBoxSearch.Text;
+            if (SearchColumn != "")
+            {
+                TextBlockComboError.Visibility = Visibility.Hidden;
+                BindingSource bs = new BindingSource
+                {
+                    DataSource = VanDataGrid.ItemsSource,
+                    Filter = "[" + SearchColumn + "]" + " like '%" + TxtBxSearch.Text + "%'"
+                };
+                VanDataGrid.ItemsSource = bs;
+            }
+            else
+            {
+                TextBlockComboError.Visibility = Visibility.Visible;
             }
         }
     }

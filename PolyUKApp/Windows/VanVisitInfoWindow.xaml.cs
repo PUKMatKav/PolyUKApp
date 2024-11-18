@@ -246,6 +246,8 @@ namespace PolyUKApp.Windows
                     RichTextContactNum.AppendText(ContactPhone);
                     String VisitDesc = Row["description_collection"].ToString();
                     RichTextVisitDesc.AppendText(VisitDesc);
+                    String VisitNotes = Row["job_notes"].ToString();
+                    RichTextVisitNotes.AppendText(VisitNotes);
                     String SalesPerson = Row["sales_person"].ToString();
                     ComboSalesStaff.Text = SalesPerson;
                     String PlannedDate = Row["collection_date"].ToString();
@@ -273,7 +275,25 @@ namespace PolyUKApp.Windows
                     ComboPromTime.Text = PlannedStartTime;
                     String PlannedJobTime = Row["job_time"].ToString();
                     ComboJobTime.Text = PlannedJobTime;
+
+                    String CompleteStatus = Row["completed"].ToString();
+                    if(CompleteStatus == "Yes")
+                    {
+                        BtnRemoveDate.Visibility = Visibility.Hidden;
+                        BtnValidate.Visibility = Visibility.Hidden;
+                        StartDatePicker.Visibility = Visibility.Hidden;
+                        TextBlockEditDetails.Visibility = Visibility.Hidden;
+                        TextBlockEditStart.Visibility = Visibility.Hidden;
+                        BtnAppoint.Visibility = Visibility.Hidden;
+                        BtnDuplicateVisit.Visibility = Visibility.Visible;
+                        TextBlockDuplicate.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+
+                    }
                 }
+
             }
 
         }
@@ -314,6 +334,8 @@ namespace PolyUKApp.Windows
             String PostcodeText = PostcodeRange.Text.Replace("\r", "").Replace("\n", "");
             var DescRange = new TextRange(RichTextVisitDesc.Document.ContentStart, RichTextVisitDesc.Document.ContentEnd);
             String DescText = DescRange.Text.Replace("\r", "").Replace("\n", "");
+            var NoteRange = new TextRange(RichTextVisitNotes.Document.ContentStart, RichTextVisitNotes.Document.ContentEnd);
+            String NoteText = NoteRange.Text.Replace("\r", "").Replace("\n", "");
             var NameRange = new TextRange(RichTextContactName.Document.ContentStart, RichTextContactName.Document.ContentEnd);
             String NameText = NameRange.Text.Replace("\r", "").Replace("\n", "");
             var NumberRange = new TextRange(RichTextContactNum.Document.ContentStart, RichTextContactNum.Document.ContentEnd);
@@ -362,6 +384,7 @@ namespace PolyUKApp.Windows
                     _cmd.Parameters.AddWithValue("@CreditCheckedText", CreditCheckedText);
                     _cmd.Parameters.AddWithValue("@PlannedStartText", PlannedStartText);
                     _cmd.Parameters.AddWithValue("@JobTimeText", JobTimeText);
+                    _cmd.Parameters.AddWithValue("@NotesText", NoteText);
 
                     _cmd.Parameters.AddWithValue("@IDTEXT", IDText);
 
@@ -665,6 +688,83 @@ namespace PolyUKApp.Windows
         private void BtnRemoveDate_Click(object sender, RoutedEventArgs e)
         {
             RichTextPromDate.Document.Blocks.Clear();
+        }
+
+        private void BtnDuplicateVisit_Click(object sender, RoutedEventArgs e)
+        {
+            //big boy button!! Must Hide from most users
+
+            String COText = VisitTextBox.Text;
+            var AddressRange = new TextRange(RichTextCusAddInfo.Document.ContentStart, RichTextCusAddInfo.Document.ContentEnd);
+            String AddressText = AddressRange.Text.Replace("\r", "").Replace("\n", "");
+            var PostcodeRange = new TextRange(RichTextPostcode.Document.ContentStart, RichTextPostcode.Document.ContentEnd);
+            String PostcodeText = PostcodeRange.Text.Replace("\r", "").Replace("\n", "");
+            var DescRange = new TextRange(RichTextVisitDesc.Document.ContentStart, RichTextVisitDesc.Document.ContentEnd);
+            String DescText = DescRange.Text.Replace("\r", "").Replace("\n", "");
+            var NoteRange = new TextRange(RichTextVisitNotes.Document.ContentStart, RichTextVisitNotes.Document.ContentEnd);
+            String NoteText = NoteRange.Text.Replace("\r", "").Replace("\n", "");
+            var NameRange = new TextRange(RichTextContactName.Document.ContentStart, RichTextContactName.Document.ContentEnd);
+            String NameText = NameRange.Text.Replace("\r", "").Replace("\n", "");
+            var NumberRange = new TextRange(RichTextContactNum.Document.ContentStart, RichTextContactNum.Document.ContentEnd);
+            String NumberText = NumberRange.Text.Replace("\r", "").Replace("\n", "");
+            var EmailRange = new TextRange(RichTextContactEmail.Document.ContentStart, RichTextContactEmail.Document.ContentEnd);
+            String EmailText = EmailRange.Text.Replace("\r", "").Replace("\n", "");
+            String SalesText = ComboSalesStaff.Text.ToString();
+            String StaffText = ComboAdminStaff.Text.ToString();
+            String VisitText = ComboType.Text.ToString();
+            var WeightRange = new TextRange(RichTextWeight.Document.ContentStart, RichTextWeight.Document.ContentEnd);
+            int WeightText = Convert.ToInt32(WeightRange.Text.Replace("\r", "").Replace("\n", ""));
+            var TownRange = new TextRange(RichTextTown.Document.ContentStart, RichTextTown.Document.ContentEnd);
+            String TownText = TownRange.Text.Replace("\r", "").Replace("\n", "");
+            var WasteTypeText = ComboCollectedType.Text.ToString();
+            var CreditCheckedText = ComboCreditChecked.Text.ToString();
+            var PlannedStartText = ComboPromTime.Text.ToString();
+            var JobTimeText = ComboJobTime.Text.ToString();
+
+            string connectionString = DataAccess.GlobalSQL.ConnectionMySQLVan;
+
+            using (MySqlConnection _con = new MySqlConnection(connectionString))
+            {
+
+                var CommandStatement = DataAccess.GlobalSQLNonQueries.AddVanRequestList;
+                using (MySqlCommand _cmd = new MySqlCommand(CommandStatement, _con))
+                {
+
+                    Random rnd = new Random();
+                    var IDNumber = rnd.Next(1, 999999);
+
+                    String DateText = "";
+
+                    _cmd.Parameters.AddWithValue("@AddressText", AddressText);
+                    _cmd.Parameters.AddWithValue("@TownText", TownText);
+                    _cmd.Parameters.AddWithValue("@PostcodeText", PostcodeText);
+                    _cmd.Parameters.AddWithValue("@DescText", DescText);
+                    _cmd.Parameters.AddWithValue("@NameText", NameText);
+                    _cmd.Parameters.AddWithValue("@EmailText", EmailText);
+                    _cmd.Parameters.AddWithValue("@NumberText", NumberText);
+                    _cmd.Parameters.AddWithValue("@SalesText", SalesText);
+                    _cmd.Parameters.AddWithValue("@StaffText", StaffText);
+                    _cmd.Parameters.AddWithValue("@VisitText", VisitText);
+                    _cmd.Parameters.AddWithValue("@WeightText", WeightText);
+                    _cmd.Parameters.AddWithValue("@PlannedDate", DateText);
+                    _cmd.Parameters.AddWithValue("@COText", COText);
+                    _cmd.Parameters.AddWithValue("@WasteTypeText", WasteTypeText);
+                    _cmd.Parameters.AddWithValue("@CreditCheckedText", CreditCheckedText);
+                    _cmd.Parameters.AddWithValue("@PlannedStartText", PlannedStartText);
+                    _cmd.Parameters.AddWithValue("@JobTimeText", JobTimeText);
+                    _cmd.Parameters.AddWithValue("@NotesText", NoteText);
+
+                    _cmd.Parameters.AddWithValue("@IDTEXT", IDNumber.ToString());
+
+                    _con.Open();
+                    _cmd.ExecuteNonQuery();
+                    _con.Close();
+                }
+
+                RichTextDatePotential.Document.Blocks.Clear();
+                System.Windows.MessageBox.Show("New Visit Request Added!");
+                Close();
+            }
         }
     }
 }

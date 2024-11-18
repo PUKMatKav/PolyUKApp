@@ -210,6 +210,12 @@
                     Click="BtnStockViewer_Click"
                     MouseEnter="BtnStockViewer_MouseEnter">
             </Button>
+            <Button x:Name="BtnStockOrdering"
+                    Content="Stock Order Monitor"
+                    Style="{StaticResource MenuButtonTheme}"
+                    Click="BtnStockOrdering_Click"
+                    MouseEnter="BtnStockOrdering_MouseEnter">
+            </Button>
             <Separator Margin="30,1,120,1"
                        Background="White"
                        Opacity="0.75"/>
@@ -257,12 +263,13 @@
                HorizontalAlignment="Left"/>
 
         <TextBlock x:Name="versionbox"
-                   Text="v1.0.0.3"
+                   Text="v1.0.0.5"
                    Grid.Row="3"
                    FontFamily="Aptos"
                    Foreground="Gray"
                    VerticalAlignment="Center"
-                   Margin="10 0 0 0"/>
+                   Margin="10 0 0 0"
+                   MouseDown="versionbox_MouseDown"/>
         <TextBlock x:Name="TextBlockSupport"
                    Grid.Row="3"
                        Text="Please email matthewkavanagh@polytheneuk.co.uk with any issues"

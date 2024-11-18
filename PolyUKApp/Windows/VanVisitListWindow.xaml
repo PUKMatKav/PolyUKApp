@@ -99,8 +99,62 @@
             Grid.Column="1"
             CornerRadius="0,0,10,10">
             <Grid>
+
+                <StackPanel Orientation="Horizontal" Height="50" VerticalAlignment="Top" Margin="20,15,20,0">
+                    <ComboBox x:Name="ComboBoxSearch"
+                      Width="200"
+                      Height="30"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Center"
+                      Margin="0,0,20,0"
+                      Background="Transparent"
+                      Style="{StaticResource ComboBoxFlatStyle}"
+                      DisplayMemberPath="ColumnName">
+                    </ComboBox>
+                    <Border Background="#F1F2F7"
+                        CornerRadius="10"
+                        Height="35"
+                        Width="300"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Margin="0,0,20,0">
+                        <TextBox x:Name="TxtBxSearch"
+                        Background="Transparent"
+                         BorderThickness="0"
+                        HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        HorizontalContentAlignment="Left"
+                        Padding="7"
+                        Height="35"
+                        Width="300"
+                        FontFamily="Aptos">
+                        </TextBox>
+
+                    </Border>
+                    <Button x:Name="BtnSearchJobs"
+                                Content="Search"
+                                Style="{StaticResource SearchButtonTheme}"
+                                Click="BtnSearchJobs_Click"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                            Margin="0,0,20,0"/>
+                    <Button x:Name="BtnResetJobs"
+                            Content="Reset"
+                            Style="{StaticResource SearchButtonTheme}"
+                            Click="BtnResetJobs_Click"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Margin="0,0,20,0"/>
+                    <TextBlock x:Name="TextBlockComboError"
+                               Text="Please Select Category"
+                               Foreground="Red"
+                               VerticalAlignment="Center"
+                               Visibility="Hidden"/>
+                </StackPanel>
+                
                 <DataGrid x:Name="VanDataGrid"          
-                    Margin="20,20,20,100"
+                    Margin="20,80,20,100"
                     MinColumnWidth="100"
                     Style="{StaticResource DataGridTheme}"
                     CellStyle="{StaticResource DataGridCellStockTheme}"

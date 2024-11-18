@@ -263,5 +263,38 @@ namespace PolyUKApp
             TextBlockInfo.Document.Blocks.Clear();
             TextBlockInfo.AppendText("Allows you to view a calendar with the current planned van jobs, as well as the list of all outstanding jobs (that don't have a planned date yet). Also lets certain people edit the jobs, add new jobs or delete exisiting jobs.");
         }
+
+        private void BtnStockOrdering_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            TextBlockInfo.Document.Blocks.Clear();
+            TextBlockInfo.AppendText("Table of general sale stock and amounts on order for seeing what is in need of topping up.");
+        }
+
+        private void BtnStockOrdering_Click(object sender, RoutedEventArgs e)
+        {
+            var StockOrderWindow = new StockOrderingWindow();
+            StockOrderWindow.Closed += childFormStockOrderClosed;
+            StockOrderWindow.Show();
+            this.Hide();
+        }
+        void childFormStockOrderClosed(object sender, EventArgs e)
+        {
+            ((StockOrderingWindow)sender).Closed -= childFormStockOrderClosed;
+            this.Show();
+        }
+
+        private void versionbox_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            //v1.0.0.1 - Initial Release
+            //v1.0.0.2 - Updating permissions for Van Calendar
+            //v1.0.0.3 - Added to Github Distro
+            //v1.0.0.4 - Rebuilt OneClick Launcher for Automatic update
+            System.Windows.MessageBox.Show("v1.0.0.5" +
+                "\r" + "" + "\r" +
+                "- Reworked controls on van visit edit\n" +
+                "- Added duplicate button for copying completed visits\n" +
+                "- Added filter for viewing old visits\n" +
+                "- Added base stock ordering monitor (WIP)");
+        }
     }
 }
