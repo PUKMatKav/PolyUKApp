@@ -212,10 +212,15 @@
             </Button>
             <Button x:Name="BtnStockOrdering"
                     Content="Stock Order Monitor"
+                    Visibility="Collapsed"
                     Style="{StaticResource MenuButtonTheme}"
                     Click="BtnStockOrdering_Click"
-                    MouseEnter="BtnStockOrdering_MouseEnter">
-            </Button>
+                    MouseEnter="BtnStockOrdering_MouseEnter"/>
+            <Button x:Name="BtnCommInvoice"
+                    Content="Commercial Invoices"
+                    Style="{StaticResource MenuButtonTheme}"
+                    Click="BtnCommInvoice_Click"
+                    MouseEnter="BtnCommInvoice_MouseEnter"/>
             <Separator Margin="30,1,120,1"
                        Background="White"
                        Opacity="0.75"/>

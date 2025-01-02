@@ -101,6 +101,23 @@ namespace PolyUKApp.SQL
                                      "WHERE (Code = 'PUK/MACHAIR/001') or (Code = 'PUK/MACHAIR/002') or (Code = 'PUK/MACHINE/001')" +
                                      "ORDER BY Code";
 
+            public static String OrderCIQuery = "SELECT " +
+                "SOPOrderReturnLine.ItemCode, SOPOrderReturnLine.LineQuantity, SOPOrderReturnLine.UnitSellingPrice, SOPOrderReturnLine.SellingUnitDescription, SOPOrderReturnLine.ItemDescription, " +
+                "SOPOrderReturn.DocumentNo, SOPOrderReturn.UseInvoiceAddress, SOPOrderReturn.CustomerDocumentNo, " +
+                "SLCustomerAccount.CustomerAccountName, SLCustomerAccount.TradingTerms,  SLCustomerAccount.MainTelephoneAreaCode, SLCustomerAccount.MainTelephoneSubscriberNumber, SLCustomerAccount.TaxRegistrationNumber, " +
+                "SLCustomerLocation.AddressLine1, SLCustomerLocation.AddressLine2, SLCustomerLocation.AddressLine3, SLCustomerLocation.AddressLine4, SLCustomerLocation.PostCode AS InvPostCode, " +
+                "SYSCurrency.Symbol, SYSCurrency.Name, " +
+                "SYSCountryCode.Code, " +
+                "SOPDocDelAddress.PostalName, SOPDocDelAddress.AddressLine1 AS DelAdd1, SOPDocDelAddress.AddressLine2 AS DelAdd2, SOPDocDelAddress.AddressLine3 AS DelAdd3, SOPDocDelAddress.PostCode AS DelPostcode, SOPDocDelAddress.City AS DelCity " +
+                "FROM SOPOrderReturnLine " +
+                "INNER JOIN SOPOrderReturn ON SOPOrderReturnLine.SOPOrderReturnID=SOPOrderReturn.SOPOrderReturnID " +
+                "INNER JOIN SLCustomerAccount ON SOPOrderReturn.CustomerID=SLCustomerAccount.SLCustomerAccountID " +
+                "INNER JOIN SLCustomerLocation ON SLCustomerAccount.SLCustomerAccountID=SLCustomerLocation.SLCustomerAccountID " +
+                "LEFT JOIN SYSCurrency ON SLCustomerAccount.SYSCurrencyID=SYSCurrency.SYSCurrencyID " +
+                "LEFT JOIN SYSCountryCode ON SLCustomerAccount.SYSCountryCodeID=SYSCountryCode.SYSCountryCodeID " +
+                "LEFT JOIN SOPDocDelAddress ON SOPOrderReturnLine.SOPOrderReturnID=SOPDocDelAddress.SOPOrderReturnID " +
+                "WHERE SOPOrderReturn.DocumentNo = @OrderNum and SOPOrderReturnLine.ItemCode <> '' and SOPOrderReturnLine.ItemCode <> 'Carriage'";
+
             public static String WOItemListQuery = "SELECT Code, Name, Description, StockUnitName AS 'Unit', ProductGroupDescription AS 'Type' " +
                                                  "FROM STKStockItemView " +
                                                  "WHERE Code = @Code";

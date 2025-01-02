@@ -14,6 +14,7 @@
     <None Remove="Images\PUKIco.ico" />
     <None Remove="Images\PUK_Blue_Logo.png" />
     <None Remove="Images\PUK_Blue_Logo_512.png" />
+    <None Remove="Windows\Images\Polythene_UK_Logo_2022_RGB_LR.png" />
     <None Remove="Windows\Images\PUKIco.ico" />
     <None Remove="Windows\Images\PUK_Blue_Logo.png" />
     <None Remove="Windows\Images\PUK_Blue_Logo_512.png" />
@@ -46,6 +47,7 @@
     <Resource Include="Images\PUKIco.ico" />
     <Resource Include="Images\PUK_Blue_Logo.png" />
     <Resource Include="Images\PUK_Blue_Logo_512.png" />
+    <Resource Include="Windows\Images\Polythene_UK_Logo_2022_RGB_LR.png" />
     <Resource Include="Windows\Images\PUKIco.ico" />
     <Resource Include="Windows\Images\PUK_Blue_Logo.png" />
     <Resource Include="Windows\Images\PUK_Blue_Logo_512.png" />

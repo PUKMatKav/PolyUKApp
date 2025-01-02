@@ -1,7 +1,10 @@
 ﻿using Microsoft.VisualBasic.ApplicationServices;
+using MySql.Data.MySqlClient;
 using Mysqlx.Crud;
+using PolyUKApp.SQL;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -26,9 +29,7 @@ namespace PolyUKApp.Windows
         public VanMapWindow()
         {
             InitializeComponent();
-            LoadMap();
-
-
+            MySQLGetVan();
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
@@ -38,7 +39,34 @@ namespace PolyUKApp.Windows
         public void LoadMap()
         {
             
-            WebView.Source = new Uri(@"http://stackoverflow.com");
+            WebView.Source = new Uri(@"https://maps.googleapis.com/maps/api/geocode/json?address=polycopy+ltd&key=AIzaSyB1zaTp6v3Ox7qwqXXmPfocEe_3Ed_ocUM");
+
+        }
+
+        public void MySQLGetVan()
+        {
+            var ConnectionString = DataAccess.GlobalSQL.ConnectionMySQLVan;
+            DataTable VanList = new DataTable();
+
+            using (MySqlConnection _con = new MySqlConnection(ConnectionString))
+            {
+                var QueryStatement = DataAccess.GlabalSQLQueries.VanList;
+                using (MySqlCommand _cmd = new MySqlCommand(QueryStatement, _con))
+                {
+                    MySqlDataAdapter _dap = new MySqlDataAdapter(_cmd);
+                    _con.Open();
+                    _dap.Fill(VanList);
+                    _con.Close();
+
+                    GeoGrid.ItemsSource = VanList.DefaultView;
+
+
+                }
+            }
+        }
+
+        public void GeocodeStart()
+        {
 
         }
 

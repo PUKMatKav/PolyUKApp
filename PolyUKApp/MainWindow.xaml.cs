@@ -296,5 +296,26 @@ namespace PolyUKApp
                 "- Added filter for viewing old visits\n" +
                 "- Added base stock ordering monitor (WIP)");
         }
+
+        private void BtnCommInvoice_Click(object sender, RoutedEventArgs e)
+        {
+                var CIWindow = new CommInvoiceWindow();
+                CIWindow.Closed += childFormCommInvoiceClosed;
+                CIWindow.Show();
+                this.Hide();
+
+        }
+
+        void childFormCommInvoiceClosed(object sender, EventArgs e)
+        {
+            ((CommInvoiceWindow)sender).Closed -= childFormCommInvoiceClosed;
+            this.Show();
+        }
+
+        private void BtnCommInvoice_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            TextBlockInfo.Document.Blocks.Clear();
+            TextBlockInfo.AppendText("Allows you to generate a commercial invoice just from the order number!");
+        }
     }
 }

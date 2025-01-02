@@ -112,11 +112,19 @@
                 CornerRadius="0,0,10,10"
                 VerticalAlignment="Stretch"
                 MinHeight="200"/>
+        <DataGrid x:Name="GeoGrid"
+                  Grid.Column="1"
+                  Grid.Row="2"
+                  Margin="10"
+                  Style="{StaticResource DataGridTheme}"
+                  CellStyle="{StaticResource DataGridCellStockTheme}"
+                  ColumnHeaderStyle="{StaticResource ColumnHeaderStockTheme}"/>
         <WebBrowser x:Name="WebView"
                     Height="500"
                     Width="800"
-            Grid.Row="2"
-                    Grid.Column="1"/>
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Visibility="Hidden"/>
         
         
     </Grid>

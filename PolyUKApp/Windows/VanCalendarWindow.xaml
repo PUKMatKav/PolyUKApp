@@ -321,6 +321,7 @@
                 <Button x:Name="BtnMapGOOG"
                         Margin="20,0,0,0"
                Content="View Map Built In🌍"
+               Visibility="Hidden"
                Click="BtnMapGOOG_Click"
                Width="120"
                Style="{StaticResource GeneralButtonTheme}"/>
