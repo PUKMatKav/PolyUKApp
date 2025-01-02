@@ -39,7 +39,7 @@ namespace PolyUKApp.Windows
         public void LoadMap()
         {
             
-            WebView.Source = new Uri(@"https://maps.googleapis.com/maps/api/geocode/json?address=polycopy+ltd&key=AIzaSyB1zaTp6v3Ox7qwqXXmPfocEe_3Ed_ocUM");
+            WebView.Source = new Uri(@"");
 
         }
 
