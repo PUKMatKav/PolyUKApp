@@ -103,7 +103,7 @@ namespace PolyUKApp.SQL
 
             public static String OrderCIQuery = "SELECT " +
                 "SOPOrderReturnLine.ItemCode, SOPOrderReturnLine.LineQuantity, SOPOrderReturnLine.UnitSellingPrice, SOPOrderReturnLine.SellingUnitDescription, SOPOrderReturnLine.ItemDescription, " +
-                "SOPOrderReturn.DocumentNo, SOPOrderReturn.UseInvoiceAddress, SOPOrderReturn.CustomerDocumentNo, " +
+                "SOPOrderReturn.DocumentNo, SOPOrderReturn.UseInvoiceAddress, SOPOrderReturn.CustomerDocumentNo, SOPOrderReturn.SubtotalGoodsValue, SOPOrderReturn.TotalTaxValue, SOPOrderReturn.TotalGrossValue, " +
                 "SLCustomerAccount.CustomerAccountName, SLCustomerAccount.TradingTerms,  SLCustomerAccount.MainTelephoneAreaCode, SLCustomerAccount.MainTelephoneSubscriberNumber, SLCustomerAccount.TaxRegistrationNumber, " +
                 "SLCustomerLocation.AddressLine1, SLCustomerLocation.AddressLine2, SLCustomerLocation.AddressLine3, SLCustomerLocation.AddressLine4, SLCustomerLocation.PostCode AS InvPostCode, " +
                 "SYSCurrency.Symbol, SYSCurrency.Name, " +
@@ -117,6 +117,12 @@ namespace PolyUKApp.SQL
                 "LEFT JOIN SYSCountryCode ON SLCustomerAccount.SYSCountryCodeID=SYSCountryCode.SYSCountryCodeID " +
                 "LEFT JOIN SOPDocDelAddress ON SOPOrderReturnLine.SOPOrderReturnID=SOPDocDelAddress.SOPOrderReturnID " +
                 "WHERE SOPOrderReturn.DocumentNo = @OrderNum and SOPOrderReturnLine.ItemCode <> '' and SOPOrderReturnLine.ItemCode <> 'Carriage'";
+
+            public static String OrderCICodeQuery = "SELECT DISTINCT " +
+                "SOPOrderReturnLine.ItemCode," +
+                "StockItem.Code, StockItem.Weight " +
+                "FROM SOPOrderReturnLine " +
+                "LEFT JOIN StockItem ON SOPOrderReturnLine.ItemCode=StockItem.Code ";
 
             public static String WOItemListQuery = "SELECT Code, Name, Description, StockUnitName AS 'Unit', ProductGroupDescription AS 'Type' " +
                                                  "FROM STKStockItemView " +

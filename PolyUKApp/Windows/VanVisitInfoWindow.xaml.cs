@@ -26,6 +26,14 @@ using System.Data.SqlTypes;
 using System.Net.Mail;
 using System.Security.Claims;
 using MySqlX.XDevAPI;
+using Microsoft.Exchange.WebServices.Data;
+using System.Web.Services.Description;
+using System.Net;
+using System.Security;
+
+
+
+
 
 
 namespace PolyUKApp.Windows
@@ -485,15 +493,21 @@ namespace PolyUKApp.Windows
                 if (StaffText == "Jake")
                 {
                     SendICalJake();
+                    
                 }
                 else if (StaffText == "Ant")
                 {
                     SendICalAnt();
+                   
                 }
                 else
                 {
                     SendICalJake();
                     SendICalAnt();
+                    //SecureString pswd = new NetworkCredential("", "Yos55527").SecurePassword;
+                    //SendEWSInvite("matthewkavanagh@polytehenuk.co.uk", pswd);
+
+
                 }
                 
             }
@@ -618,7 +632,9 @@ namespace PolyUKApp.Windows
             object VanStartDay = DateText.Substring(0, 2);
             object VanStartMonth = DateText.Substring(3, 2);
             object VanStartYr = DateText.Substring(6, 4);
-            var SysDateStart = new DateTime(Convert.ToInt32(VanStartYr), Convert.ToInt32(VanStartMonth), Convert.ToInt32(VanStartDay), 08, 30, 00);
+            object VanStartTimeHr = ComboPromTime.Text.ToString().Substring(0, 2);
+            object VanStartTimeMin = ComboPromTime.Text.ToString().Substring(3, 2);
+            var SysDateStart = new DateTime(Convert.ToInt32(VanStartYr), Convert.ToInt32(VanStartMonth), Convert.ToInt32(VanStartDay), Convert.ToInt32(VanStartTimeHr), Convert.ToInt32(VanStartTimeMin), 00);
             var SysDateEnd = SysDateStart.AddHours(7.5);
 
             string _sender = "matthewkavanagh@polytheneuk.co.uk";
@@ -684,6 +700,47 @@ namespace PolyUKApp.Windows
             // sc.ServicePoint.MaxIdleTime = 2;
             sc.Send(msg);
         }
+
+
+        static bool RedirectionCallback(string url)
+        {
+            return url.ToLower().StartsWith("https://");
+        }
+
+        private void SendEWSInvite(string userEmailAddress, SecureString userPassword)
+        {
+
+            ExchangeService service = new ExchangeService(ExchangeVersion.Exchange2013_SP1);
+
+            #region Authentication
+
+            //Set specific credentials
+            service.Credentials = new NetworkCredential(userEmailAddress, userPassword, "outlook.office365.com");
+            #endregion
+
+            #region Endpoint management
+
+            // Look up the user's EWS endpoint by using Autodiscover.
+            //service.AutodiscoverUrl(userEmailAddress, RedirectionCallback);
+
+            #endregion
+            // Create the appointment.
+
+            Appointment appointment = new Appointment(service);
+
+            // Set properties on the appointment. Add two required attendees and one optional attendee.
+            appointment.Subject = "Status Meeting";
+            appointment.Body = "The purpose of this meeting is to discuss status.";
+            appointment.Start = new DateTime(2025, 1, 3, 11, 0, 0);
+            appointment.End = appointment.Start.AddHours(2);
+            appointment.Location = "Conf Room";
+            appointment.RequiredAttendees.Add("matthewkavanagh@polytheneuk.co.uk");
+
+            
+            // Send the meeting request to all attendees and save a copy in the Sent Items folder.
+            appointment.Save(SendInvitationsMode.SendToAllAndSaveCopy);
+        }
+
 
         private void BtnRemoveDate_Click(object sender, RoutedEventArgs e)
         {

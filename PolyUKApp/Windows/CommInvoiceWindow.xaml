@@ -27,12 +27,14 @@
         </Grid.RowDefinitions>
 
 
-        <Border Background="White"
+        <Border x:Name="TopBar"
+                Background="White"
                 Grid.Column="1"
                 Grid.Row="0"
                 CornerRadius="10,10,0,0"
                 BorderBrush="#F1F2F7"
-                BorderThickness="0 0 0 1">
+                BorderThickness="0 0 0 1"
+                MouseDown="TopBar_MouseDown">
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Right">
                 <Button x:Name="BtnPrint"
@@ -63,6 +65,7 @@
                 Grid.Row="1"
                 CornerRadius="0,0,0,0"
                 VerticalAlignment="Stretch"/>
+
 
         <Border x:Name="SearchTextBoxBackground"
          Background="#F1F2F7"
@@ -128,6 +131,7 @@
                 VerticalAlignment="Stretch">
 
         </Border>
+
         <Grid x:Name="PrintBoundry"
               Width="800"
               Height="990"
@@ -204,6 +208,26 @@
                 FontWeight="Normal"
                 FontFamily="Aptos"/>
 
+            <Rectangle Fill="LightBlue"                 
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                       Margin="120,75,0,0"
+                       Height="170"
+                       Width="195"
+                       RadiusX="10"
+                       RadiusY="10"
+                       Opacity="0.4"/>
+            <Rectangle Fill="LightBlue"                 
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                       Margin="570,75,0,0"
+                       Height="335"
+                       Width="195"
+                       RadiusX="10"
+                       RadiusY="10"
+                       Opacity="0.4"/>
+
+
             <TextBlock Text="Invoice From:"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
@@ -222,7 +246,8 @@
                          Height="120"
                          BorderThickness="0"
                          Padding="2,4,0,0"
-                         Block.LineHeight="20"/>
+                         Block.LineHeight="20"
+                         Background="Transparent"/>
 
             <TextBlock Text="Invoice To:"
                 HorizontalAlignment="Center"
@@ -242,7 +267,8 @@
                          Height="120"
                          BorderThickness="0"
                          Padding="2,4,0,0"
-                         Block.LineHeight="20"/>
+                         Block.LineHeight="20"
+                         Background="Transparent"/>
 
             <TextBlock Text="Deliver To:"
                 HorizontalAlignment="Center"
@@ -262,7 +288,8 @@
                          Height="120"
                          BorderThickness="0"
                          Padding="2,4,0,0"
-                         Block.LineHeight="20"/>
+                         Block.LineHeight="20"
+                         Background="Transparent"/>
 
             <TextBlock Text="Order Number:"
                 HorizontalAlignment="Left"
@@ -335,12 +362,209 @@
 
             <DataGrid x:Name="DataGridCI"
                     Grid.Row="2"
-                    Margin="20,430,20,20"
-                    MinColumnWidth="50"
+                    Margin="10,420,35,20"
+                    MinColumnWidth="40"
+                      VerticalAlignment="Top"
+                      Height="auto"
+                      MaxHeight="240"
+                      VerticalScrollBarVisibility="Disabled"
                     Style="{StaticResource DataGridThemeCI}"
                     CellStyle="{StaticResource DataGridCellStockThemeCI}"
-                    ColumnHeaderStyle="{StaticResource ColumnHeaderStockThemeCI}">
+                    ColumnHeaderStyle="{StaticResource ColumnHeaderStockThemeCI}"
+                      AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn IsReadOnly="False" Header="Code" Binding="{Binding Code}" ElementStyle="{StaticResource WrapText}" Width="130"/>
+                    <DataGridTextColumn IsReadOnly="False" Header="Description" Binding="{Binding Description}" ElementStyle="{StaticResource WrapText}" Width="200"/>
+                    <DataGridTextColumn IsReadOnly="False" Header="Qty" Binding="{Binding Qty}" ElementStyle="{StaticResource WrapText}" Width="60"/>
+                    <DataGridTextColumn IsReadOnly="False" Header="Unit" Binding="{Binding Unit}" ElementStyle="{StaticResource WrapText}" Width="45"/>
+                    <DataGridTextColumn IsReadOnly="False" Header="HS Code" Binding="{Binding HSCode}" ElementStyle="{StaticResource WrapText}" Width="75"/>
+                    <DataGridTextColumn IsReadOnly="False" Header="Net (kg)" Binding="{Binding Weight}" ElementStyle="{StaticResource WrapText}" Width="60"/>
+                    <DataGridTextColumn IsReadOnly="False" Header="Gross (kg)" Binding="{Binding Grosskg}" ElementStyle="{StaticResource WrapText}" Width="60"/>
+                    <DataGridTextColumn IsReadOnly="False" Header="Price" Binding="{Binding Price}" ElementStyle="{StaticResource WrapText}" Width="60"/>
+                    <DataGridTextColumn IsReadOnly="False" Header="Total" Binding="{Binding Total}" ElementStyle="{StaticResource WrapText}" Width="63"/>
+                </DataGrid.Columns>
             </DataGrid>
+
+            <TextBlock Text="Mode of Shipment: "
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="25,675,0,0"
+                FontSize="12"
+                Foreground="#007FFF"
+                FontWeight="Bold"
+                FontFamily="Aptos"/>
+            <TextBlock x:Name="ShipModeTextBlock"
+                Text="Road"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="145,675,0,0"
+                FontSize="12"
+                Foreground="Black"
+                FontFamily="Aptos"/>
+
+            <TextBlock Text="Certification: "
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="25,695,0,0"
+                FontSize="12"
+                Foreground="#007FFF"
+                FontWeight="Bold"
+                FontFamily="Aptos"/>
+            <TextBlock x:Name="CertTextBlock"
+                Text="CertTextBlock"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="145,695,0,0"
+                FontSize="12"
+                Foreground="Black"
+                FontFamily="Aptos"/>
+
+            <Rectangle Fill="LightBlue"                 
+                HorizontalAlignment="left"
+                VerticalAlignment="Top"
+                       Margin="565,663,0,0"
+                       Height="100"
+                       Width="200"
+                       RadiusX="10"
+                       RadiusY="10"
+                       Opacity="0.4"/>
+
+            <TextBlock Text="Sub Total: "
+                HorizontalAlignment="left"
+                VerticalAlignment="Top"
+                Margin="580,675,0,0"
+                FontSize="12"
+                Foreground="#007FFF"
+                FontWeight="Bold"
+                FontFamily="Aptos"/>
+            <TextBlock x:Name="SubTotTextBlock"
+                Text="SubTotTextBlock"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="680,675,0,0"
+                FontSize="12"
+                Foreground="Black"
+                FontFamily="Aptos"/>
+            
+            <TextBlock Text="VAT: "
+                HorizontalAlignment="left"
+                VerticalAlignment="Top"
+                Margin="580,695,0,0"
+                FontSize="12"
+                Foreground="#007FFF"
+                FontWeight="Bold"
+                FontFamily="Aptos"/>
+            <TextBlock x:Name="VATTextBlock"
+                Text="VATTextBlock"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="680,695,0,0"
+                FontSize="12"
+                Foreground="Black"
+                FontFamily="Aptos"/>
+
+            <TextBlock Text="Total: "
+                HorizontalAlignment="left"
+                VerticalAlignment="Top"
+                Margin="580,715,0,0"
+                FontSize="12"
+                Foreground="#007FFF"
+                FontWeight="Bold"
+                FontFamily="Aptos"/>
+            <TextBlock x:Name="TotTextBlock"
+                Text="TotTextBlock"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="680,715,0,0"
+                FontSize="12"
+                Foreground="Black"
+                FontFamily="Aptos"/>
+
+            <TextBlock x:Name="CurrencyTextBlock"
+                Text="CurrencyTextBlock"
+                HorizontalAlignment="left"
+                VerticalAlignment="Top"
+                Margin="580,740,0,0"
+                FontSize="12"
+                Foreground="Black"
+                FontFamily="Aptos"/>
+
+            <TextBlock Text="Polythene UK hereby certify that the information on this document is true and"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="25,735,0,0"
+                FontSize="12"
+                Foreground="Black"
+                FontFamily="Aptos"/>
+            <TextBlock Text="correct and that the contents of this shipment are as stated above. "
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="25,750,0,0"
+                FontSize="12"
+                Foreground="Black"
+                FontFamily="Aptos"/>
+            <TextBlock Text="The exporter (EORI GB903824828000 / XI903824828000) of products covered"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="25,765,0,0"
+                FontSize="12"
+                Foreground="Black"
+                FontFamily="Aptos"/>
+            <TextBlock Text="by this document declares that, except where otherwise clearly indicated these"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="25,780,0,0"
+                FontSize="12"
+                Foreground="Black"
+                FontFamily="Aptos"/>
+            <TextBlock Text="products are of GB preferential origin. "
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="25,795,0,0"
+                FontSize="12"
+                Foreground="Black"
+                FontFamily="Aptos"/>
+
+            <TextBlock Text="Authorised Signature "
+                HorizontalAlignment="left"
+                VerticalAlignment="Top"
+                Margin="25,845,0,0"
+                FontSize="12"
+                Foreground="#007FFF"
+                FontWeight="Bold"
+                FontFamily="Aptos"/>
+            <Image x:Name="MDsig"
+                   Source="Images\SigMD.png"
+                   Width="120"
+                   VerticalAlignment="Top"
+                   HorizontalAlignment="Left"
+                   Margin="28,860,0,0"/>
+            <TextBlock Text="James Wollard (Managing Director) "
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="25,915,0,0"
+                FontSize="12"
+                Foreground="Black"
+                FontFamily="Aptos"/>
+
         </Grid>
+        <Border x:Name="DragHandle"
+            Background="#007FFF"                 
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                       Margin="0,0,0,0"
+                       Height="100"
+                       Width="20"
+                       Grid.Row="2"
+                CornerRadius="10,0,0,10"
+                MouseDown="DragHandle_MouseDown">
+            <TextBlock x:Name="ArrowMarker"
+                       Text="↕"
+                       Foreground="White"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="18"
+                       IsHitTestVisible="False"/>
+        </Border>
     </Grid>
 </Window>

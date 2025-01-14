@@ -289,12 +289,21 @@ namespace PolyUKApp
             //v1.0.0.2 - Updating permissions for Van Calendar
             //v1.0.0.3 - Added to Github Distro
             //v1.0.0.4 - Rebuilt OneClick Launcher for Automatic update
-            System.Windows.MessageBox.Show("v1.0.0.5" +
+            /*System.Windows.MessageBox.Show("v1.0.0.5" +
                 "\r" + "" + "\r" +
                 "- Reworked controls on van visit edit\n" +
                 "- Added duplicate button for copying completed visits\n" +
                 "- Added filter for viewing old visits\n" +
-                "- Added base stock ordering monitor (WIP)");
+                "- Added base stock ordering monitor (WIP)");*/
+            System.Windows.MessageBox.Show("v1.0.1.6" +
+                "\r" + "" + "\r" +
+                "- Reworked controls on van visit edit\n" +
+                "- Removed Stock Ordering Button\n" +
+                "- Added Commercial Invoice Generator\n" +
+                "   - Can create CI from just using an order number\n" +
+                "   - Pulls weight and item info along with address and generate EORI\n" +
+                "   - Can be print to PDF from page and will update CI number for next CI\n" +
+                "- Removed staff member from van calendar overview to fit 3 jobs per day");
         }
 
         private void BtnCommInvoice_Click(object sender, RoutedEventArgs e)
@@ -315,7 +324,7 @@ namespace PolyUKApp
         private void BtnCommInvoice_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
             TextBlockInfo.Document.Blocks.Clear();
-            TextBlockInfo.AppendText("Allows you to generate a commercial invoice just from the order number!");
+            TextBlockInfo.AppendText("Allows you to generate a commercial invoice just from the order number! Please double check the info fields are filled in though!");
         }
     }
 }

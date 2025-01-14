@@ -115,6 +115,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+
     <Style x:Key="DataGridThemeCI" 
         TargetType="{x:Type DataGrid}">
         <Setter Property="Foreground" Value="Black"/>
@@ -141,26 +142,32 @@
                 <Setter Property="Background" Value="White"/>
             </Trigger>
         </Style.Triggers>
+
     </Style>
     <Style x:Key="DataGridCellStockThemeCI"
         TargetType="{x:Type DataGridCell}">
         <Setter Property="FontFamily" Value="Aptos"/>
-        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="FontSize" Value="12"/>
         <Setter Property="MinHeight" Value="50"/>
         <Setter Property="MaxHeight" Value="200"/>
-        <Setter Property="MaxWidth" Value="720"/>
-        <Setter Property="Margin" Value="5,10,0,10"/>
+        <Setter Property="MaxWidth" Value="200"/>
+        <Setter Property="Margin" Value="-1"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridCell}">
+
                     <Grid Background="{TemplateBinding Background}">
                         <ContentPresenter HorizontalAlignment="Left"
-                                       VerticalAlignment="Center"/>
+                                       VerticalAlignment="Center"
+                                          Margin="5"/>
                     </Grid>
+                    
 
                 </ControlTemplate>
+                
+
             </Setter.Value>
         </Setter>
     </Style>
@@ -238,5 +245,9 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type TextBlock}" x:Key="WrapText">
+        <Setter Property="TextWrapping" Value="Wrap"/>
     </Style>
 </ResourceDictionary>

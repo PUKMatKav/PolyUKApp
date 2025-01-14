@@ -113,7 +113,7 @@ namespace PolyUKApp.MVVM.View
                         
                         TextBlock newVisit = new TextBlock();
                         newVisit.Name = "TestBox1";
-                        newVisit.Text = row["company_name"].ToString() + "\r" + row["visit_type"] + "\r" + row["staff_member"] + " - (" + row["id"] + ")";
+                        newVisit.Text = row["company_name"].ToString() + "\r" + row["visit_type"] + " - (" + row["id"] + ")";
                         newVisit.Margin = new Thickness(5,1,5,0);
                         newVisit.Padding = new Thickness(5, 1, 0, 1);
                         newVisit.FontSize = 12;
