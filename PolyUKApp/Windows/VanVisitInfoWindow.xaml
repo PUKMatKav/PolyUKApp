@@ -446,7 +446,7 @@
        Foreground="#007FFF"
        Grid.Column="1"
        Grid.Row="2"
-       Text="Annual Turnover"
+       Text="Annual Spend"
        FontFamily="Aptos"
        FontWeight="SemiBold"
        FontSize="14"
