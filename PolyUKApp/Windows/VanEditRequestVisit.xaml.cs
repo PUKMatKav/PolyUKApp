@@ -271,6 +271,10 @@ namespace PolyUKApp.Windows
                     ComboPromTime.Text = PlannedStartTime;
                     String PlannedJobTime = Row["job_time"].ToString();
                     ComboJobTime.Text = PlannedJobTime;
+                    String AnnualTurnover = Row["annual_spend"].ToString();
+                    RichTextTurnover.AppendText(AnnualTurnover);
+                    String CompanyReg = Row["company_reg"].ToString();
+                    RichTextRegNo.AppendText(CompanyReg);
                 }
             }
 
@@ -301,6 +305,10 @@ namespace PolyUKApp.Windows
             var CreditCheckedText = ComboCreditChecked.Text.ToString();
             var PlannedStartText = ComboPromTime.Text.ToString();
             var JobTimeText = ComboJobTime.Text.ToString();
+            var CompanyRegRange = new TextRange(RichTextRegNo.Document.ContentStart, RichTextRegNo.Document.ContentEnd);
+            String CompanyReg = CompanyRegRange.Text.Replace("\r", "").Replace("\n", "");
+            var AnnualTurnoverRange = new TextRange(RichTextTurnover.Document.ContentStart, RichTextTurnover.Document.ContentEnd);
+            String AnnualTurnover = AnnualTurnoverRange.Text.Replace("\r", "").Replace("\n", "");
 
             string connectionString = DataAccess.GlobalSQL.ConnectionMySQLVan;
 
@@ -329,6 +337,8 @@ namespace PolyUKApp.Windows
                     _cmd.Parameters.AddWithValue("@CreditCheckedText", CreditCheckedText);
                     _cmd.Parameters.AddWithValue("@PlannedStartText", PlannedStartText);
                     _cmd.Parameters.AddWithValue("@JobTimeText", JobTimeText);
+                    _cmd.Parameters.AddWithValue("@Turnover", AnnualTurnover);
+                    _cmd.Parameters.AddWithValue("@CompanyReg", CompanyReg);
 
                     _con.Open();
                     _cmd.ExecuteNonQuery();

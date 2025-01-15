@@ -295,7 +295,7 @@ namespace PolyUKApp
                 "- Added duplicate button for copying completed visits\n" +
                 "- Added filter for viewing old visits\n" +
                 "- Added base stock ordering monitor (WIP)");*/
-            System.Windows.MessageBox.Show("v1.0.1.6" +
+            /*System.Windows.MessageBox.Show("v1.0.1.6" +
                 "\r" + "" + "\r" +
                 "- Reworked controls on van visit edit\n" +
                 "- Removed Stock Ordering Button\n" +
@@ -303,7 +303,11 @@ namespace PolyUKApp
                 "   - Can create CI from just using an order number\n" +
                 "   - Pulls weight and item info along with address and generate EORI\n" +
                 "   - Can be print to PDF from page and will update CI number for next CI\n" +
-                "- Removed staff member from van calendar overview to fit 3 jobs per day");
+                "- Removed staff member from van calendar overview to fit 3 jobs per day");*/
+            System.Windows.MessageBox.Show("v1.0.1.7" +
+                "\r" + "" + "\r" +
+                "- Added Annual Turnover to van visit info\n" +
+                "- Added Credit Registration to van visit info\n");
         }
 
         private void BtnCommInvoice_Click(object sender, RoutedEventArgs e)

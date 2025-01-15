@@ -781,5 +781,91 @@ BorderThickness="0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"/>
 
+        <TextBlock x:Name="TextBlockTurnover"
+Foreground="#007FFF"
+Grid.Column="1"
+Grid.Row="2"
+Text="Annual Turnover"
+FontFamily="Aptos"
+FontWeight="SemiBold"
+FontSize="14"
+Margin="1035,190,0,0"
+Width="120"
+Height="20"
+HorizontalAlignment="Left"
+VerticalAlignment="Top"/>
+        <Border Background="#F1F2F7"
+     CornerRadius="10"
+     Height="35"
+     Width="120"
+     Grid.Column="1"
+     Grid.Row="2"
+     Margin="1030,215,0,0"
+     HorizontalAlignment="Left"
+     VerticalAlignment="Top">
+            <RichTextBox x:Name="RichTextTurnover"
+Foreground="Black"
+Background="Transparent"
+Grid.Column="1"
+Grid.Row="2"
+FontFamily="Aptos"
+FontSize="12"
+Width="120"
+MaxWidth="135"
+Padding="5,0,5,0"
+HorizontalAlignment="Left"
+VerticalAlignment="Center"
+BorderThickness="0">
+                <RichTextBox.Resources>
+                    <Style TargetType="{x:Type Paragraph}">
+                        <Setter Property="LineHeight" Value="2"/>
+                    </Style>
+                </RichTextBox.Resources>
+            </RichTextBox>
+        </Border>
+
+        <TextBlock x:Name="TextBlockRegNo"
+Foreground="#007FFF"
+Grid.Column="1"
+Grid.Row="2"
+Text="Company Reg"
+FontFamily="Aptos"
+FontWeight="SemiBold"
+FontSize="14"
+Margin="1035,270,0,0"
+Width="120"
+Height="20"
+HorizontalAlignment="Left"
+VerticalAlignment="Top"/>
+        <Border Background="#F1F2F7"
+     CornerRadius="10"
+     Height="35"
+     Width="120"
+     Grid.Column="1"
+     Grid.Row="2"
+     Margin="1030,295,0,0"
+     HorizontalAlignment="Left"
+     VerticalAlignment="Top">
+            <RichTextBox x:Name="RichTextRegNo"
+Foreground="Black"
+Background="Transparent"
+Grid.Column="1"
+Grid.Row="2"
+FontFamily="Aptos"
+FontSize="12"
+Width="120"
+MaxWidth="135"
+Padding="5,0,5,0"
+HorizontalAlignment="Left"
+VerticalAlignment="Center"
+BorderThickness="0">
+                <RichTextBox.Resources>
+                    <Style TargetType="{x:Type Paragraph}">
+                        <Setter Property="LineHeight" Value="2"/>
+                    </Style>
+                </RichTextBox.Resources>
+            </RichTextBox>
+        </Border>
+
     </Grid>
 </Window>
