@@ -7,8 +7,8 @@
              mc:Ignorable="d" 
              MinHeight="115" MinWidth="150">
     <Grid MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave">
-        <Border x:Name="MainBorder" Background="White" MinWidth="150" MinHeight="100" BorderThickness="1" BorderBrush="LightGray">
-            <Label x:Name="LabelDays" Content="01" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="5,3,5,3" FontWeight="Bold" FontFamily="Aptos"
+        <Border x:Name="MainBorder" Background="{DynamicResource BackgroundMid}" MinWidth="150" MinHeight="100" BorderThickness="1" BorderBrush="{DynamicResource Border}">
+            <Label x:Name="LabelDays" Content="01" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="5,3,5,3" FontWeight="Bold" FontFamily="Aptos" Foreground="{DynamicResource Text}"
                Loaded="LabelDays_Loaded"/>
         </Border>
         <Grid VerticalAlignment="Top"

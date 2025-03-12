@@ -91,7 +91,7 @@
             <Button x:Name="BtnClose"
                     Width="40" Height="35"
                     Content="X"
-                    Style="{StaticResource ControlButtonTheme}"
+                    Style="{DynamicResource ControlButtonTheme}"
                 HorizontalAlignment="Right"
                 Margin="0,0,10,0"
                     Click="BtnClose_Click"/>
@@ -351,7 +351,7 @@
        VerticalAlignment="Top"
        BorderThickness="0"
        IsEditable="True"
-       Style="{StaticResource ComboBoxFlatStyle}">
+       Style="{DynamicResource ComboBoxFlatStyle}">
                 </ComboBox>
 
                 <TextBlock x:Name="TextBlockVisitID"
@@ -459,7 +459,7 @@ BorderThickness="0">
        VerticalAlignment="Top"
        BorderThickness="0"
        IsEditable="True"
-       Style="{StaticResource ComboBoxFlatStyle}">
+       Style="{DynamicResource ComboBoxFlatStyle}">
                 </ComboBox>
                 <TextBlock x:Name="TextBlockType"
        Foreground="#007FFF"
@@ -489,7 +489,7 @@ BorderThickness="0">
        VerticalAlignment="Top"
        BorderThickness="0"
        IsEditable="True"
-       Style="{StaticResource ComboBoxFlatStyle}">
+       Style="{DynamicResource ComboBoxFlatStyle}">
                 </ComboBox>
 
                 <TextBlock x:Name="TextBlockCreditChecked"
@@ -520,7 +520,7 @@ HorizontalAlignment="Left"
 VerticalAlignment="Top"
 BorderThickness="0"
 IsEditable="True"
-Style="{StaticResource ComboBoxFlatStyle}">
+Style="{DynamicResource ComboBoxFlatStyle}">
                 </ComboBox>
 
                 <TextBlock x:Name="TextBlockPromTime"
@@ -551,7 +551,7 @@ HorizontalAlignment="Left"
 VerticalAlignment="Top"
 BorderThickness="0"
 IsEditable="True"
-Style="{StaticResource ComboBoxFlatStyle}">
+Style="{DynamicResource ComboBoxFlatStyle}">
                 </ComboBox>
 
                 <TextBlock x:Name="TextBlockJobTime"
@@ -582,7 +582,7 @@ HorizontalAlignment="Left"
 VerticalAlignment="Top"
 BorderThickness="0"
 IsEditable="True"
-Style="{StaticResource ComboBoxFlatStyle}">
+Style="{DynamicResource ComboBoxFlatStyle}">
                 </ComboBox>
                 
                 
@@ -721,13 +721,13 @@ BorderThickness="0"
                         <Button x:Name="BtnValidate"
                                 Content="Update"
                                 Margin="0,50,550,20"
-                                Style="{StaticResource SearchButtonTheme}"
+                                Style="{DynamicResource SearchButtonTheme}"
                                     Click="BtnValidate_Click"/>
                         <Button x:Name="BtnAccept"
                                 Content="Accept Visit Request"
                                 Margin="0,50,300,20"
                                 Width="150"
-                                Style="{StaticResource SearchButtonTheme}"
+                                Style="{DynamicResource SearchButtonTheme}"
                                     Click="BtnAccept_Click"/>
 
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,7 @@ namespace PolyUKApp.Windows
         public CompanyInfoWindow()
         {
             InitializeComponent();
+            LoadTheme();
             FillCompanyInfo();
         }
 
@@ -47,7 +49,7 @@ namespace PolyUKApp.Windows
             "BIC: NWBKGB2L\n" +
             "Euro Bank Details:\r" +
             "Sort: 60-24-60\r" +
-            "Acc: 550/00/18511684\r" +
+            "Acc: 550/00/18511864\r" +
             "IBAN: GB68NWBK60720118511864\r" +
             "BIC: NWBKGB2L\n" +
             "Proforma Bank Details:\r" +
@@ -58,5 +60,52 @@ namespace PolyUKApp.Windows
             RichTextCompany.AppendText(CompanyInfoText);
             
         }
+
+        private void BtnLight_Click(object sender, RoutedEventArgs e)
+        {
+            var CurrentUser = Environment.UserName;
+            var filepath = "C:\\Users\\" + CurrentUser + "\\AppData\\Roaming\\Matt K Programs\\Poly UK App\\Theme.txt";
+            AppTheme.ChangeTheme(new Uri("Theme/AppLight.xaml", UriKind.Relative));
+            File.WriteAllText(filepath, "Light");
+        }
+
+        private void BtnDark_Click(object sender, RoutedEventArgs e)
+        {
+            var CurrentUser = Environment.UserName;
+            var filepath = "C:\\Users\\" + CurrentUser + "\\AppData\\Roaming\\Matt K Programs\\Poly UK App\\Theme.txt";
+            AppTheme.ChangeTheme(new Uri("Theme/AppDark.xaml", UriKind.Relative));
+            File.WriteAllText(filepath, "Dark");
+
+        }
+
+        private void LoadTheme()
+        {
+            var CurrentUser = Environment.UserName;
+            var folderpath = "C:\\Users\\" + CurrentUser + "\\AppData\\Roaming\\Matt K Programs\\Poly UK App";
+            var filepath = "C:\\Users\\" + CurrentUser + "\\AppData\\Roaming\\Matt K Programs\\Poly UK App\\Theme.txt";
+
+
+            if (!File.Exists(filepath))
+            {
+                Directory.CreateDirectory(folderpath);
+                File.WriteAllText(filepath, "Light");
+            }
+            else if (File.Exists(filepath))
+            {
+                String themeSetting = File.ReadAllText(filepath).ToString();
+
+                if (themeSetting == "Light")
+                {
+                    AppTheme.ChangeTheme(new Uri("Theme/AppLight.xaml", UriKind.Relative));
+                }
+                if (themeSetting == "Dark")
+                {
+                    AppTheme.ChangeTheme(new Uri("Theme/AppDark.xaml", UriKind.Relative));
+                }
+            }
+            return;
+
+        }
+
     }
 }

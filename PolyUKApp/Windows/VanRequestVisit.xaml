@@ -27,7 +27,7 @@
 
         <Border Background="Black"
             Opacity="0.5"
-            CornerRadius="10,0,0,0"
+            CornerRadius="5,0,0,0"
             RenderOptions.EdgeMode="Aliased"/>
         <Border Background="Black"
             Opacity="0.5"
@@ -35,7 +35,7 @@
                 Grid.Column="1"/>
         <Border Background="Black"
             Opacity="0.5"
-            CornerRadius="0,10,0,0"
+            CornerRadius="0,5,0,0"
             RenderOptions.EdgeMode="Aliased"
                 Grid.Column="2"/>
         <Border Background="Black"
@@ -69,7 +69,8 @@
         <Border Background="Black"
             Opacity="0.5"
             RenderOptions.EdgeMode="Aliased"
-                Grid.Row="3"/>
+                Grid.Row="3"
+                CornerRadius="0,0,0,5"/>
         <Border Background="Black"
             Opacity="0.5"
             RenderOptions.EdgeMode="Aliased"
@@ -79,30 +80,31 @@
             Opacity="0.5"
             RenderOptions.EdgeMode="Aliased"
                 Grid.Column="2"
-                Grid.Row="3"/>
+                Grid.Row="3"
+                CornerRadius="0,0,5,0"/>
 
-        <Border Background="White"
+        <Border Background="{DynamicResource Accent}"
             Grid.Row="1"
             Grid.Column="1"
             CornerRadius="10,10,0,0"
-            BorderBrush="#F1F2F7"
+            BorderBrush="{DynamicResource AccentBorder}"
             BorderThickness="0,0,0,1">
             <Button x:Name="BtnClose"
                     Width="40" Height="35"
                     Content="X"
-                    Style="{StaticResource ControlButtonTheme}"
+                    Style="{DynamicResource ControlButtonTheme}"
                 HorizontalAlignment="Right"
                 Margin="0,0,10,0"
                     Click="BtnClose_Click"/>
         </Border>
 
-        <Border Background="White"
+        <Border Background="{DynamicResource BackgroundLight}"
             Grid.Row="2"
             Grid.Column="1"
             CornerRadius="0,0,10,10">
             <Grid>
                 <TextBlock x:Name="TextBlockCusAdd"
-               Foreground="#007FFF"
+               Foreground="{DynamicResource Text}"
                Grid.Column="1"
                Grid.Row="2"
                Text="Address"
@@ -114,7 +116,7 @@
                Height="15"
                HorizontalAlignment="Left"
                VerticalAlignment="Top"/>
-                <Border Background="#F1F2F7"
+                <Border Background="{DynamicResource ComboBackground}"
             CornerRadius="10"
             Height="35"
             Width="300"
@@ -125,7 +127,7 @@
             VerticalAlignment="Top">
                     <TextBox x:Name="TextBoxCusAddInfo"
                              Background="Transparent"
-               Foreground="Black"
+               Foreground="{DynamicResource Text}"
                Grid.Column="1"
                Grid.Row="2"
                FontFamily="Aptos"
@@ -143,7 +145,7 @@
 
 
                 <TextBlock x:Name="TextBlockTown"
-       Foreground="#007FFF"
+       Foreground="{DynamicResource Text}"
        Grid.Column="1"
        Grid.Row="2"
        Text="Town / City"
@@ -155,7 +157,7 @@
        Height="15"
        HorizontalAlignment="Left"
        VerticalAlignment="Top"/>
-                <Border Background="#F1F2F7"
+                <Border Background="{DynamicResource ComboBackground}" 
             CornerRadius="10"
             Height="35"
             Width="300"
@@ -166,7 +168,7 @@
             VerticalAlignment="Top">
                     <TextBox x:Name="TextBoxTown"
                              Background="Transparent"
-       Foreground="Black"
+       Foreground="{DynamicResource Text}"
        Grid.Column="1"
        Grid.Row="2"
        FontFamily="Aptos"
@@ -185,7 +187,7 @@
 
 
                 <TextBlock x:Name="TextBlockPostcode"
-       Foreground="#007FFF"
+       Foreground="{DynamicResource Text}"
        Grid.Column="1"
        Grid.Row="2"
        Text="Postcode"
@@ -197,7 +199,7 @@
        Height="15"
        HorizontalAlignment="Left"
        VerticalAlignment="Top"/>
-                <Border Background="#F1F2F7"
+                <Border Background="{DynamicResource ComboBackground}"
             CornerRadius="10"
             Height="35"
             Width="300"
@@ -208,7 +210,7 @@
             VerticalAlignment="Top">
                     <TextBox x:Name="TextBoxPostcode"
                              Background="Transparent"
-       Foreground="Black"
+       Foreground="{DynamicResource Text}"
        Grid.Column="1"
        Grid.Row="2"
        FontFamily="Aptos"
@@ -227,7 +229,7 @@
 
 
                 <TextBlock x:Name="TextBlockVisitDesc"
-       Foreground="#007FFF"
+       Foreground="{DynamicResource Text}"
        Grid.Column="1"
        Grid.Row="2"
        Text="Visit Description"
@@ -239,7 +241,7 @@
        Height="15"
        HorizontalAlignment="Left"
        VerticalAlignment="Top"/>
-                <Border Background="#F1F2F7"
+                <Border Background="{DynamicResource ComboBackground}"
             CornerRadius="10"
             Height="65"
             Width="500"
@@ -250,7 +252,7 @@
             VerticalAlignment="Top">
                     <RichTextBox x:Name="RichTextVisitDesc"
                          Background="Transparent"
-       Foreground="Black"
+       Foreground="{DynamicResource Text}"
        Grid.Column="1"
        Grid.Row="2"
        FontFamily="Aptos"
@@ -272,7 +274,7 @@
 
 
                 <TextBlock x:Name="TextBlockContactName"
-        Foreground="#007FFF"
+        Foreground="{DynamicResource Text}"
         Grid.Column="1"
         Grid.Row="2"
         Text="Contact Name"
@@ -284,7 +286,7 @@
         Height="20"
         HorizontalAlignment="Left"
         VerticalAlignment="Top"/>
-                <Border Background="#F1F2F7"
+                <Border Background="{DynamicResource ComboBackground}"
             CornerRadius="10"
             Height="35"
             Width="200"
@@ -295,7 +297,7 @@
             VerticalAlignment="Top">
                     <TextBox x:Name="TextContactName"
         Background="Transparent"
-        Foreground="Black"
+        Foreground="{DynamicResource Text}"
         Grid.Column="1"
         Grid.Row="2"
         FontFamily="Aptos"
@@ -310,7 +312,7 @@
                     </TextBox>
                 </Border>
                 <TextBlock x:Name="TextBlockContactNum"
-Foreground="#007FFF"
+Foreground="{DynamicResource Text}"
 Grid.Column="1"
 Grid.Row="2"
 Text="Contact Number"
@@ -322,7 +324,7 @@ Width="110"
 Height="20"
 HorizontalAlignment="Left"
 VerticalAlignment="Top"/>
-                <Border Background="#F1F2F7"
+                <Border Background="{DynamicResource ComboBackground}"
             CornerRadius="10"
             Height="35"
             Width="200"
@@ -333,7 +335,7 @@ VerticalAlignment="Top"/>
             VerticalAlignment="Top">
                     <TextBox x:Name="TextContactNum"
                              Background="Transparent"
-Foreground="Black"
+Foreground="{DynamicResource Text}"
 Grid.Column="1"
 Grid.Row="2"
 FontFamily="Aptos"
@@ -348,7 +350,7 @@ BorderThickness="0">
                     </TextBox>
                 </Border>
                 <TextBlock x:Name="TextBlockContactEmail"
-Foreground="#007FFF"
+Foreground="{DynamicResource Text}"
 Grid.Column="1"
 Grid.Row="2"
 Text="Contact Email"
@@ -360,7 +362,7 @@ Width="120"
 Height="20"
 HorizontalAlignment="Left"
 VerticalAlignment="Top"/>
-                <Border Background="#F1F2F7"
+                <Border Background="{DynamicResource ComboBackground}"
             CornerRadius="10"
             Height="35"
             Width="200"
@@ -371,7 +373,7 @@ VerticalAlignment="Top"/>
             VerticalAlignment="Top">
                     <TextBox x:Name="TextContactEmail"
                              Background="Transparent"
-Foreground="Black"
+Foreground="{DynamicResource Text}"
 Grid.Column="1"
 Grid.Row="2"
 FontFamily="Aptos"
@@ -388,7 +390,7 @@ BorderThickness="0">
 
 
                 <TextBlock x:Name="TextBlockSalesPerson"
-       Foreground="#007FFF"
+       Foreground="{DynamicResource Text}"
        Grid.Column="1"
        Grid.Row="2"
        Text="Sales Person"
@@ -401,7 +403,7 @@ BorderThickness="0">
        HorizontalAlignment="Left"
        VerticalAlignment="Top"/>
                 <ComboBox x:Name="ComboSalesStaff"
-       Foreground="Black"
+       Foreground="{DynamicResource Text}"
        Grid.Column="1"
        Grid.Row="2"
        FontFamily="Aptos"
@@ -415,7 +417,7 @@ BorderThickness="0">
        VerticalAlignment="Top"
        BorderThickness="0"
        IsEditable="True"
-       Style="{StaticResource ComboBoxFlatStyle}">
+       Style="{DynamicResource ComboBoxFlatStyle}">
                 </ComboBox>
 
 
@@ -424,7 +426,7 @@ BorderThickness="0">
 
 
                 <TextBlock x:Name="TextBlockStaff"
-       Foreground="#007FFF"
+       Foreground="{DynamicResource Text}"
        Grid.Column="1"
        Grid.Row="2"
        Text="Staff Visiting"
@@ -437,7 +439,7 @@ BorderThickness="0">
        HorizontalAlignment="Left"
        VerticalAlignment="Top"/>
                 <ComboBox x:Name="ComboAdminStaff"
-       Foreground="Black"
+       Foreground="{DynamicResource Text}"
        Grid.Column="1"
        Grid.Row="2"
        FontFamily="Aptos"
@@ -451,10 +453,10 @@ BorderThickness="0">
        VerticalAlignment="Top"
        BorderThickness="0"
        IsEditable="True"
-       Style="{StaticResource ComboBoxFlatStyle}">
+       Style="{DynamicResource ComboBoxFlatStyle}">
                 </ComboBox>
                 <TextBlock x:Name="TextBlockType"
-       Foreground="#007FFF"
+       Foreground="{DynamicResource Text}"
        Grid.Column="1"
        Grid.Row="2"
        Text="Visit Type"
@@ -467,7 +469,7 @@ BorderThickness="0">
        HorizontalAlignment="Left"
        VerticalAlignment="Top"/>
                 <ComboBox x:Name="ComboType"
-       Foreground="Black"
+       Foreground="{DynamicResource Text}"
        Grid.Column="1"
        Grid.Row="2"
        FontFamily="Aptos"
@@ -481,11 +483,11 @@ BorderThickness="0">
        VerticalAlignment="Top"
        BorderThickness="0"
        IsEditable="True"
-       Style="{StaticResource ComboBoxFlatStyle}">
+       Style="{DynamicResource ComboBoxFlatStyle}">
                 </ComboBox>
 
                 <TextBlock x:Name="TextBlockCreditChecked"
-       Foreground="#007FFF"
+       Foreground="{DynamicResource Text}"
        Grid.Column="1"
        Grid.Row="2"
        Text="Credit Checked"
@@ -498,7 +500,7 @@ BorderThickness="0">
        HorizontalAlignment="Left"
        VerticalAlignment="Top"/>
                 <ComboBox x:Name="ComboCreditChecked"
-Foreground="Black"
+Foreground="{DynamicResource Text}"
 Grid.Column="1"
 Grid.Row="2"
 FontFamily="Aptos"
@@ -512,11 +514,11 @@ HorizontalAlignment="Left"
 VerticalAlignment="Top"
 BorderThickness="0"
 IsEditable="True"
-Style="{StaticResource ComboBoxFlatStyle}">
+Style="{DynamicResource ComboBoxFlatStyle}">
                 </ComboBox>
 
                 <TextBlock x:Name="TextBlockPromTime"
-       Foreground="#007FFF"
+       Foreground="{DynamicResource Text}"
        Grid.Column="1"
        Grid.Row="2"
        Text="Planned Start Time"
@@ -529,7 +531,7 @@ Style="{StaticResource ComboBoxFlatStyle}">
        HorizontalAlignment="Left"
        VerticalAlignment="Top"/>
                 <ComboBox x:Name="ComboPromTime"
-Foreground="Black"
+Foreground="{DynamicResource Text}"
 Grid.Column="1"
 Grid.Row="2"
 FontFamily="Aptos"
@@ -543,12 +545,12 @@ HorizontalAlignment="Left"
 VerticalAlignment="Top"
 BorderThickness="0"
 IsEditable="True"
-Style="{StaticResource ComboBoxFlatStyle}">
+Style="{DynamicResource ComboBoxFlatStyle}">
                 </ComboBox>
 
 
                 <TextBlock x:Name="TextBlockJobTime"
-       Foreground="#007FFF"
+       Foreground="{DynamicResource Text}"
        Grid.Column="1"
        Grid.Row="2"
        Text="Estimated Job Time (hrs)"
@@ -561,7 +563,7 @@ Style="{StaticResource ComboBoxFlatStyle}">
        HorizontalAlignment="Left"
        VerticalAlignment="Top"/>
                 <ComboBox x:Name="ComboJobTime"
-Foreground="Black"
+Foreground="{DynamicResource Text}"
 Grid.Column="1"
 Grid.Row="2"
 FontFamily="Aptos"
@@ -575,12 +577,12 @@ HorizontalAlignment="Left"
 VerticalAlignment="Top"
 BorderThickness="0"
 IsEditable="True"
-Style="{StaticResource ComboBoxFlatStyle}">
+Style="{DynamicResource ComboBoxFlatStyle}">
                 </ComboBox>
 
 
                 <TextBlock x:Name="TextBlockPromDate"
-       Foreground="#007FFF"
+       Foreground="{DynamicResource Text}"
        Grid.Column="1"
        Grid.Row="2"
        Text="Suggested Date"
@@ -593,7 +595,7 @@ Style="{StaticResource ComboBoxFlatStyle}">
        HorizontalAlignment="Left"
        VerticalAlignment="Top"/>
                 <RichTextBox x:Name="RichTextPromDate"
-       Foreground="Black"
+       Foreground="{DynamicResource Text}"
        Grid.Column="1"
        Grid.Row="2"
        FontFamily="Aptos"
@@ -605,7 +607,8 @@ Style="{StaticResource ComboBoxFlatStyle}">
        Padding="5"
        HorizontalAlignment="Left"
        VerticalAlignment="Top"
-       BorderThickness="0">
+       BorderThickness="0"
+       Background="Transparent">
                     <RichTextBox.Resources>
                         <Style TargetType="{x:Type Paragraph}">
                             <Setter Property="LineHeight" Value="2"/>
@@ -638,26 +641,25 @@ BorderThickness="0"
                     </RichTextBox.Resources>
                 </RichTextBox>
 
-                <Border Background="#007FFF"
+                <Border Background="{DynamicResource BackgroundMid}"
                         VerticalAlignment="Bottom"
                         MinHeight="150"
                         MaxHeight="250"
-                        CornerRadius="0,0,10,10">
-                    <Border.Effect>
-                        <DropShadowEffect ShadowDepth="5" Direction="90" Opacity="0.2"/>
-                    </Border.Effect>
+                        CornerRadius="0,0,5,5"
+                        BorderBrush="{DynamicResource Border}"
+                        BorderThickness="0,1">
                     <Grid>
 
                         <TextBlock x:Name="TextBlockEditDetails"
                                    Margin="45,20,20,20"
-                                   Foreground="White"
+                                   Foreground="{DynamicResource Text}"
                                    Text="Edit Suggested Date"
                                    FontSize="14"
                                    FontWeight="SemiBold"
                                    FontFamily="Aptos"/>
                         <TextBlock x:Name="TextBlockEditStart"
                                    Margin="45,80,20,20"
-                                   Foreground="White"
+                                   Foreground="{DynamicResource Text}"
                                    Text="Set Date - "
                                    FontSize="12"
                                    FontWeight="SemiBold"
@@ -675,7 +677,7 @@ BorderThickness="0"
                                 Content="Send Visit Request"
                                 Width="120"
                                 Margin="0,50,530,20"
-                                Style="{StaticResource SearchButtonTheme}"
+                                Style="{DynamicResource SearchButtonTheme}"
                                     Click="BtnValidate_Click"/>
                     </Grid>
                 </Border>
@@ -686,7 +688,7 @@ BorderThickness="0"
             </Grid>
         </Border>
         <TextBlock x:Name="TextBlockVisitID"
-       Foreground="#007FFF"
+       Foreground="{DynamicResource Text}"
        Grid.Column="1"
        Grid.Row="2"
        Text="Visit ID"
@@ -699,7 +701,7 @@ BorderThickness="0"
        HorizontalAlignment="Left"
        VerticalAlignment="Top"/>
         <TextBox x:Name="TextVisitID"
-       Foreground="Black"
+       Foreground="{DynamicResource Text}"
        Grid.Column="1"
        Grid.Row="2"
        FontFamily="Aptos"
@@ -711,9 +713,10 @@ BorderThickness="0"
        Padding="5"
        HorizontalAlignment="Left"
        VerticalAlignment="Top"
-       BorderThickness="0">
+       BorderThickness="0"
+       Background="Transparent">
         </TextBox>
-        <Border Background="#F1F2F7"
+        <Border Background="{DynamicResource ComboBackground}"
             CornerRadius="10"
             Height="35"
             Width="300"
@@ -734,7 +737,7 @@ BorderThickness="0"
                       Background="Transparent">
             </TextBox>
         </Border>
-        <TextBlock Foreground="#007FFF"
+        <TextBlock Foreground="{DynamicResource Text}"
                 Grid.Column="1"
                  Grid.Row="2"
                 Text="Customer"
@@ -747,7 +750,7 @@ BorderThickness="0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"/>
         <TextBlock x:Name="TextBlockTurnover"
-Foreground="#007FFF"
+Foreground="{DynamicResource Text}"
 Grid.Column="1"
 Grid.Row="2"
 Text="Annual Spend"
@@ -759,7 +762,7 @@ Width="120"
 Height="20"
 HorizontalAlignment="Left"
 VerticalAlignment="Top"/>
-        <Border Background="#F1F2F7"
+        <Border Background="{DynamicResource ComboBackground}"
      CornerRadius="10"
      Height="35"
      Width="120"
@@ -769,7 +772,7 @@ VerticalAlignment="Top"/>
      HorizontalAlignment="Left"
      VerticalAlignment="Top">
             <RichTextBox x:Name="RichTextTurnover"
-Foreground="Black"
+Foreground="{DynamicResource Text}"
 Background="Transparent"
 Grid.Column="1"
 Grid.Row="2"
@@ -790,7 +793,7 @@ BorderThickness="0">
         </Border>
 
         <TextBlock x:Name="TextBlockRegNo"
-Foreground="#007FFF"
+Foreground="{DynamicResource Text}"
 Grid.Column="1"
 Grid.Row="2"
 Text="Company Reg"
@@ -802,7 +805,7 @@ Width="120"
 Height="20"
 HorizontalAlignment="Left"
 VerticalAlignment="Top"/>
-        <Border Background="#F1F2F7"
+        <Border Background="{DynamicResource ComboBackground}"
      CornerRadius="10"
      Height="35"
      Width="120"
@@ -812,7 +815,7 @@ VerticalAlignment="Top"/>
      HorizontalAlignment="Left"
      VerticalAlignment="Top">
             <RichTextBox x:Name="RichTextRegNo"
-Foreground="Black"
+Foreground="{DynamicResource Text}"
 Background="Transparent"
 Grid.Column="1"
 Grid.Row="2"

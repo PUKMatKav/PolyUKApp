@@ -21,25 +21,24 @@
         </Grid.RowDefinitions>
 
         <Border x:Name="TopBar0"
-         Background="White"
+         Background="{DynamicResource Accent}"
          CornerRadius="10,10,0,0"
-         BorderBrush="#F1F2F7"
+         BorderBrush="{DynamicResource AccentBorder}"
          BorderThickness="0,0,0,1"
          MouseDown="TopBar0_MouseDown"/>
 
-        <Border Background="#F1F2F7"
+        <Border Background="{DynamicResource BackgroundBase}"
          Grid.Row="2"
          RenderOptions.EdgeMode="Aliased"
-         Opacity="0.9"/>
+         Opacity="1"
+                BorderBrush="{DynamicResource Border}"
+                BorderThickness="1,0"/>
 
         <Border x:Name="MainBorder"
-             Background="White"
+             Background="{DynamicResource BackgroundLight}"
              Margin="25"
              Grid.Row="2"
-             CornerRadius="10">
-            <Border.Effect>
-                <DropShadowEffect ShadowDepth="5" Direction="300" Opacity="0.2"/>
-            </Border.Effect>
+             CornerRadius="5">
             <Grid>
                 <TextBlock x:Name="TextBlockStock"
                 Text="Stock Order Monitor"
@@ -47,67 +46,37 @@
                 VerticalAlignment="Top"
                 FontSize="18"
                 Margin="20,20,0,0"
-                Foreground="#007FFF"
+                Foreground="{DynamicResource Accent}"
                 FontFamily="Aptos"
                 FontWeight="Bold"/>
 
                 <DataGrid x:Name="DataGridStockOrderItems"
-                          Visibility="Hidden"
+                          Visibility="Visible"
                  Grid.Row="2"
                  Margin="20,110,20,20"
                  MinColumnWidth="100"
-                 Style="{StaticResource DataGridTheme}"
-                 CellStyle="{StaticResource DataGridCellStockTheme}"
-                 ColumnHeaderStyle="{StaticResource ColumnHeaderStockTheme}">
+                 Style="{DynamicResource DataGridTheme}"
+                 CellStyle="{DynamicResource DataGridCellStockTheme}"
+                 ColumnHeaderStyle="{DynamicResource ColumnHeaderStockTheme}">
                 </DataGrid>
 
-                <StackPanel x:Name="ItemPanel"
-                            Orientation="Vertical"
-                            Margin="20,60,20,20">
-                    <StackPanel x:Name="ItemRowPanel" Orientation="Horizontal" Margin="0,0,0,10">
-                        <TextBlock Text="Code"
-                                   FontSize="18"
-                                   FontFamily="Aptos"
-                                   Foreground="#007FFF"
-                                   Margin="0,0,10,0"/>
-                        <TextBlock Text="Name"
-                                   FontSize="18"
-                                   FontFamily="Aptos"
-                                   Foreground="#007FFF"
-                                   Margin="120,0,10,0"/>
-                        <TextBlock Text="Free Qty"
-                                   FontSize="18"
-                                   FontFamily="Aptos"
-                                   Foreground="#007FFF"
-                                   Margin="220,0,10,0"/>
-                        <TextBlock Text="Unit"
-                                   FontSize="18"
-                                   FontFamily="Aptos"
-                                   Foreground="#007FFF"
-                                   Margin="20,0,10,0"/>
-                    </StackPanel>
-                </StackPanel>
-               
             </Grid>
         </Border>
 
         <Border x:Name="BotBar0"
-         Background="White"
+         Background="{DynamicResource BackgroundMid}"
          Grid.Row="3"
-         RenderOptions.EdgeMode="Aliased"
-         BorderBrush="#F1F2F7">
-            <Border.Effect>
-                <DropShadowEffect ShadowDepth="5" Direction="90" Opacity="0.2"/>
-            </Border.Effect>
+         BorderBrush="{DynamicResource Border}"
+                BorderThickness="1"
+                CornerRadius="0,0,5,5">
         </Border>
 
         <Border x:Name="LogoBar0"
-             Background="White"
+             Background="{DynamicResource BackgroundMid}"
              Grid.Row="1"
-             RenderOptions.EdgeMode="Aliased">
-            <Border.Effect>
-                <DropShadowEffect ShadowDepth="5" Direction="280" Opacity="0.2"/>
-            </Border.Effect>
+             RenderOptions.EdgeMode="Aliased"
+                BorderBrush="{DynamicResource Border}"
+                BorderThickness="1">
         </Border>
 
         <StackPanel Orientation="Horizontal"
@@ -116,17 +85,17 @@
             <Button x:Name="BtnMinimise"
               Width="40" Height="35"
               Content="_"
-              Style="{StaticResource ControlButtonTheme}"
+              Style="{DynamicResource ControlButtonTheme}"
               Click="BtnMinimise_Click"/>
             <Button x:Name="BtnMaximise"
               Width="40" Height="35"
               Content="🗖"
-              Style="{StaticResource ControlButtonTheme}"
+              Style="{DynamicResource ControlButtonTheme}"
               Click="BtnMaximise_Click"/>
             <Button x:Name="BtnClose"
               Width="40" Height="35"
               Content="X"
-              Style="{StaticResource ControlButtonTheme}"
+              Style="{DynamicResource ControlButtonTheme}"
               Click="BtnClose_Click"/>
         </StackPanel>
 
@@ -152,7 +121,7 @@
                  Content="Main Menu"
                  Click="BtnMainMenu_Click"
                  Width="80"
-                 Style="{StaticResource GeneralButtonTheme}"/>
+                 Style="{DynamicResource GeneralButtonTheme}"/>
         </StackPanel>
 
 

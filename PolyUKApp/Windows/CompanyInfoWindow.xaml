@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PolyUKApp.Windows"
         mc:Ignorable="d"
-        Title="CompanyInfoWindow" Height="600" Width="600" MinHeight="500" MinWidth="400"
+        Title="CompanyInfoWindow" Height="600" Width="850" MinHeight="500" MinWidth="500"
         AllowsTransparency="True"
         Background="Transparent"
         WindowStyle="None"
@@ -14,7 +14,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition MinWidth="400"/>
+            <ColumnDefinition MinWidth="600"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
@@ -27,7 +27,7 @@
 
         <Border Background="Black"
             Opacity="0.5"
-            CornerRadius="10,0,0,0"
+            CornerRadius="5,0,0,0"
             RenderOptions.EdgeMode="Aliased"/>
         <Border Background="Black"
             Opacity="0.5"
@@ -35,7 +35,7 @@
                 Grid.Column="1"/>
         <Border Background="Black"
             Opacity="0.5"
-            CornerRadius="0,10,0,0"
+            CornerRadius="0,5,0,0"
             RenderOptions.EdgeMode="Aliased"
                 Grid.Column="2"/>
         <Border Background="Black"
@@ -74,7 +74,7 @@
                 MinHeight="200"/>
         <Border Background="Black"
             Opacity="0.5"
-            CornerRadius="0,0,0,0"
+            CornerRadius="0,0,0,5"
             RenderOptions.EdgeMode="Aliased"
             Grid.Row="3"
             MaxHeight="100"/>
@@ -86,32 +86,34 @@
             MaxHeight="100"/>
         <Border Background="Black"
             Opacity="0.5"
-            CornerRadius="0,0,0,0"
+            CornerRadius="0,0,5,0"
             RenderOptions.EdgeMode="Aliased"
             Grid.Row="3"
             Grid.Column="2"
             MaxHeight="100"/>
 
-        <Border Background="White"
+        <Border Background="{DynamicResource Accent}"
                 Grid.Column="1"
                 Grid.Row="1"
-                CornerRadius="10,10,0,0"
-                BorderBrush="#F1F2F7"
+                CornerRadius="5,5,0,0"
+                BorderBrush="{DynamicResource AccentBorder}"
                 BorderThickness="0 0 0 1">
             <Button x:Name="BtnClose"
                 Width="40" Height="35"
                 Content="X"
-                Style="{StaticResource ControlButtonTheme}"
+                Style="{DynamicResource ControlButtonTheme}"
                 HorizontalAlignment="Right"
                 Margin="0,0,10,0"
                 Click="BtnClose_Click"/>
         </Border>
-        <Border Background="White"
+        <Border Background="{DynamicResource BackgroundMid}"
                 Grid.Column="1"
                 Grid.Row="2"
-                CornerRadius="0,0,10,10"
+                CornerRadius="0,0,5,5"
                 VerticalAlignment="Stretch"
-                MinHeight="200"/>
+                MinHeight="200"
+                BorderBrush="{DynamicResource Border}"
+                BorderThickness="1,0,1,1"/>
 
         <RichTextBox x:Name="RichTextCompany"
                      Grid.Column="1"
@@ -119,12 +121,30 @@
                      Margin="20"
                      HorizontalContentAlignment="Left"
                      FontFamily="Aptos"
-                     Foreground="#007FFF"
+                     Foreground="{DynamicResource Text}"
                      FontStretch="Normal"
                      VerticalScrollBarVisibility="Auto"
                      BorderThickness="0"
                      FontSize="12"
-                     IsReadOnly="True"/>
-
+                     IsReadOnly="True"
+                     Background="Transparent"/>
+        
+        
+        <StackPanel Orientation="Horizontal"
+            HorizontalAlignment="Left"
+                    Margin="10,0,0,0"
+                    Grid.Column="1"
+                    Grid.Row="1">
+            <Button x:Name="BtnLight"
+            Width="40" Height="35"
+            Content="☼"
+            Style="{DynamicResource ControlButtonTheme}"
+            Click="BtnLight_Click"/>
+            <Button x:Name="BtnDark"
+            Width="40" Height="35"
+            Content="☽"
+            Style="{DynamicResource ControlButtonTheme}"
+            Click="BtnDark_Click"/>
+        </StackPanel>
     </Grid>
 </Window>

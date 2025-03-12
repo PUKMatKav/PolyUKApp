@@ -21,32 +21,41 @@
         </Grid.RowDefinitions>
 
         <Border x:Name="TopBar0"
-        Background="White"
-        CornerRadius="10,10,0,0"
-        BorderBrush="#F1F2F7"
+        Background="{DynamicResource Accent}"
+        CornerRadius="5,5,0,0"
+        BorderBrush="{DynamicResource AccentBorder}"
         BorderThickness="0,0,0,1"
         MouseDown="TopBar0_MouseDown"/>
 
         <Border Background="#F1F2F7"
         Grid.Row="2"
         RenderOptions.EdgeMode="Aliased"
-        Opacity="0.9"/>
+        Opacity="1"/>
 
         <Border x:Name="MainBorder"
-            Background="White"
-            Margin="25"
+            Background="{DynamicResource BackgroundBase}"
             Grid.Row="2"
-            CornerRadius="10">
-            <Border.Effect>
-                <DropShadowEffect ShadowDepth="5" Direction="300" Opacity="0.2"/>
-            </Border.Effect>
+            CornerRadius="0"
+            BorderBrush="{DynamicResource Border}"
+            BorderThickness="1,0,1,0">
+            
+
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="0.4*"/>
                 </Grid.ColumnDefinitions>
 
-                <!--Year Bar-->
+                <Border x:Name="CalendarBorder"
+        Grid.Column="0"
+        Margin="30"
+        Background="{DynamicResource BackgroundLight}"
+        BorderBrush="{DynamicResource BackgroundMid}"
+        BorderThickness="1"
+        CornerRadius="5">
+                    <Grid>
+
+                        <!--Year Bar-->
                 <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Center"
                             VerticalAlignment="Top"
@@ -55,12 +64,12 @@
                             Background="Transparent">
                     <Button x:Name="BtnLeftYR"
                             Content="&lt;"
-                            Style="{StaticResource CalButtonTheme}"
+                            Style="{DynamicResource CalButtonTheme}"
                             Click="BtnLeftYR_Click"/>
-                    <TextBlock x:Name="TextBlockYear" Text="Year" FontSize="24" Foreground="#007fff"/>
+                            <TextBlock x:Name="TextBlockYear" Text="Year" FontSize="24" Foreground="{DynamicResource Accent}"/>
                     <Button x:Name="BtnRightYR"
                             Content=">"
-                            Style="{StaticResource CalButtonTheme}"
+                            Style="{DynamicResource CalButtonTheme}"
                             Click="BtnRightYR_Click"/>
                 </StackPanel>
                 <StackPanel Background="Transparent"
@@ -71,50 +80,53 @@
                             Height="30">
                     <Button x:Name="BtnLeft"
                             Content="&lt;"
-                            Style="{StaticResource CalButtonTheme}"
+                            Style="{DynamicResource CalButtonTheme}"
                             Click="BtnLeft_Click"/>
-                    <TextBlock Width="30" Text="M2" x:Name="TextBlockMonthM2" FontSize="18" Foreground="#5daeff" Margin="6 2" TextAlignment="Center"/>
-                    <TextBlock Width="30" Text="M1" x:Name="TextBlockMonthM1" FontSize="18" Foreground="#5daeff" Margin="6 2" TextAlignment="Center"/>
-                    <TextBlock Width="30" Text="C" x:Name="TextBlockMonthC" FontSize="22" Foreground="#007fff" FontWeight="SemiBold" Margin="6 0" TextAlignment="Center"/>
-                    <TextBlock Width="30" Text="P1" x:Name="TextBlockMonthP1" FontSize="18" Foreground="#5daeff" Margin="6 2" TextAlignment="Center"/>
-                    <TextBlock Width="30" Text="P2" x:Name="TextBlockMonthP2" FontSize="18" Foreground="#5daeff" Margin="6 2" TextAlignment="Center"/>
+                    <TextBlock Width="30" Text="M2" x:Name="TextBlockMonthM2" FontSize="18" Foreground="{DynamicResource Accent}" Margin="6 2" TextAlignment="Center"/>
+                            <TextBlock Width="30" Text="M1" x:Name="TextBlockMonthM1" FontSize="18" Foreground="{DynamicResource Accent}" Margin="6 2" TextAlignment="Center"/>
+                            <TextBlock Width="30" Text="C" x:Name="TextBlockMonthC" FontSize="22" Foreground="{DynamicResource Accent}" FontWeight="SemiBold" Margin="6 0" TextAlignment="Center"/>
+                            <TextBlock Width="30" Text="P1" x:Name="TextBlockMonthP1" FontSize="18" Foreground="{DynamicResource Accent}" Margin="6 2" TextAlignment="Center"/>
+                            <TextBlock Width="30" Text="P2" x:Name="TextBlockMonthP2" FontSize="18" Foreground="{DynamicResource Accent}" Margin="6 2" TextAlignment="Center"/>
 
                     <Button x:Name="BtnRight"
                             Content=">"
-                            Style="{StaticResource CalButtonTheme}"
+                            Style="{DynamicResource CalButtonTheme}"
                             Click="BtnRight_Click"/>
                 </StackPanel>
 
-                <Separator Height="0.8" Background="LightGray" Margin="40,85,40,5" VerticalAlignment="Top"/>
+                <Separator Height="0.8" Background="{DynamicResource Border}" Margin="40,85,40,5" VerticalAlignment="Top"/>
 
                 <TextBlock x:Name="TextBlockMonth"
                            VerticalAlignment="Top"
                            Text="August" 
-                           Foreground="#007fff" 
+                           Foreground="{DynamicResource Accent}" 
                            FontSize="20" FontFamily="Aptos" FontWeight="SemiBold"
                            TextAlignment="Center"
                            Margin="0,95,0,0"/>
 
                 <WrapPanel x:Name="CalBase" VerticalAlignment="Top" Width="1050" HorizontalAlignment="Center" Orientation="Horizontal" Margin="20,125,20,20">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBlock Text="Sun" FontFamily="Aptos" FontSize="16" FontWeight="SemiBold" Foreground="#007fff" Height="20" Padding="5,0,0,0" HorizontalAlignment="Center" MinWidth="150"/>
-                        <TextBlock Text="Mon" FontFamily="Aptos" FontSize="16" FontWeight="SemiBold" Foreground="#007fff" Height="20" Padding="5,0,0,0" HorizontalAlignment="Center" MinWidth="150"/>
-                        <TextBlock Text="Tue" FontFamily="Aptos" FontSize="16" FontWeight="SemiBold" Foreground="#007fff" Height="20" Padding="5,0,0,0" HorizontalAlignment="Center" MinWidth="150"/>
-                        <TextBlock Text="Wed" FontFamily="Aptos" FontSize="16" FontWeight="SemiBold" Foreground="#007fff" Height="20" Padding="5,0,0,0" HorizontalAlignment="Center" MinWidth="150"/>
-                        <TextBlock Text="Thu" FontFamily="Aptos" FontSize="16" FontWeight="SemiBold" Foreground="#007fff" Height="20" Padding="5,0,0,0" HorizontalAlignment="Center" MinWidth="150"/>
-                        <TextBlock Text="Fri" FontFamily="Aptos" FontSize="16" FontWeight="SemiBold" Foreground="#007fff" Height="20" Padding="5,0,0,0" HorizontalAlignment="Center" MinWidth="150"/>
-                        <TextBlock Text="Sat" FontFamily="Aptos" FontSize="16" FontWeight="SemiBold" Foreground="#007fff" Height="20" Padding="5,0,0,0" HorizontalAlignment="Center" MinWidth="150"/>
+                                <TextBlock Text="Sun" FontFamily="Aptos" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource Accent}" Height="20" Padding="5,0,0,0" HorizontalAlignment="Center" MinWidth="150"/>
+                                <TextBlock Text="Mon" FontFamily="Aptos" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource Accent}" Height="20" Padding="5,0,0,0" HorizontalAlignment="Center" MinWidth="150"/>
+                                <TextBlock Text="Tue" FontFamily="Aptos" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource Accent}" Height="20" Padding="5,0,0,0" HorizontalAlignment="Center" MinWidth="150"/>
+                                <TextBlock Text="Wed" FontFamily="Aptos" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource Accent}" Height="20" Padding="5,0,0,0" HorizontalAlignment="Center" MinWidth="150"/>
+                                <TextBlock Text="Thu" FontFamily="Aptos" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource Accent}" Height="20" Padding="5,0,0,0" HorizontalAlignment="Center" MinWidth="150"/>
+                                <TextBlock Text="Fri" FontFamily="Aptos" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource Accent}" Height="20" Padding="5,0,0,0" HorizontalAlignment="Center" MinWidth="150"/>
+                                <TextBlock Text="Sat" FontFamily="Aptos" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource Accent}" Height="20" Padding="5,0,0,0" HorizontalAlignment="Center" MinWidth="150"/>
                     </StackPanel>
-                    <Separator Height="0.8" Background="LightGray" MinWidth="1050"/>
+                    <Separator Height="0.8" Background="{DynamicResource Border}" MinWidth="1050"/>
 
                     <WrapPanel x:Name="CalData" Orientation="Horizontal" Margin="0,-3,0,0">
                     </WrapPanel>
                 </WrapPanel>
+                    </Grid>
+                </Border>
 
                 <Border x:Name="OrdersListBorder"
-                        Background="#007FFF"
+                        Background="{DynamicResource BackgroundMid}"
                         Grid.Column="1"
-                        CornerRadius="0,10,10,0">
+                        BorderBrush="{DynamicResource Border}"
+                        BorderThickness="2,0,0,0">
                     <StackPanel x:Name="WOStackPanel"
                                 HorizontalAlignment="Center"
                                 Margin="0,56,0,0"
@@ -124,10 +136,10 @@
                                    Text="Works Orders"
                                    FontFamily="Aptos"
                                    FontSize="24"
-                                   Foreground="White"
+                                   Foreground="{DynamicResource Text}"
                                    HorizontalAlignment="Center"
                                    Margin="1"/>
-                        <Separator Height="0.8" Background="White" Width="420"/>
+                        <Separator Height="0.8" Background="{DynamicResource Border}" Width="420"/>
                     </StackPanel>
                 </Border>
                 <Border x:Name="DataGridBorder"
@@ -138,9 +150,9 @@
                   VerticalAlignment="Stretch"
                   Margin="5,20"
                   VerticalScrollBarVisibility="Auto"
-                  Style="{StaticResource DataGridThemeWOList}"
-                  CellStyle="{StaticResource DataGridCellStockThemeWOList}"
-                  ColumnHeaderStyle="{StaticResource ColumnHeaderStockThemeWOList}"
+                  Style="{DynamicResource DataGridThemeWOList}"
+                  CellStyle="{DynamicResource DataGridCellStockThemeWOList}"
+                  ColumnHeaderStyle="{DynamicResource ColumnHeaderStockThemeWOList}"
                               IsReadOnly="True"
                               MouseDoubleClick="WODataGrid_MouseDoubleClick">
                     </DataGrid>
@@ -148,24 +160,20 @@
             </Grid>
         </Border>
 
-        
+
         <Border x:Name="BotBar0"
-        Background="White"
+        Background="{DynamicResource BackgroundMid}"
         Grid.Row="3"
-        RenderOptions.EdgeMode="Aliased"
-        BorderBrush="#F1F2F7">
-            <Border.Effect>
-                <DropShadowEffect ShadowDepth="5" Direction="90" Opacity="0.2"/>
-            </Border.Effect>
+        BorderBrush="{DynamicResource Border}"
+                BorderThickness="1"
+                CornerRadius="0,0,5,5">
         </Border>
 
         <Border x:Name="LogoBar0"
-            Background="White"
+            Background="{DynamicResource BackgroundMid}"
             Grid.Row="1"
-            RenderOptions.EdgeMode="Aliased">
-            <Border.Effect>
-                <DropShadowEffect ShadowDepth="5" Direction="280" Opacity="0.2"/>
-            </Border.Effect>
+                BorderBrush="{DynamicResource Border}"
+                BorderThickness="1,0,1,1">
         </Border>
 
         <StackPanel Orientation="Horizontal"
@@ -174,17 +182,17 @@
             <Button x:Name="BtnMinimise"
              Width="40" Height="35"
              Content="_"
-             Style="{StaticResource ControlButtonTheme}"
+             Style="{DynamicResource ControlButtonTheme}"
              Click="BtnMinimise_Click"/>
             <Button x:Name="BtnMaximise"
              Width="40" Height="35"
              Content="🗖"
-             Style="{StaticResource ControlButtonTheme}"
+             Style="{DynamicResource ControlButtonTheme}"
              Click="BtnMaximise_Click"/>
             <Button x:Name="BtnClose"
              Width="40" Height="35"
              Content="X"
-             Style="{StaticResource ControlButtonTheme}"
+             Style="{DynamicResource ControlButtonTheme}"
              Click="BtnClose_Click"/>
         </StackPanel>
 
@@ -210,7 +218,7 @@
                 Content="Main Menu"
                 Click="BtnMainMenu_Click"
                 Width="80"
-                Style="{StaticResource GeneralButtonTheme}"/>
+                Style="{DynamicResource GeneralButtonTheme}"/>
         </StackPanel>
 
 

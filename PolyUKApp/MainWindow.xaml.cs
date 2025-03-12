@@ -1,4 +1,6 @@
-﻿using PolyUKApp.Windows;
+﻿using Microsoft.Exchange.WebServices.Data;
+using PolyUKApp.Windows;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,7 +22,9 @@ namespace PolyUKApp
     {
         public MainWindow()
         {
+
             InitializeComponent();
+            LoadTheme();
             CurrentDateDisplay();
 
         }
@@ -304,10 +308,19 @@ namespace PolyUKApp
                 "   - Pulls weight and item info along with address and generate EORI\n" +
                 "   - Can be print to PDF from page and will update CI number for next CI\n" +
                 "- Removed staff member from van calendar overview to fit 3 jobs per day");*/
-            System.Windows.MessageBox.Show("v1.0.1.7" +
+            /*System.Windows.MessageBox.Show("v1.0.1.7" +
                 "\r" + "" + "\r" +
                 "- Added Annual Turnover to van visit info\n" +
-                "- Added Credit Registration to van visit info\n");
+                "- Added Credit Registration to van visit info\n");*/
+            /*System.Windows.MessageBox.Show("v1.0.1.8" +
+                "\r" + "" + "\r" +
+                "- Better wording on van visit info\n");*/
+            System.Windows.MessageBox.Show("v1.1.0.0" +
+                "\r" + "" + "\r" +
+                "- There is a dark mode now\n" +
+                "- Theme settings should save for individual users\n" +
+                "- Fixed duplicate van collection job crash\n" +
+                "- Added amend button to completed van jobs\n");
         }
 
         private void BtnCommInvoice_Click(object sender, RoutedEventArgs e)
@@ -329,6 +342,102 @@ namespace PolyUKApp
         {
             TextBlockInfo.Document.Blocks.Clear();
             TextBlockInfo.AppendText("Allows you to generate a commercial invoice just from the order number! Please double check the info fields are filled in though!");
+        }
+
+        private void BtnCallLink_Click(object sender, RoutedEventArgs e)
+        {
+            BtnCallTime_Click(sender, e);
+        }
+
+        private void BtnCallLink_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            BtnCallTime_MouseEnter(sender, e);
+        }
+
+        private void BtnVanLink_Click(object sender, RoutedEventArgs e)
+        {
+            BtnVanCalendar_Click(sender, e);
+        }
+
+        private void BtnVanLink_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            BtnVanCalendar_MouseEnter(sender, e);
+        }
+
+        private void BtnWOLink_Click(object sender, RoutedEventArgs e)
+        {
+            BtnWorksOrders_Click(sender, e);
+        }
+
+        private void BtnWOLink_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            BtnWorksOrders_MouseEnter(sender, e);
+        }
+
+        private void BtnCILink_Click(object sender, RoutedEventArgs e)
+        {
+            BtnCommInvoice_Click(sender, e);
+        }
+
+        private void BtnCILink_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            BtnCommInvoice_MouseEnter(sender, e);
+        }
+
+        private void BtnCompanyLink_Click(object sender, RoutedEventArgs e)
+        {
+            BtnCompanyInfo_Click(sender, e);
+        }
+
+        private void BtnCompanyLink_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            BtnCompanyInfo_MouseEnter(sender, e);
+        }
+
+        private void BtnLight_Click(object sender, RoutedEventArgs e)
+        {
+            var CurrentUser = Environment.UserName;
+            var filepath = "C:\\Users\\" + CurrentUser + "\\AppData\\Roaming\\Matt K Programs\\Poly UK App\\Theme.txt";
+            AppTheme.ChangeTheme(new Uri("Theme/AppLight.xaml", UriKind.Relative));
+            File.WriteAllText(filepath, "Light");
+        }
+
+        private void BtnDark_Click(object sender, RoutedEventArgs e)
+        {
+            var CurrentUser = Environment.UserName;
+            var filepath = "C:\\Users\\" + CurrentUser + "\\AppData\\Roaming\\Matt K Programs\\Poly UK App\\Theme.txt";
+            AppTheme.ChangeTheme(new Uri("Theme/AppDark.xaml", UriKind.Relative));
+            File.WriteAllText(filepath, "Dark");
+
+        }
+
+        private void LoadTheme()
+        {
+            var CurrentUser = Environment.UserName;
+            var folderpath = "C:\\Users\\" + CurrentUser + "\\AppData\\Roaming\\Matt K Programs\\Poly UK App";
+            var filepath = "C:\\Users\\" + CurrentUser + "\\AppData\\Roaming\\Matt K Programs\\Poly UK App\\Theme.txt";
+
+
+            if (!File.Exists(filepath))
+            {
+                Directory.CreateDirectory(folderpath);
+                File.WriteAllText(filepath, "Light");
+            }
+            else if (File.Exists(filepath))
+            {
+                String themeSetting = File.ReadAllText(filepath).ToString();
+
+                if (themeSetting == "Light")
+                {
+                    AppTheme.ChangeTheme(new Uri("Theme/AppLight.xaml", UriKind.Relative));
+                }
+                if (themeSetting == "Dark")
+                {
+                    AppTheme.ChangeTheme(new Uri("Theme/AppDark.xaml", UriKind.Relative));
+                }
+            }
+            return;
+
         }
     }
 }

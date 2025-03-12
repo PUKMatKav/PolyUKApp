@@ -73,23 +73,8 @@ namespace PolyUKApp.Windows
                     _con.Open();
                     _dap.Fill(stockOrderTable);
                     _con.Close();
+                    DataGridStockOrderItems.ItemsSource = stockOrderTable.DefaultView;
                 }
-            }
-            foreach (DataRow row in stockOrderTable.Rows)
-            {
-                    StackPanel newPanelRow = new StackPanel();
-                    ItemPanel.Children.Add(newPanelRow);
-                    TextBlock newCode = new TextBlock();
-                    newCode.Text = row["Code"].ToString();
-                    newCode.Margin = new Thickness(0, 5, 0, 5);
-
-                    TextBlock newName = new TextBlock();
-                    newName.Text = row["Name"].ToString();
-                    newName.Margin = new Thickness(0, 5, 0, 5);
-
-                    newPanelRow.Children.Add(newCode);
-                    newPanelRow.Children.Add(newName);
-
             }
         }
 

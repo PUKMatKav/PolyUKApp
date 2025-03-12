@@ -11,7 +11,7 @@
         Background="Transparent"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize">
+        ResizeMode="CanResizeWithGrip">
     <Grid>
         <Grid.ColumnDefinitions>
 
@@ -41,12 +41,12 @@
                     Width="40" Height="35"
                     Content="🖶"
                     FontWeight="Bold"
-                    Style="{StaticResource ControlButtonTheme}"
+                    Style="{DynamicResource ControlButtonTheme}"
                         Click="BtnPrint_Click"/>
                 <Button x:Name="BtnClose"
                 Width="40" Height="35"
                 Content="X"
-                Style="{StaticResource ControlButtonTheme}"
+                Style="{DynamicResource ControlButtonTheme}"
                 HorizontalAlignment="Right"
                 Margin="0,0,10,0"
                 Click="BtnClose_Click"/>
@@ -96,13 +96,13 @@
             <Button x:Name="BtnGenCI"
                 Content="Generate"
                 HorizontalAlignment="Left"
-                Style="{StaticResource SearchButtonTheme}"
+                Style="{DynamicResource SearchButtonTheme}"
                 Click="BtnGenCI_Click"/>
             <Button x:Name="BtnResetCI"
             Content="Reset"
             Margin="20,0,0,0"
             HorizontalAlignment="Left"
-            Style="{StaticResource SearchButtonTheme}"
+            Style="{DynamicResource SearchButtonTheme}"
             Click="BtnResetCI_Click"/>
         </StackPanel>
         <TextBox x:Name="TxtBxSearch"
@@ -368,20 +368,20 @@
                       Height="auto"
                       MaxHeight="240"
                       VerticalScrollBarVisibility="Disabled"
-                    Style="{StaticResource DataGridThemeCI}"
-                    CellStyle="{StaticResource DataGridCellStockThemeCI}"
-                    ColumnHeaderStyle="{StaticResource ColumnHeaderStockThemeCI}"
+                    Style="{DynamicResource DataGridThemeCI}"
+                    CellStyle="{DynamicResource DataGridCellStockThemeCI}"
+                    ColumnHeaderStyle="{DynamicResource ColumnHeaderStockThemeCI}"
                       AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn IsReadOnly="False" Header="Code" Binding="{Binding Code}" ElementStyle="{StaticResource WrapText}" Width="130"/>
-                    <DataGridTextColumn IsReadOnly="False" Header="Description" Binding="{Binding Description}" ElementStyle="{StaticResource WrapText}" Width="200"/>
-                    <DataGridTextColumn IsReadOnly="False" Header="Qty" Binding="{Binding Qty}" ElementStyle="{StaticResource WrapText}" Width="60"/>
-                    <DataGridTextColumn IsReadOnly="False" Header="Unit" Binding="{Binding Unit}" ElementStyle="{StaticResource WrapText}" Width="45"/>
-                    <DataGridTextColumn IsReadOnly="False" Header="HS Code" Binding="{Binding HSCode}" ElementStyle="{StaticResource WrapText}" Width="75"/>
-                    <DataGridTextColumn IsReadOnly="False" Header="Net (kg)" Binding="{Binding Weight}" ElementStyle="{StaticResource WrapText}" Width="60"/>
-                    <DataGridTextColumn IsReadOnly="False" Header="Gross (kg)" Binding="{Binding Grosskg}" ElementStyle="{StaticResource WrapText}" Width="60"/>
-                    <DataGridTextColumn IsReadOnly="False" Header="Price" Binding="{Binding Price}" ElementStyle="{StaticResource WrapText}" Width="60"/>
-                    <DataGridTextColumn IsReadOnly="False" Header="Total" Binding="{Binding Total}" ElementStyle="{StaticResource WrapText}" Width="63"/>
+                    <DataGridTextColumn IsReadOnly="False" Header="Code" Binding="{Binding Code}" ElementStyle="{DynamicResource WrapText}" Width="130"/>
+                    <DataGridTextColumn IsReadOnly="False" Header="Description" Binding="{Binding Description}" ElementStyle="{DynamicResource WrapText}" Width="200"/>
+                    <DataGridTextColumn IsReadOnly="False" Header="Qty" Binding="{Binding Qty}" ElementStyle="{DynamicResource WrapText}" Width="60"/>
+                    <DataGridTextColumn IsReadOnly="False" Header="Unit" Binding="{Binding Unit}" ElementStyle="{DynamicResource WrapText}" Width="45"/>
+                    <DataGridTextColumn IsReadOnly="False" Header="HS Code" Binding="{Binding HSCode}" ElementStyle="{DynamicResource WrapText}" Width="75"/>
+                    <DataGridTextColumn IsReadOnly="False" Header="Net (kg)" Binding="{Binding Weight}" ElementStyle="{DynamicResource WrapText}" Width="60"/>
+                    <DataGridTextColumn IsReadOnly="False" Header="Gross (kg)" Binding="{Binding Grosskg}" ElementStyle="{DynamicResource WrapText}" Width="60"/>
+                    <DataGridTextColumn IsReadOnly="False" Header="Price" Binding="{Binding Price}" ElementStyle="{DynamicResource WrapText}" Width="60"/>
+                    <DataGridTextColumn IsReadOnly="False" Header="Total" Binding="{Binding Total}" ElementStyle="{DynamicResource WrapText}" Width="63"/>
                 </DataGrid.Columns>
             </DataGrid>
 

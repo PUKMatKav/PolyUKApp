@@ -27,7 +27,7 @@
 
         <Border Background="Black"
             Opacity="0.5"
-            CornerRadius="10,0,0,0"
+            CornerRadius="5,0,0,0"
             RenderOptions.EdgeMode="Aliased"/>
         <Border Background="Black"
             Opacity="0.5"
@@ -35,7 +35,7 @@
                 Grid.Column="1"/>
         <Border Background="Black"
             Opacity="0.5"
-            CornerRadius="0,10,0,0"
+            CornerRadius="0,5,0,0"
             RenderOptions.EdgeMode="Aliased"
                 Grid.Column="2"/>
         <Border Background="Black"
@@ -69,7 +69,8 @@
         <Border Background="Black"
             Opacity="0.5"
             RenderOptions.EdgeMode="Aliased"
-                Grid.Row="3"/>
+                Grid.Row="3"
+                CornerRadius="0,0,0,5"/>
         <Border Background="Black"
             Opacity="0.5"
             RenderOptions.EdgeMode="Aliased"
@@ -79,30 +80,33 @@
             Opacity="0.5"
             RenderOptions.EdgeMode="Aliased"
                 Grid.Column="2"
-                Grid.Row="3"/>
+                Grid.Row="3"
+                CornerRadius="0,0,5,0"/>
 
-        <Border Background="White"
+        <Border Background="{DynamicResource Accent}"
             Grid.Row="1"
             Grid.Column="1"
-            CornerRadius="10,10,0,0"
-            BorderBrush="#F1F2F7"
+            CornerRadius="5,5,0,0"
+            BorderBrush="{DynamicResource AccentBorder}"
             BorderThickness="0,0,0,1">
             <Button x:Name="BtnClose"
                     Width="40" Height="35"
                     Content="X"
-                    Style="{StaticResource ControlButtonTheme}"
+                    Style="{DynamicResource ControlButtonTheme}"
                 HorizontalAlignment="Right"
                 Margin="0,0,10,0"
                     Click="BtnClose_Click"/>
         </Border>
         
-        <Border Background="White"
+        <Border Background="{DynamicResource BackgroundLight}"
             Grid.Row="2"
             Grid.Column="1"
-            CornerRadius="0,0,10,10">
+            CornerRadius="0,0,5,5"
+                BorderBrush="{DynamicResource Border}"
+                BorderThickness="1">
             <Grid>
                 <TextBlock x:Name="TextBlockName"
-               Foreground="#007FFF"
+               Foreground="{DynamicResource Text}"
                Grid.Column="1"
                Grid.Row="2"
                Text="Item Name"
@@ -115,7 +119,8 @@
                HorizontalAlignment="Left"
                VerticalAlignment="Top"/>
                 <RichTextBox x:Name="RichTextNameInfo"
-               Foreground="Black"
+               Foreground="{DynamicResource Text}"
+               Background="Transparent"
                Grid.Column="1"
                Grid.Row="2"
                FontFamily="Aptos"
@@ -136,7 +141,7 @@
                 </RichTextBox>
 
                 <TextBlock x:Name="TextBlockDesc"
-       Foreground="#007FFF"
+       Foreground="{DynamicResource Text}"
        Grid.Column="1"
        Grid.Row="2"
        Text="Item Specification"
@@ -149,7 +154,8 @@
        HorizontalAlignment="Left"
        VerticalAlignment="Top"/>
                 <RichTextBox x:Name="RichTextDescInfo"
-       Foreground="Black"
+       Foreground="{DynamicResource Text}"
+       Background="Transparent"
        Grid.Column="1"
        Grid.Row="2"
        FontFamily="Aptos"
@@ -172,7 +178,7 @@
                 </RichTextBox>
 
                 <TextBlock x:Name="TextBlockUnit"
-        Foreground="#007FFF"
+        Foreground="{DynamicResource Text}"
         Grid.Column="1"
         Grid.Row="2"
         Text="Unit"
@@ -185,7 +191,8 @@
         HorizontalAlignment="Left"
         VerticalAlignment="Top"/>
                 <RichTextBox x:Name="RichTextUnitInfo"
-        Foreground="Black"
+        Foreground="{DynamicResource Text}"
+        Background="Transparent"
         Grid.Column="1"
         Grid.Row="2"
         FontFamily="Aptos"
@@ -206,7 +213,7 @@
                 </RichTextBox>
 
                 <TextBlock x:Name="TextBlockType"
-        Foreground="#007FFF"
+        Foreground="{DynamicResource Text}"
         Grid.Column="1"
         Grid.Row="2"
         Text="Type"
@@ -219,7 +226,8 @@
         HorizontalAlignment="Left"
         VerticalAlignment="Top"/>
                 <RichTextBox x:Name="RichTextTypeInfo"
-        Foreground="Black"
+        Foreground="{DynamicResource Text}"
+        Background="Transparent"
         Grid.Column="1"
         Grid.Row="2"
         FontFamily="Aptos"
@@ -240,7 +248,7 @@
                 </RichTextBox>
 
                 <TextBlock x:Name="TextBlockWeight"
-       Foreground="#007FFF"
+       Foreground="{DynamicResource Text}"
        Grid.Column="1"
        Grid.Row="2"
        Text="Weight"
@@ -253,7 +261,8 @@
        HorizontalAlignment="Left"
        VerticalAlignment="Top"/>
                 <RichTextBox x:Name="RichTextWeightInfo"
-       Foreground="Black"
+       Foreground="{DynamicResource Text}"
+       Background="Transparent"
        Grid.Column="1"
        Grid.Row="2"
        FontFamily="Aptos"
@@ -274,7 +283,7 @@
                 </RichTextBox>
 
                 <TextBlock x:Name="TextBlockFreeStock"
-Foreground="#007FFF"
+Foreground="{DynamicResource Text}"
 Grid.Column="1"
 Grid.Row="2"
 Text="Free Stock"
@@ -287,7 +296,8 @@ Height="20"
 HorizontalAlignment="Left"
 VerticalAlignment="Top"/>
                 <RichTextBox x:Name="RichTextFreeStockInfo"
-Foreground="Black"
+Foreground="{DynamicResource Text}"
+Background="Transparent"
 Grid.Column="1"
 Grid.Row="2"
 FontFamily="Aptos"
@@ -307,7 +317,7 @@ BorderThickness="0">
                     </RichTextBox.Resources>
                 </RichTextBox>
                 <TextBlock x:Name="TextBlockLength"
-       Foreground="#007FFF"
+       Foreground="{DynamicResource Text}"
        Grid.Column="1"
        Grid.Row="2"
        Text="Length"
@@ -320,7 +330,8 @@ BorderThickness="0">
        HorizontalAlignment="Left"
        VerticalAlignment="Top"/>
                 <RichTextBox x:Name="RichTextLengthInfo"
-       Foreground="Black"
+       Foreground="{DynamicResource Text}"
+       Background="Transparent"
        Grid.Column="1"
        Grid.Row="2"
        FontFamily="Aptos"
@@ -340,7 +351,7 @@ BorderThickness="0">
                     </RichTextBox.Resources>
                 </RichTextBox>
                 <TextBlock x:Name="TextBlockWidth"
-       Foreground="#007FFF"
+       Foreground="{DynamicResource Text}"
        Grid.Column="1"
        Grid.Row="2"
        Text="Width"
@@ -353,7 +364,8 @@ BorderThickness="0">
        HorizontalAlignment="Left"
        VerticalAlignment="Top"/>
                 <RichTextBox x:Name="RichTextWidthInfo"
-       Foreground="Black"
+       Foreground="{DynamicResource Text}"
+       Background="Transparent"
        Grid.Column="1"
        Grid.Row="2"
        FontFamily="Aptos"
@@ -374,7 +386,7 @@ BorderThickness="0">
                 </RichTextBox>
 
                 <TextBlock x:Name="TextBlockECcode"
-Foreground="#007FFF"
+Foreground="{DynamicResource Text}"
 Grid.Column="1"
 Grid.Row="2"
 Text="Commodity Code"
@@ -387,7 +399,8 @@ Height="20"
 HorizontalAlignment="Left"
 VerticalAlignment="Top"/>
                 <RichTextBox x:Name="RichTextECcode"
-Foreground="Black"
+Foreground="{DynamicResource Text}"
+Background="Transparent"
 Grid.Column="1"
 Grid.Row="2"
 FontFamily="Aptos"
@@ -409,7 +422,7 @@ BorderThickness="0">
             </Grid>
         </Border>
         
-        <Border Background="#F1F2F7"
+        <Border Background="{DynamicResource ComboBackground}"
             CornerRadius="10"
             Height="35"
             Width="300"
@@ -420,6 +433,7 @@ BorderThickness="0">
             VerticalAlignment="Top">
             <TextBox x:Name="CodeTextBox"
                 Background="Transparent"
+                     Foreground="{DynamicResource Text}"
                 BorderThickness="0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
@@ -445,7 +459,7 @@ BorderThickness="0">
                Margin="45,60,0,0"
                Foreground="LightGray"
                IsHitTestVisible="False"/>
-        <TextBlock Foreground="#007FFF"
+        <TextBlock Foreground="{DynamicResource Accent}"
                 Grid.Column="1"
                  Grid.Row="2"
                 Text="Item Code"
@@ -458,7 +472,7 @@ BorderThickness="0">
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"/>
         <Button x:Name="BtnEnter"
-                Style="{StaticResource GeneralButtonTheme}"
+                Style="{DynamicResource GeneralButtonTheme}"
                 Grid.Column="1"
                  Grid.Row="2"
                 Margin="355,52.5,0,0"

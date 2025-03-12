@@ -20,6 +20,7 @@ using static PolyUKApp.Windows.CallTimeWindow;
 using MySql.Data.MySqlClient;
 using System.Xml.Linq;
 using Org.BouncyCastle.Asn1.Pkcs;
+using System.IO;
 
 namespace PolyUKApp.MVVM.View
 {
@@ -45,6 +46,10 @@ namespace PolyUKApp.MVVM.View
 
         public void TodayPanel()
         {
+            var CurrentUser = Environment.UserName;
+            var folderpath = "C:\\Users\\" + CurrentUser + "\\AppData\\Roaming\\Matt K Programs\\Poly UK App";
+            var filepath = "C:\\Users\\" + CurrentUser + "\\AppData\\Roaming\\Matt K Programs\\Poly UK App\\Theme.txt";
+
             int PanelDay = Convert.ToInt32(LabelDays.Content.ToString());
             int CurrentDay = Convert.ToInt32(DateTime.Now.ToString().Substring(0, 2));
             int PanelMonth = Convert.ToInt32(VanCalendarWindow.static_month.ToString());
@@ -53,19 +58,81 @@ namespace PolyUKApp.MVVM.View
             int CurrentYear = Convert.ToInt32(DateTime.Now.ToString().Substring(6, 4));
             if (PanelDay == CurrentDay && PanelMonth == CurrentMonth && PanelYear == CurrentYear)
             {
-                MainBorder.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(211, 211, 211));
+                if (!File.Exists(filepath))
+                {
+                    MainBorder.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(211, 211, 211));
+                }
+                else if (File.Exists(filepath))
+                {
+                    String themeSetting = File.ReadAllText(filepath).ToString();
+
+                    if (themeSetting == "Light")
+                    {
+                        MainBorder.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(211, 211, 211));
+                    }
+                    if (themeSetting == "Dark")
+                    {
+                        MainBorder.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(68, 68, 68));
+                    }
+                }
+                return;
             }
         }
 
         private void Grid_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            MainBorder.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(211, 211, 211));
+            var CurrentUser = Environment.UserName;
+            var folderpath = "C:\\Users\\" + CurrentUser + "\\AppData\\Roaming\\Matt K Programs\\Poly UK App";
+            var filepath = "C:\\Users\\" + CurrentUser + "\\AppData\\Roaming\\Matt K Programs\\Poly UK App\\Theme.txt";
+
+            if (!File.Exists(filepath))
+            {
+                MainBorder.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(211, 211, 211));
+            }
+            else if (File.Exists(filepath))
+            {
+                String themeSetting = File.ReadAllText(filepath).ToString();
+
+                if (themeSetting == "Light")
+                {
+                    MainBorder.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(211, 211, 211));
+                }
+                if (themeSetting == "Dark")
+                {
+                    MainBorder.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(68, 68, 68));
+                }
+            }
+            return;
+
+            
         }
 
         private void Grid_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            MainBorder.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 255, 255));
+            var CurrentUser = Environment.UserName;
+            var folderpath = "C:\\Users\\" + CurrentUser + "\\AppData\\Roaming\\Matt K Programs\\Poly UK App";
+            var filepath = "C:\\Users\\" + CurrentUser + "\\AppData\\Roaming\\Matt K Programs\\Poly UK App\\Theme.txt";
+
+            if (!File.Exists(filepath))
+            {
+                MainBorder.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(243, 243, 243));
+            }
+            else if (File.Exists(filepath))
+            {
+                String themeSetting = File.ReadAllText(filepath).ToString();
+
+                if (themeSetting == "Light")
+                {
+                    MainBorder.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(243, 243, 243));
+                }
+                if (themeSetting == "Dark")
+                {
+                    MainBorder.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(45, 45, 45));
+                }
+            }
             TodayPanel();
+            return;
+
         }
 
         private void LabelDays_Loaded(object sender, RoutedEventArgs e)

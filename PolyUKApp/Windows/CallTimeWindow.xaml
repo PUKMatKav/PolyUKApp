@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PolyUKApp.Windows"
         mc:Ignorable="d"
-        Title="CallTimeWindow" Height="700" Width="1165" MinHeight="700" MinWidth="1125"
+        Title="CallTimeWindow" Height="700" Width="1180" MinHeight="700" MinWidth="1125"
         AllowsTransparency="True"
         Background="Transparent"
         WindowStyle="None"
@@ -21,44 +21,41 @@
         </Grid.RowDefinitions>
 
         <Border x:Name="TopBar0"
-         Background="White"
-         CornerRadius="10,10,0,0"
-         BorderBrush="#F1F2F7"
+         Background="{DynamicResource Accent}"
+         CornerRadius="5,5,0,0"
+         BorderBrush="{DynamicResource AccentBorder}"
          BorderThickness="0,0,0,1"
          MouseDown="TopBar0_MouseDown"/>
 
-        <Border Background="#F1F2F7"
+        <Border Background="{DynamicResource BackgroundBase}"
          Grid.Row="2"
          RenderOptions.EdgeMode="Aliased"
-         Opacity="0.9"/>
+         BorderBrush="{DynamicResource Border}"
+         BorderThickness="1,0"/>
 
         <Border x:Name="BotBar0"
-         Background="White"
+         Background="{DynamicResource BackgroundMid}"
          Grid.Row="3"
-         RenderOptions.EdgeMode="Aliased"
-         BorderBrush="#F1F2F7">
-            <Border.Effect>
-                <DropShadowEffect ShadowDepth="5" Direction="90" Opacity="0.2"/>
-            </Border.Effect>
+         CornerRadius="0,0,5,5"
+         BorderThickness="1,1,1,1"
+         BorderBrush="{DynamicResource Border}">
         </Border>
 
         <Border x:Name="LogoBar0"
-         Background="White"
+         Background="{DynamicResource BackgroundMid}"
          Grid.Row="1"
-         RenderOptions.EdgeMode="Aliased">
-            <Border.Effect>
-                <DropShadowEffect ShadowDepth="5" Direction="280" Opacity="0.2"/>
-            </Border.Effect>
+         RenderOptions.EdgeMode="Aliased"
+                BorderThickness="1,0,1,1"
+                BorderBrush="{DynamicResource Border}">
         </Border>
 
         <Border x:Name="MainBorder"
                 Grid.Row="2"
                 Margin="25,25,25,25"
-                Background="White"
-                CornerRadius="10">
-            <Border.Effect>
-                <DropShadowEffect ShadowDepth="5" Direction="300" Opacity="0.2"/>
-            </Border.Effect>
+                Background="{DynamicResource BackgroundLight}"
+                CornerRadius="5"
+                BorderThickness="1"
+                BorderBrush="{DynamicResource BorderMid}">
 
             <Grid>
                 <Grid.RowDefinitions>
@@ -71,7 +68,7 @@
                    VerticalAlignment="Top"
                    Margin="20,20,20,20"
                    FontSize="18"
-                   Foreground="#007FFF"
+                   Foreground="{DynamicResource Accent}"
                    FontWeight="Bold"
                    FontFamily="Aptos"/>
                 <DataGrid x:Name="DataGrid1"
@@ -81,9 +78,10 @@
                   VerticalAlignment="Top"
                   HorizontalAlignment="Left"
                   Margin="20,50,20,20"
-                  Style="{StaticResource DataGridTheme}"
-                  CellStyle="{StaticResource DataGridCellTheme}"
-                  ColumnHeaderStyle="{StaticResource ColumnHeaderTheme}">
+                  Style="{DynamicResource DataGridTheme}"
+                  CellStyle="{DynamicResource DataGridCellTheme}"
+                  ColumnHeaderStyle="{DynamicResource ColumnHeaderTheme}">
+
                 </DataGrid>
                 <TextBlock Text="Weekly Times"
                    Grid.Row="1"
@@ -91,7 +89,7 @@
                    VerticalAlignment="Top"
                    Margin="20,0,20,20"
                    FontSize="18"
-                   Foreground="#007FFF"
+                   Foreground="{DynamicResource Accent}"
                    FontWeight="Bold"
                    FontFamily="Aptos"/>
                 <DataGrid x:Name="DataGrid2"
@@ -101,15 +99,15 @@
                   VerticalAlignment="Top"
                   HorizontalAlignment="Left"
                   Margin="20,30,20,20"
-                  Style="{StaticResource DataGridTheme}"
-                  CellStyle="{StaticResource DataGridCellTheme}"
-                  ColumnHeaderStyle="{StaticResource ColumnHeaderTheme}"/>
+                  Style="{DynamicResource DataGridTheme}"
+                  CellStyle="{DynamicResource DataGridCellTheme}"
+                  ColumnHeaderStyle="{DynamicResource ColumnHeaderTheme}"/>
 
                 <TextBlock x:Name="DateTimeText"
                            Grid.Row="1"
                            Text="Date Time"
                            FontSize="14"
-                           Foreground="#007FFF"
+                           Foreground="{DynamicResource Accent}"
                            FontWeight="Normal"
                            FontFamily="Aptos"
                            Margin="22,245,20,0"/>
@@ -119,7 +117,7 @@
                    Text="Explainer"
                    Margin="200,245,0,0"
                    FontSize="14"
-                   Foreground="#007FFF"
+                   Foreground="{DynamicResource Accent}"
                    FontWeight="Normal"
                    FontFamily="Aptos"
                            Loaded="TextBlockRefreshExplainer_Loaded"/>
@@ -133,18 +131,33 @@
             <Button x:Name="BtnMinimise"
                         Width="40" Height="35"
                         Content="_"
-                        Style="{StaticResource ControlButtonTheme}"
+                        Style="{DynamicResource ControlButtonTheme}"
                         Click="BtnMinimise_Click"/>
             <Button x:Name="BtnMaximise"
                         Width="40" Height="35"
                         Content="🗖"
-                        Style="{StaticResource ControlButtonTheme}"
+                        Style="{DynamicResource ControlButtonTheme}"
                         Click="BtnMaximise_Click"/>
             <Button x:Name="BtnClose"
                         Width="40" Height="35"
                         Content="X"
-                        Style="{StaticResource ControlButtonTheme}"
+                        Style="{DynamicResource ControlButtonTheme}"
                         Click="BtnClose_Click"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal"
+            HorizontalAlignment="Left"
+                    Margin="10,0,0,0">
+            <Button x:Name="BtnLight"
+            Width="40" Height="35"
+            Content="☼"
+            Style="{DynamicResource ControlButtonTheme}"
+            Click="BtnLight_Click"/>
+            <Button x:Name="BtnDark"
+            Width="40" Height="35"
+            Content="☽"
+            Style="{DynamicResource ControlButtonTheme}"
+            Click="BtnDark_Click"/>
         </StackPanel>
 
         <Image x:Name="PUKLogo"
@@ -170,13 +183,13 @@
                     Content="Reload Current Data"
                     Click="BtnRefreshCallTime_Click"
                     Width="125"
-                    Style="{StaticResource GeneralButtonTheme}"/>
+                    Style="{DynamicResource GeneralButtonTheme}"/>
             <Button x:Name="BtnQueryServer"
                     Margin="20,0,0,0"
                     Content="Download Daily Data"
                     Click="BtnQueryServer_Click"
                     Width="125"
-                    Style="{StaticResource GeneralButtonTheme}"/>
+                    Style="{DynamicResource GeneralButtonTheme}"/>
         </StackPanel>
         <StackPanel x:Name="ReturnTabPanel"
                     Grid.Row="1"
@@ -187,7 +200,7 @@
                     Content="Main Menu"
                     Click="BtnMainMenu_Click"
                     Width="80"
-                    Style="{StaticResource GeneralButtonTheme}"/>
+                    Style="{DynamicResource GeneralButtonTheme}"/>
         </StackPanel>
     </Grid>
 </Window>

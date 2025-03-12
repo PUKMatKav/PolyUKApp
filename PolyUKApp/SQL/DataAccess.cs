@@ -98,7 +98,7 @@ namespace PolyUKApp.SQL
 
             public static String StockOrderQuery = "SELECT Code, Name, FreeStockQuantity, StockUnitName AS 'Unit', ProductGroupDescription AS 'Type' " +
                                      "FROM STKStockItemView " +
-                                     "WHERE (Code = 'PUK/MACHAIR/001') or (Code = 'PUK/MACHAIR/002') or (Code = 'PUK/MACHINE/001')" +
+                                     "WHERE (Code = 'PUK/HAND/001/E') or (Code = 'PUK/HAND/001/S') or (Code = 'PUK/HAND/002/E') or (Code = 'PUK/HAND/002/S') or (Code = 'PUK/HAND/005/E') or (Code = 'PUK/HANDBLACK/001/E') or (Code = 'PUK/HANDBLACK/001/S') or (Code = 'PUK/HANDPRE/001/E')  or (Code = 'PUK/HSTRMINI/001PCW') or (Code = 'PUK/MACHINE/001') or (Code = 'PUK/MACHINE/002') or (Code = 'PUK/MACHINE/004PCW') or (Code = 'PUK/MACHINE/005') or (Code = 'PUK/MACHINE/006PCW') or (Code = 'PUK/MACHINE/008PCW') or (Code = 'PUK/MACHINE/009') or (Code = 'PUK/MACHINE/010PCW') or (Code = 'PUK/MACHINE/011PCW') or (Code = 'PUK/MACHINE/012PCW') or (Code = 'PUK/MACHINE/013PCW') or (Code = 'PUK/MACHINE/014') or (Code = 'PUK/SPIRAL/034PCW')" +
                                      "ORDER BY Code";
 
             public static String OrderCIQuery = "SELECT " +
@@ -199,7 +199,7 @@ namespace PolyUKApp.SQL
                 "SET company_name = @COText, town = @TownText, collection_date = @PlannedDate, address = @AddressText, postcode = @PostcodeText, contact_name = @NameText, contact_email = @EmailText, contact_phone = @NumberText, description_collection = @DescText, sales_person = @SalesText, visit_type = @VisitText, staff_member = @StaffText, id = @IDTEXT, credit_checked = @CreditCheckedText, planned_start = @PlannedStartText, job_time = @JobTimeText, weight_waste = '0', leads = '0', completed = 'No', scrap_type = 'N/A', job_notes = '', annual_spend = @Turnover, company_reg = @CompanyReg ";
 
             public static String UpdateVanPendingList = "UPDATE pending_database " +
-                "SET company_name = @COText, town = @TownText, collection_date = @PlannedDate, address = @AddressText, postcode = @PostcodeText, contact_name = @NameText, contact_email = @EmailText, contact_phone = @NumberText, description_collection = @DescText, sales_person = @SalesText, visit_type = @VisitText, staff_member = @StaffText, credit_checked = @CreditCheckedText, planned_start = @PlannedStartText, job_time = @JobTimeText, annual_turnover = @AnnualTurnover, company_reg = @CompanyReg " +
+                "SET company_name = @COText, town = @TownText, collection_date = @PlannedDate, address = @AddressText, postcode = @PostcodeText, contact_name = @NameText, contact_email = @EmailText, contact_phone = @NumberText, description_collection = @DescText, sales_person = @SalesText, visit_type = @VisitText, staff_member = @StaffText, credit_checked = @CreditCheckedText, planned_start = @PlannedStartText, job_time = @JobTimeText, annual_spend = @Turnover, company_reg = @CompanyReg " +
                 "WHERE id = @IDTEXT";
 
             public static String DeleteFromVanPendingList = "DELETE FROM pending_database " +

@@ -21,6 +21,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using static PolyUKApp.Windows.CallTimeWindow;
 using static System.Windows.Forms.Design.AxImporter;
+using MessageBox = System.Windows.MessageBox;
 
 
 namespace PolyUKApp.Windows
@@ -35,6 +36,7 @@ namespace PolyUKApp.Windows
         public CallTimeWindow()
         {
             InitializeComponent();
+            LoadTheme();
             LoadDaily();
             LoadWeekly();
             string currentTime = DateTime.Now.ToString();
@@ -108,7 +110,28 @@ namespace PolyUKApp.Windows
                 System.Windows.MessageBox.Show(ex.Message, "Error");
             }
         }
+        public class State
+        {
+            public bool on { get; set; }
 
+            //another properties
+        }
+        public class StateItem
+        {
+            public string index { get; set; }
+            public State Statistics { get; set; }
+        }
+
+        //Not working yet, need a re-think! Must be better than csv in the long run. Access nested fields?
+        public void LoadDailyJSON()
+            {
+                string CurrentUser = Globals.Username;
+                var jsonPath = @"C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Matt K Stuff\\612d239751dd5a85_-5362eb36_18b5c897a7f_10e5.JSON";
+            StateItem[] states = JObject.Parse(jsonPath).Properties().Select(i => new StateItem { index = i.Name, Statistics = i.Value.ToObject<State>()}).ToArray();
+            MessageBox.Show("test");
+
+
+        }
         public void LoadWeekly()
         {
             string CurrentUser = Globals.Username;
@@ -181,8 +204,55 @@ namespace PolyUKApp.Windows
                 TextBlockRefreshExplainer.Text = "Complete";
                 LoadDaily();
             }
+        }
+
+        private void BtnLight_Click(object sender, RoutedEventArgs e)
+        {
+            var CurrentUser = Environment.UserName;
+            var filepath = "C:\\Users\\" + CurrentUser + "\\AppData\\Roaming\\Matt K Programs\\Poly UK App\\Theme.txt";
+            AppTheme.ChangeTheme(new Uri("Theme/AppLight.xaml", UriKind.Relative));
+            File.WriteAllText(filepath, "Light");
+        }
+
+        private void BtnDark_Click(object sender, RoutedEventArgs e)
+        {
+            var CurrentUser = Environment.UserName;
+            var filepath = "C:\\Users\\" + CurrentUser + "\\AppData\\Roaming\\Matt K Programs\\Poly UK App\\Theme.txt";
+            AppTheme.ChangeTheme(new Uri("Theme/AppDark.xaml", UriKind.Relative));
+            File.WriteAllText(filepath, "Dark");
 
         }
+
+        private void LoadTheme()
+        {
+            var CurrentUser = Environment.UserName;
+            var folderpath = "C:\\Users\\" + CurrentUser + "\\AppData\\Roaming\\Matt K Programs\\Poly UK App";
+            var filepath = "C:\\Users\\" + CurrentUser + "\\AppData\\Roaming\\Matt K Programs\\Poly UK App\\Theme.txt";
+
+
+            if (!File.Exists(filepath))
+            {
+                Directory.CreateDirectory(folderpath);
+                File.WriteAllText(filepath, "Light");
+            }
+            else if (File.Exists(filepath))
+            {
+                String themeSetting = File.ReadAllText(filepath).ToString();
+
+                if (themeSetting == "Light")
+                {
+                    AppTheme.ChangeTheme(new Uri("Theme/AppLight.xaml", UriKind.Relative));
+                }
+                if (themeSetting == "Dark")
+                {
+                    AppTheme.ChangeTheme(new Uri("Theme/AppDark.xaml", UriKind.Relative));
+                }
+            }
+            return;
+
+        }
+
+        
 
 
         // AKIXI UPDATER

@@ -152,6 +152,10 @@ namespace PolyUKApp.Windows
             var CreditCheckedText = ComboCreditChecked.Text.ToString();
             var PlannedStartText = ComboPromTime.Text.ToString();
             var JobTimeText = ComboJobTime.Text.ToString();
+            var TurnoverRange = new TextRange(RichTextTurnover.Document.ContentStart, RichTextTurnover.Document.ContentEnd);
+            String TurnoverText = TurnoverRange.Text.Replace("\r", "").Replace("\n", "");
+            var CompanyRegRange = new TextRange(RichTextRegNo.Document.ContentStart, RichTextRegNo.Document.ContentEnd);
+            String CompanyRegText = CompanyRegRange.Text.Replace("\r", "").Replace("\n", "");
 
             string connectionString = DataAccess.GlobalSQL.ConnectionMySQLVan;
 
@@ -179,6 +183,8 @@ namespace PolyUKApp.Windows
                     _cmd.Parameters.AddWithValue("@CreditCheckedText", CreditCheckedText);
                     _cmd.Parameters.AddWithValue("@PlannedStartText", PlannedStartText);
                     _cmd.Parameters.AddWithValue("@JobTimeText", JobTimeText);
+                    _cmd.Parameters.AddWithValue("@Turnover", TurnoverText);
+                    _cmd.Parameters.AddWithValue("@CompanyReg", CompanyRegText);
 
                     _cmd.Parameters.AddWithValue("@IDTEXT", IDText);
 

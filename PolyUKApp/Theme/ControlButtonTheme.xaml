@@ -18,7 +18,7 @@
             </Setter>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Foreground" Value="#007FFF"/>
+            <Setter Property="Foreground" Value="white"/>
         </Style.Setters>
 
         <Style.Triggers>
@@ -27,8 +27,8 @@
                 <Setter Property="Foreground" Value="White"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="#007FFF"/>
-                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Background" Value="#f9f9f9"/>
+                <Setter Property="Foreground" Value="#007FFF"/>
             </Trigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>

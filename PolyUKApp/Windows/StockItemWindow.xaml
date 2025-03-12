@@ -21,25 +21,26 @@
         </Grid.RowDefinitions>
 
         <Border x:Name="TopBar0"
-            Background="White"
-            CornerRadius="10,10,0,0"
-            BorderBrush="#F1F2F7"
+            Background="{DynamicResource Accent}"
+            CornerRadius="5,5,0,0"
+            BorderBrush="{DynamicResource AccentBorder}"
             BorderThickness="0,0,0,1"
             MouseDown="TopBar0_MouseDown"/>
 
-        <Border Background="#F1F2F7"
+        <Border Background="{DynamicResource BackgroundBase}"
             Grid.Row="2"
             RenderOptions.EdgeMode="Aliased"
-            Opacity="0.9"/>
+            Opacity="1"
+                BorderBrush="{DynamicResource Border}"
+                BorderThickness="1,0"/>
 
         <Border x:Name="MainBorder"
-                Background="White"
+                Background="{DynamicResource BackgroundLight}"
                 Margin="25"
                 Grid.Row="2"
-                CornerRadius="10">
-            <Border.Effect>
-                <DropShadowEffect ShadowDepth="5" Direction="300" Opacity="0.2"/>
-            </Border.Effect>
+                CornerRadius="5"
+                BorderBrush="{DynamicResource BorderMid}"
+                BorderThickness="1">
             <Grid>
                 <TextBlock x:Name="TextBlockStock"
                    Text="Stock Item Viewer"
@@ -47,7 +48,7 @@
                    VerticalAlignment="Top"
                    FontSize="18"
                    Margin="20,20,0,0"
-                   Foreground="#007FFF"
+                   Foreground="{DynamicResource Accent}"
                    FontFamily="Aptos"
                    FontWeight="Bold"/>
                 <TextBlock Text="Filter"
@@ -55,21 +56,22 @@
                 VerticalAlignment="Top"
                 Margin="27,70,0,0"
                 FontSize="12"
-                Foreground="#007FFF"
+                Foreground="{DynamicResource Text}"
                 FontWeight="Normal"
                 FontFamily="Aptos"/>
                 
                 <ComboBox x:Name="ComboBoxSearch"
                       Width="200"
                       Height="30"
+                          Foreground="{DynamicResource Text}"
                       HorizontalAlignment="Left"
                       VerticalAlignment="Top"
                       Margin="20,100,0,0"
                       Background="Transparent"
-                      Style="{StaticResource ComboBoxFlatStyle}"
+                      Style="{DynamicResource ComboBoxFlatStyle}"
                       DisplayMemberPath="ColumnName">
                 </ComboBox>
-                <Border Background="#F1F2F7"
+                <Border Background="{DynamicResource ComboBackground}"
                         CornerRadius="10"
                         Height="35"
                         Width="300"
@@ -78,6 +80,7 @@
                         Margin="20,150,0,0">
                     <TextBox x:Name="TxtBxSearch"
                         Background="Transparent"
+                             Foreground="{DynamicResource Text}"
                          BorderThickness="0"
                         HorizontalAlignment="Left"
                          VerticalAlignment="Top"
@@ -94,9 +97,9 @@
                     Grid.Row="2"
                     Margin="20,210,20,20"
                     MinColumnWidth="100"
-                    Style="{StaticResource DataGridTheme}"
-                    CellStyle="{StaticResource DataGridCellStockTheme}"
-                    ColumnHeaderStyle="{StaticResource ColumnHeaderStockTheme}"
+                    Style="{DynamicResource DataGridTheme}"
+                    CellStyle="{DynamicResource DataGridCellStockTheme}"
+                    ColumnHeaderStyle="{DynamicResource ColumnHeaderStockTheme}"
                     MouseDoubleClick="DataGridStock_MouseDoubleClick"
                     SelectionChanged="DataGridStock_SelectionChanged"
                     AutoGenerateColumns="True"
@@ -110,13 +113,13 @@
                     <Button x:Name="BtnSearchStock"
                                 Content="Search"
                                 HorizontalAlignment="Left"
-                                Style="{StaticResource SearchButtonTheme}"
+                                Style="{DynamicResource SearchButtonTheme}"
                                 Click="BtnSearchStock_Click"/>
                     <Button x:Name="BtnResetStock"
                             Content="Reset"
                             Margin="20,0,0,0"
                             HorizontalAlignment="Left"
-                            Style="{StaticResource SearchButtonTheme}"
+                            Style="{DynamicResource SearchButtonTheme}"
                             Click="BtnResetStock_Click"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal"
@@ -125,7 +128,7 @@
                             VerticalAlignment="Top"
                             Height="35">
                     <Button x:Name="BtnItemView"
-                            Style="{StaticResource GeneralButtonTheme}"
+                            Style="{DynamicResource GeneralButtonTheme}"
                             Content="View Item"
                             Visibility="Hidden"
                             Click="BtnItemView_Click"/>
@@ -147,29 +150,26 @@
                    VerticalAlignment="Top"
                    FontFamily="Aptos"
                    FontSize="14"
-                   Foreground="#007FFF"
+                   Foreground="{DynamicResource Accent}"
                    Visibility="Hidden"
                    IsHitTestVisible="False"/>
             </Grid>
         </Border>
 
         <Border x:Name="BotBar0"
-            Background="White"
+            Background="{DynamicResource BackgroundMid}"
             Grid.Row="3"
-            RenderOptions.EdgeMode="Aliased"
-            BorderBrush="#F1F2F7">
-            <Border.Effect>
-                <DropShadowEffect ShadowDepth="5" Direction="90" Opacity="0.2"/>
-            </Border.Effect>
+                CornerRadius="0,0,5,5"
+            BorderBrush="{DynamicResource Border}"
+                BorderThickness="0,1">
         </Border>
 
         <Border x:Name="LogoBar0"
-                Background="White"
+                Background="{DynamicResource BackgroundMid}"
                 Grid.Row="1"
-                RenderOptions.EdgeMode="Aliased">
-            <Border.Effect>
-                <DropShadowEffect ShadowDepth="5" Direction="280" Opacity="0.2"/>
-            </Border.Effect>
+                RenderOptions.EdgeMode="Aliased"
+                BorderBrush="{DynamicResource Border}"
+                BorderThickness="1,0,1,1">
         </Border>
         
         <StackPanel Orientation="Horizontal"
@@ -178,17 +178,17 @@
             <Button x:Name="BtnMinimise"
                  Width="40" Height="35"
                  Content="_"
-                 Style="{StaticResource ControlButtonTheme}"
+                 Style="{DynamicResource ControlButtonTheme}"
                  Click="BtnMinimise_Click"/>
             <Button x:Name="BtnMaximise"
                  Width="40" Height="35"
                  Content="🗖"
-                 Style="{StaticResource ControlButtonTheme}"
+                 Style="{DynamicResource ControlButtonTheme}"
                  Click="BtnMaximise_Click"/>
             <Button x:Name="BtnClose"
                  Width="40" Height="35"
                  Content="X"
-                 Style="{StaticResource ControlButtonTheme}"
+                 Style="{DynamicResource ControlButtonTheme}"
                  Click="BtnClose_Click"/>
         </StackPanel>
 
@@ -214,7 +214,7 @@
                     Content="Main Menu"
                     Click="BtnMainMenu_Click"
                     Width="80"
-                    Style="{StaticResource GeneralButtonTheme}"/>
+                    Style="{DynamicResource GeneralButtonTheme}"/>
         </StackPanel>
 
 

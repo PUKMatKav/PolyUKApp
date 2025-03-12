@@ -22,25 +22,25 @@
         </Grid.RowDefinitions>
 
         <Border x:Name="TopBar0"
-            Background="White"
-            CornerRadius="10,10,0,0"
-            BorderBrush="#F1F2F7"
-            BorderThickness="0,0,0,1"
+            Background="{DynamicResource Accent}"
+            CornerRadius="5,5,0,0"
+            BorderBrush="{DynamicResource AccentBorder}"
+            BorderThickness="1"
             MouseDown="TopBar0_MouseDown"/>
 
-        <Border Background="#F1F2F7"
+        <Border Background="{DynamicResource BackgroundBase}"
             Grid.Row="2"
-            RenderOptions.EdgeMode="Aliased"
-            Opacity="0.9"/>
+            Opacity="1"
+                BorderBrush="{DynamicResource Border}"
+                BorderThickness="1,0"/>
 
         <Border x:Name="MainBorder"
-                Background="White"
+                Background="{DynamicResource BackgroundLight}"
                 Margin="25"
                 Grid.Row="2"
-                CornerRadius="10">
-            <Border.Effect>
-                <DropShadowEffect ShadowDepth="5" Direction="300" Opacity="0.2"/>
-            </Border.Effect>
+                CornerRadius="5"
+                BorderBrush="{DynamicResource BorderMid}"
+                BorderThickness="1">
             <Grid>
                 <TextBlock x:Name="TextBlockStock"
                    Text="Database Viewer"
@@ -48,7 +48,7 @@
                    VerticalAlignment="Top"
                    FontSize="18"
                    Margin="20,20,0,0"
-                   Foreground="#007FFF"
+                   Foreground="{DynamicResource Accent}"
                    FontFamily="Aptos"
                    FontWeight="Bold"/>
                 <TextBlock Text="Filter"
@@ -56,7 +56,7 @@
                 VerticalAlignment="Top"
                 Margin="27,70,0,0"
                 FontSize="12"
-                Foreground="#007FFF"
+                Foreground="{DynamicResource Text}"
                 FontWeight="Normal"
                 FontFamily="Aptos"/>
 
@@ -67,10 +67,11 @@
                       VerticalAlignment="Top"
                       Margin="20,100,0,0"
                       Background="Transparent"
-                      Style="{StaticResource ComboBoxFlatStyle}"
-                      DisplayMemberPath="ColumnName">
+                      Style="{DynamicResource ComboBoxFlatStyle}"
+                      DisplayMemberPath="ColumnName"
+                          Foreground="{DynamicResource Text}">
                 </ComboBox>
-                <Border Background="#F1F2F7"
+                <Border Background="{DynamicResource ComboBackground}"
                         CornerRadius="10"
                         Height="35"
                         Width="300"
@@ -87,7 +88,8 @@
                         Padding="7"
                         Height="35"
                         Width="300"
-                        FontFamily="Aptos">
+                        FontFamily="Aptos"
+                        Foreground="{DynamicResource Text}">
                     </TextBox>
 
                 </Border>
@@ -95,9 +97,9 @@
                     Grid.Row="2"
                     Margin="20,210,20,20"
                     MinColumnWidth="100"
-                    Style="{StaticResource DataGridTheme}"
-                    CellStyle="{StaticResource DataGridCellStockTheme}"
-                    ColumnHeaderStyle="{StaticResource ColumnHeaderStockTheme}">
+                    Style="{DynamicResource DataGridTheme}"
+                    CellStyle="{DynamicResource DataGridCellStockTheme}"
+                    ColumnHeaderStyle="{DynamicResource ColumnHeaderStockTheme}">
                 </DataGrid>
                 <StackPanel x:Name="SearchPanel"
                             Orientation="Horizontal"
@@ -107,13 +109,13 @@
                     <Button x:Name="BtnSearchData"
                                 Content="Search"
                                 HorizontalAlignment="Left"
-                                Style="{StaticResource SearchButtonTheme}"
+                                Style="{DynamicResource SearchButtonTheme}"
                                 Click="BtnSearchData_Click"/>
                     <Button x:Name="BtnResetData"
                             Content="Reset"
                             Margin="20,0,0,0"
                             HorizontalAlignment="Left"
-                            Style="{StaticResource SearchButtonTheme}"
+                            Style="{DynamicResource SearchButtonTheme}"
                             Click="BtnResetData_Click"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal"
@@ -125,27 +127,27 @@
                             Content="CRM"
                             Margin="0,0,20,0"
                             Click="BtnCRMLoad_Click"
-                            Style="{StaticResource GeneralButtonTheme}"/>
+                            Style="{DynamicResource GeneralButtonTheme}"/>
                     <Button x:Name="BtnIntakeLoad"
                             Content="Intake Sheet"
                             Margin="0,0,20,0"
                             Click="BtnIntakeLoad_Click"
-                            Style="{StaticResource GeneralButtonTheme}"/>
+                            Style="{DynamicResource GeneralButtonTheme}"/>
                     <Button x:Name="BtnWOLoad"
                             Content="WO List"
                             Margin="0,0,20,0"
                             Click="BtnWOLoad_Click"
-                            Style="{StaticResource GeneralButtonTheme}"/>
+                            Style="{DynamicResource GeneralButtonTheme}"/>
                     <Button x:Name="BtnVanLoad"
                             Content="Van Jobs"
                             Margin="0,0,20,0"
                             Click="BtnVanLoad_Click"
-                            Style="{StaticResource GeneralButtonTheme}"/>
+                            Style="{DynamicResource GeneralButtonTheme}"/>
                     <Button x:Name="BtnVanSave"
                             Content="Van Save"
                             Margin="0,0"
                             Click="BtnVanSave_Click"
-                            Style="{StaticResource GeneralButtonTheme}"/>
+                            Style="{DynamicResource GeneralButtonTheme}"/>
                 </StackPanel>
                 <RichTextBox Width="400"
                          Height="200"
@@ -160,7 +162,8 @@
                          x:Name="TestBlock"
                          VerticalAlignment="Top"
                            HorizontalAlignment="Right"
-                             Margin="105, 5">
+                             Margin="105, 5"
+                           Foreground="{DynamicResource Text}">
 
                 </TextBlock>
                 <TextBlock x:Name="TextBlockComboError"
@@ -180,29 +183,25 @@
                    VerticalAlignment="Top"
                    FontFamily="Aptos"
                    FontSize="14"
-                   Foreground="#007FFF"
+                   Foreground="{DynamicResource Accent}"
                    Visibility="Hidden"
                    IsHitTestVisible="False"/>
             </Grid>
         </Border>
 
         <Border x:Name="BotBar0"
-            Background="White"
+            Background="{DynamicResource BackgroundMid}"
             Grid.Row="3"
-            RenderOptions.EdgeMode="Aliased"
-            BorderBrush="#F1F2F7">
-            <Border.Effect>
-                <DropShadowEffect ShadowDepth="5" Direction="90" Opacity="0.2"/>
-            </Border.Effect>
+            BorderBrush="{DynamicResource Border}"
+                BorderThickness="1"
+                CornerRadius="0,0,5,5">
         </Border>
 
         <Border x:Name="LogoBar0"
-                Background="White"
+                Background="{DynamicResource BackgroundMid}"
                 Grid.Row="1"
-                RenderOptions.EdgeMode="Aliased">
-            <Border.Effect>
-                <DropShadowEffect ShadowDepth="5" Direction="280" Opacity="0.2"/>
-            </Border.Effect>
+                BorderBrush="{DynamicResource Border}"
+                BorderThickness="1,0,1,1">
         </Border>
 
         <StackPanel Orientation="Horizontal"
@@ -211,17 +210,17 @@
             <Button x:Name="BtnMinimise"
                  Width="40" Height="35"
                  Content="_"
-                 Style="{StaticResource ControlButtonTheme}"
+                 Style="{DynamicResource ControlButtonTheme}"
                  Click="BtnMinimise_Click"/>
             <Button x:Name="BtnMaximise"
                  Width="40" Height="35"
                  Content="🗖"
-                 Style="{StaticResource ControlButtonTheme}"
+                 Style="{DynamicResource ControlButtonTheme}"
                  Click="BtnMaximise_Click"/>
             <Button x:Name="BtnClose"
                  Width="40" Height="35"
                  Content="X"
-                 Style="{StaticResource ControlButtonTheme}"
+                 Style="{DynamicResource ControlButtonTheme}"
                  Click="BtnClose_Click"/>
         </StackPanel>
 
@@ -247,7 +246,7 @@
                     Content="Main Menu"
                     Click="BtnMainMenu_Click"
                     Width="80"
-                    Style="{StaticResource GeneralButtonTheme}"/>
+                    Style="{DynamicResource GeneralButtonTheme}"/>
         </StackPanel>
 
 

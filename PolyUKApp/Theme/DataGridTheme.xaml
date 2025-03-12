@@ -191,6 +191,77 @@
         </Setter>
     </Style>
 
+    <Style x:Key="DataGridThemeVAN" 
+        TargetType="{x:Type DataGrid}">
+        <Setter Property="Foreground" Value="#444444"/>
+        <Setter Property="BorderBrush" Value="#007FFF"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="FontFamily" Value="Aptos"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="HorizontalGridLinesBrush" Value="Transparent"/>
+        <Setter Property="VerticalGridLinesBrush" Value="Transparent"/>
+        <Setter Property="GridLinesVisibility" Value="None"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="RowBackground" Value="Transparent"/>
+        <Setter Property="AlternatingRowBackground" Value="Transparent"/>
+        <Setter Property="RowHeaderWidth" Value="0"/>
+        <Setter Property="CanUserResizeColumns" Value="True"/>
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="Transparent"/>
+            </Trigger>
+            <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                <Setter Property="Background" Value="Transparent"/>
+            </Trigger>
+            <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                <Setter Property="Background" Value="Transparent"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="DataGridCellStockThemeVAN"
+        TargetType="{x:Type DataGridCell}">
+        <Setter Property="FontFamily" Value="Aptos"/>
+        <Setter Property="MinHeight" Value="25"/>
+        <Setter Property="MaxWidth" Value="250"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Padding" Value="50,0,5,0"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="TextBlock.Padding" Value="5"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                    <Grid Background="{TemplateBinding Background}">
+                        <ContentPresenter HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
+                                          Margin="0,0,10,0"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="ColumnHeaderStockThemeVAN"
+        TargetType="{x:Type DataGridColumnHeader}">
+        <Setter Property="Foreground" Value="#444444"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="Margin" Value="0,5"/>
+        <Setter Property="MinWidth" Value="30"/>
+        <Setter Property="MaxWidth" Value="150"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                    <Grid Background="{TemplateBinding Background}">
+                        <ContentPresenter HorizontalAlignment="Left"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="ColumnHeaderTheme"
         TargetType="{x:Type DataGridColumnHeader}">
         <Setter Property="Foreground" Value="#007FFF"/>

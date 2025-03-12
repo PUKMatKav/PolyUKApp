@@ -4,17 +4,8 @@
              xmlns:local="clr-namespace:PolyUKApp"
              StartupUri="MainWindow.xaml"
              DispatcherUnhandledException="Application_DispatcherUnhandledException">
+
     <Application.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Theme/MenuButtonTheme.xaml"/>
-                <ResourceDictionary Source="Theme/ControlButtonTheme.xaml"/>
-                <ResourceDictionary Source="Theme/DataGridTheme.xaml"/>
-                <ResourceDictionary Source="Theme/GeneralButtonTheme.xaml"/>
-                <ResourceDictionary Source="Theme/SearchButtonTheme.xaml"/>
-                <ResourceDictionary Source="Theme/ComboBoxTheme.xaml"/>
-                <ResourceDictionary Source="Theme/CalendarTheme.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-            </ResourceDictionary>
+        <ResourceDictionary Source="Theme/AppLight.xaml"/>
     </Application.Resources>
 </Application>
