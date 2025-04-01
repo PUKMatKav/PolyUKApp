@@ -664,7 +664,7 @@ namespace PolyUKApp.Windows
         public void UserButtonChecker()
         {
             string loginname = Environment.UserName;
-            if (loginname == "MatthewKavanagh" || loginname == "JakeBassi" || loginname == "SophieGroth" || loginname == "AntonyGroth")
+            if (loginname == "MatthewKavanagh" || loginname == "JakeBassi" || loginname == "SophieGroth" || loginname == "AntonyGroth" || loginname == "KylieWoollard")
             {
                 StackPanelButtonsBottom.Visibility = Visibility.Visible;
             }

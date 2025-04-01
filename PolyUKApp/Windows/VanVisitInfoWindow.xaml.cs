@@ -90,6 +90,9 @@ namespace PolyUKApp.Windows
 
         public void ComboItems()
         {
+            ComboCompanyType.Items.Add("Customer");
+            ComboCompanyType.Items.Add("Prospect");
+
             ComboAdminStaff.Items.Add("Ant");
             ComboAdminStaff.Items.Add("Jake");
             ComboAdminStaff.Items.Add("Both");
@@ -287,6 +290,8 @@ namespace PolyUKApp.Windows
                     RichTextTurnover.AppendText(AnnualTurnover);
                     String CompanyReg = Row["company_reg"].ToString();
                     RichTextRegNo.AppendText(CompanyReg);
+                    String CompanyType = Row["company_type"].ToString();
+                    ComboCompanyType.Text = CompanyType;
 
                     String CompleteStatus = Row["completed"].ToString();
                     if(CompleteStatus == "Yes")
@@ -372,6 +377,7 @@ namespace PolyUKApp.Windows
             String CompanyReg = CompanyRegRange.Text.Replace("\r", "").Replace("\n", "");
             var AnnualTurnoverRange = new TextRange(RichTextTurnover.Document.ContentStart, RichTextTurnover.Document.ContentEnd);
             String AnnualTurnover = AnnualTurnoverRange.Text.Replace("\r", "").Replace("\n", "");
+            var CompanyType = ComboCompanyType.Text.ToString();
 
             string connectionString = DataAccess.GlobalSQL.ConnectionMySQLVan;
 
@@ -404,6 +410,7 @@ namespace PolyUKApp.Windows
                     _cmd.Parameters.AddWithValue("@NotesText", NoteText);
                     _cmd.Parameters.AddWithValue("@Turnover", AnnualTurnover);
                     _cmd.Parameters.AddWithValue("@CompanyReg", CompanyReg);
+                    _cmd.Parameters.AddWithValue("@CompanyType", CompanyType);
 
                     _cmd.Parameters.AddWithValue("@IDTEXT", IDText);
 
@@ -792,6 +799,7 @@ namespace PolyUKApp.Windows
             String TurnoverText = TurnoverRange.Text.Replace("\r", "").Replace("\n", "");
             var CompanyRegRange = new TextRange(RichTextRegNo.Document.ContentStart, RichTextRegNo.Document.ContentEnd);
             String CompanyRegText = CompanyRegRange.Text.Replace("\r", "").Replace("\n", "");
+            var CompanyType = ComboCompanyType.Text.ToString();
 
             string connectionString = DataAccess.GlobalSQL.ConnectionMySQLVan;
 
@@ -827,6 +835,7 @@ namespace PolyUKApp.Windows
                     _cmd.Parameters.AddWithValue("@NotesText", NoteText);
                     _cmd.Parameters.AddWithValue("@Turnover", TurnoverText);
                     _cmd.Parameters.AddWithValue("@CompanyReg", CompanyRegText);
+                    _cmd.Parameters.AddWithValue("@CompanyType", CompanyType);
 
                     _cmd.Parameters.AddWithValue("@IDTEXT", IDNumber.ToString());
 
@@ -876,6 +885,7 @@ namespace PolyUKApp.Windows
             String CompanyReg = CompanyRegRange.Text.Replace("\r", "").Replace("\n", "");
             var AnnualTurnoverRange = new TextRange(RichTextTurnover.Document.ContentStart, RichTextTurnover.Document.ContentEnd);
             String AnnualTurnover = AnnualTurnoverRange.Text.Replace("\r", "").Replace("\n", "");
+            var CompanyType = ComboCompanyType.Text.ToString();
 
             string connectionString = DataAccess.GlobalSQL.ConnectionMySQLVan;
 
@@ -908,6 +918,7 @@ namespace PolyUKApp.Windows
                     _cmd.Parameters.AddWithValue("@NotesText", NoteText);
                     _cmd.Parameters.AddWithValue("@Turnover", AnnualTurnover);
                     _cmd.Parameters.AddWithValue("@CompanyReg", CompanyReg);
+                    _cmd.Parameters.AddWithValue("@CompanyType", CompanyType);
 
                     _cmd.Parameters.AddWithValue("@IDTEXT", IDText);
 

@@ -46,6 +46,9 @@ namespace PolyUKApp.Windows
 
         private void ComboFiller()
         {
+            ComboCompanyType.Items.Add("Customer");
+            ComboCompanyType.Items.Add("Prospect");
+
             ComboSalesStaff.Items.Add("Donna Rivera");
             ComboSalesStaff.Items.Add("Jack Mungall");
             ComboSalesStaff.Items.Add("James Woollard");
@@ -148,6 +151,7 @@ namespace PolyUKApp.Windows
             String CompanyReg = CompanyRegRange.Text.Replace("\r", "").Replace("\n", "");
             var AnnualTurnoverRange = new TextRange(RichTextTurnover.Document.ContentStart, RichTextTurnover.Document.ContentEnd);
             String AnnualTurnover = AnnualTurnoverRange.Text.Replace("\r", "").Replace("\n", "");
+            var CompanyType = ComboCompanyType.Text.ToString();
 
             string connectionString = DataAccess.GlobalSQL.ConnectionMySQLVan;
 
@@ -177,6 +181,7 @@ namespace PolyUKApp.Windows
                     _cmd.Parameters.AddWithValue("@JobTimeText", JobTimeText);
                     _cmd.Parameters.AddWithValue("@Turnover", AnnualTurnover);
                     _cmd.Parameters.AddWithValue("@CompanyReg", CompanyReg);
+                    _cmd.Parameters.AddWithValue("@CompanyType", CompanyType);
 
                     _cmd.Parameters.AddWithValue("@IDTEXT", IDText);
 
