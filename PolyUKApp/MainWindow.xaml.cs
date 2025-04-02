@@ -322,13 +322,14 @@ namespace PolyUKApp
                 "- Fixed duplicate van collection job crash\n" +
                 "- Added amend button to completed van jobs\n");*/
 
-            System.Windows.MessageBox.Show("v1.1.2.0" +
+            System.Windows.MessageBox.Show("v1.1.2.0k" +
                 "\r" + "" + "\r" +
                 "- Updated window fluidity for smaller screens (beta - van calendar)\n" +
                 "- Updated permissions for van calendar buttons\n" +
                 "- Included customer type drop down\n" +
                 "- Updated database to include customer_type data field\n" +
-                "- Small formatting changes to van calendar pop up screens\n");
+                "- Small formatting changes to van calendar pop up screens\n" +
+                "- (k) Adjusted user permissions again\n");
         }
 
         private void BtnCommInvoice_Click(object sender, RoutedEventArgs e)
