@@ -528,7 +528,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>bMQgTF6HwXWbl90XJu7JdlsQbs5JcQkZOrk7syNigSo=</dsig:DigestValue>
+      <dsig:DigestValue>gymGuZ0hOiVP3FMDFHbOsEzLjdTqdPrmUCwB+khNICQ=</dsig:DigestValue>
     </hash>
   </file>
   <file name="PolyUKApp.dll.config" size="651">
@@ -546,7 +546,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>QTPF80TLLQzh3wrVPuFCB8y88VGfZl06eWfhuLiAGOM=</dsig:DigestValue>
+      <dsig:DigestValue>hTZ/81IcsKWn86rjNoIm+aevRRx6onw5ZsDpqWLE1vk=</dsig:DigestValue>
     </hash>
   </file>
   <file name="PolyUKApp.runtimeconfig.json" size="515">
