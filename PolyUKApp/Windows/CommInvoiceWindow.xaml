@@ -28,12 +28,12 @@
 
 
         <Border x:Name="TopBar"
-                Background="White"
+                Background="{DynamicResource Accent}"
                 Grid.Column="1"
                 Grid.Row="0"
-                CornerRadius="10,10,0,0"
-                BorderBrush="#F1F2F7"
-                BorderThickness="0 0 0 1"
+                CornerRadius="5,5,0,0"
+                BorderBrush="{DynamicResource AccentBorder}"
+                BorderThickness="1"
                 MouseDown="TopBar_MouseDown">
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Right">
@@ -53,28 +53,32 @@
             </StackPanel>
         </Border>
         <Border x:Name="GeneratedBorder"
-                Background="White"
+                Background="{DynamicResource BackgroundBase}"
                 Grid.Column="1"
                 Grid.Row="1"
                 CornerRadius="0,0,0,0"
                 VerticalAlignment="Stretch"
                 Visibility="Hidden"/>
         <Border x:Name="SearchBorder"
-                Background="#007FFF"
+                Background="{DynamicResource BackgroundBase}"
                 Grid.Column="1"
                 Grid.Row="1"
                 CornerRadius="0,0,0,0"
+                BorderBrush="{DynamicResource Border}"
+                BorderThickness="1"
                 VerticalAlignment="Stretch"/>
 
 
         <Border x:Name="SearchTextBoxBackground"
-         Background="#F1F2F7"
+         Background="{DynamicResource ComboBackground}"
          CornerRadius="10"
          Height="35"
          Width="300"
          HorizontalAlignment="Left"
          VerticalAlignment="Center"
          Margin="140,0"
+         BorderBrush="{DynamicResource Border}"
+         BorderThickness="1"
          Grid.Row="1"/>
         <TextBlock x:Name="OrderNumText"
                 Text="Order Number"
@@ -82,7 +86,7 @@
                 VerticalAlignment="Center"
                 Margin="27,0,0,0"
                 FontSize="14"
-                Foreground="White"
+                Foreground="{DynamicResource Text}"
                 FontWeight="Normal"
                 FontFamily="Aptos"
                 Grid.Row="1"/>
@@ -93,6 +97,13 @@
             Grid.Row="1"
             VerticalAlignment="Center"
                     HorizontalAlignment="Right">
+            <Button x:Name="BtnSaveCI"
+                Content="Save Draft"
+                HorizontalAlignment="Left"
+                Style="{DynamicResource SearchButtonTheme}"
+                Click="BtnSaveCI_Click"
+                Margin="0,0,-200,0"
+                Visibility="Hidden"/>
             <Button x:Name="BtnGenCI"
                 Content="Generate"
                 HorizontalAlignment="Left"
@@ -107,6 +118,7 @@
         </StackPanel>
         <TextBox x:Name="TxtBxSearch"
          Background="Transparent"
+                 Foreground="{DynamicResource Text}"
           BorderThickness="0"
          HorizontalAlignment="Left"
           VerticalAlignment="Center"
@@ -124,10 +136,10 @@
         
         
         <Border x:Name="CIBackground"
-                Background="White"
+                Background="{DynamicResource BackgroundBase}"
                 Grid.Column="1"
                 Grid.Row="2"
-                CornerRadius="0,0,10,10"
+                CornerRadius="0,0,5,5"
                 VerticalAlignment="Stretch">
 
         </Border>
@@ -150,7 +162,7 @@
                 VerticalAlignment="Top"
                 Margin="20,80,0,0"
                 FontSize="20"
-                Foreground="#007FFF"
+                Foreground="{DynamicResource Accent}"
                 FontWeight="Bold"
                 FontFamily="Aptos"/>
 
@@ -159,16 +171,18 @@
                 VerticalAlignment="Top"
                 Margin="25,120,0,0"
                 FontSize="12"
-                Foreground="Black"
+                Foreground="{DynamicResource Text}"
                 FontWeight="Normal"
                 FontFamily="Aptos"/>
-        <TextBlock x:Name="InvNumber"
-                Text="VARInvNum"
+        <RichTextBox x:Name="InvNumber"
+                Width="100"
+                Background="Transparent"
+                BorderThickness="0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Margin="145,120,0,0"
+                Margin="140,120,0,0"
                 FontSize="12"
-                Foreground="Black"
+                Foreground="{DynamicResource Text}"
                 FontWeight="Normal"
                 FontFamily="Aptos"/>
 
@@ -177,7 +191,7 @@
                 VerticalAlignment="Top"
                 Margin="25,160,0,0"
                 FontSize="12"
-                Foreground="Black"
+                Foreground="{DynamicResource Text}"
                 FontWeight="Normal"
                 FontFamily="Aptos"/>
         <TextBlock x:Name="InvDate"
@@ -186,7 +200,7 @@
                 VerticalAlignment="Top"
                 Margin="145,160,0,0"
                 FontSize="12"
-                Foreground="Black"
+                Foreground="{DynamicResource Text}"
                 FontWeight="Normal"
                 FontFamily="Aptos"/>
 
@@ -195,7 +209,7 @@
                 VerticalAlignment="Top"
                 Margin="25,180,0,0"
                 FontSize="12"
-                Foreground="Black"
+                Foreground="{DynamicResource Text}"
                 FontWeight="Normal"
                 FontFamily="Aptos"/>
             <TextBlock x:Name="OriginLOC"
@@ -204,7 +218,7 @@
                 VerticalAlignment="Top"
                 Margin="145,180,0,0"
                 FontSize="12"
-                Foreground="Black"
+                Foreground="{DynamicResource Text}"
                 FontWeight="Normal"
                 FontFamily="Aptos"/>
 
@@ -233,7 +247,7 @@
                 VerticalAlignment="Top"
                 Margin="20,85,0,0"
                 FontSize="12"
-                Foreground="#007FFF"
+                Foreground="{DynamicResource Accent}"
                 FontWeight="Bold"
                 FontFamily="Aptos"/>
             <RichTextBox x:Name ="InvFromText"
@@ -247,6 +261,7 @@
                          BorderThickness="0"
                          Padding="2,4,0,0"
                          Block.LineHeight="20"
+                         Foreground="{DynamicResource Text}"
                          Background="Transparent"/>
 
             <TextBlock Text="Invoice To:"
@@ -254,7 +269,7 @@
                 VerticalAlignment="Top"
                 Margin="420,85,0,0"
                 FontSize="12"
-                Foreground="#007FFF"
+                Foreground="{DynamicResource Accent}"
                 FontWeight="Bold"
                 FontFamily="Aptos"/>
             <RichTextBox x:Name ="InvToText"
@@ -268,6 +283,7 @@
                          BorderThickness="0"
                          Padding="2,4,0,0"
                          Block.LineHeight="20"
+                         Foreground="{DynamicResource Text}"
                          Background="Transparent"/>
 
             <TextBlock Text="Deliver To:"
@@ -275,7 +291,7 @@
                 VerticalAlignment="Top"
                 Margin="420,255,0,0"
                 FontSize="12"
-                Foreground="#007FFF"
+                Foreground="{DynamicResource Accent}"
                 FontWeight="Bold"
                 FontFamily="Aptos"/>
             <RichTextBox x:Name ="DelToText"
@@ -289,6 +305,7 @@
                          BorderThickness="0"
                          Padding="2,4,0,0"
                          Block.LineHeight="20"
+                         Foreground="{DynamicResource Text}"
                          Background="Transparent"/>
 
             <TextBlock Text="Order Number:"
@@ -296,7 +313,7 @@
                 VerticalAlignment="Top"
                 Margin="25,255,0,0"
                 FontSize="12"
-                Foreground="#007FFF"
+                Foreground="{DynamicResource Accent}"
                 FontWeight="Bold"
                 FontFamily="Aptos"/>
             <TextBlock x:Name="OrderNumberTextBlock"
@@ -305,7 +322,7 @@
                 VerticalAlignment="Top"
                 Margin="145,255,0,0"
                 FontSize="12"
-                Foreground="Black"
+                Foreground="{DynamicResource Text}"
                 FontFamily="Aptos"/>
 
             <TextBlock Text="Customer PO:"
@@ -313,7 +330,7 @@
                 VerticalAlignment="Top"
                 Margin="25,275,0,0"
                 FontSize="12"
-                Foreground="#007FFF"
+                Foreground="{DynamicResource Accent}"
                 FontWeight="Bold"
                 FontFamily="Aptos"/>
             <TextBlock x:Name="CusPOTextBlock"
@@ -322,7 +339,7 @@
                 VerticalAlignment="Top"
                 Margin="145,275,0,0"
                 FontSize="12"
-                Foreground="Black"
+                Foreground="{DynamicResource Text}"
                 FontFamily="Aptos"/>
 
             <TextBlock Text="Terms: "
@@ -330,7 +347,7 @@
                 VerticalAlignment="Top"
                 Margin="25,295,0,0"
                 FontSize="12"
-                Foreground="#007FFF"
+                Foreground="{DynamicResource Accent}"
                 FontWeight="Bold"
                 FontFamily="Aptos"/>
             <TextBlock x:Name="TermsTextBlock"
@@ -339,7 +356,7 @@
                 VerticalAlignment="Top"
                 Margin="145,295,0,0"
                 FontSize="12"
-                Foreground="Black"
+                Foreground="{DynamicResource Text}"
                 FontFamily="Aptos"/>
 
             <TextBlock Text="INCOTERMS: "
@@ -347,17 +364,75 @@
                 VerticalAlignment="Top"
                 Margin="25,315,0,0"
                 FontSize="12"
-                Foreground="#007FFF"
+                Foreground="{DynamicResource Accent}"
                 FontWeight="Bold"
                 FontFamily="Aptos"/>
-            <TextBlock x:Name="INCOTERMSTextBlock"
-                Text="INCOTERMSTextBlock"
+            <RichTextBox x:Name="INCOTERMSTextBlock"
+                Background="Transparent"
+                BorderThickness="0"
+                Width="150"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Margin="145,315,0,0"
+                Margin="140,315,0,0"
                 FontSize="12"
-                Foreground="Black"
+                Foreground="{DynamicResource Text}"
+                FontFamily="Aptos">
+                <FlowDocument>
+                    <Paragraph>
+                        INCOTERMSTextBlock
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+
+            <TextBlock Text="Contact email: "
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="25,335,0,0"
+                FontSize="12"
+                Foreground="{DynamicResource Accent}"
+                FontWeight="Bold"
                 FontFamily="Aptos"/>
+            <RichTextBox x:Name="ContactEmailTextBlock"
+                Background="Transparent"
+                BorderThickness="0"
+                Width="250"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="140,335,0,0"
+                FontSize="12"
+                Foreground="{DynamicResource Text}"
+                FontFamily="Aptos">
+                <FlowDocument>
+                    <Paragraph>
+                        ContactEmailTextBlock
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+
+            <TextBlock Text="Pallet Quantity: "
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="25,355,0,0"
+                FontSize="12"
+                Foreground="{DynamicResource Accent}"
+                FontWeight="Bold"
+                FontFamily="Aptos"/>
+            <RichTextBox x:Name="PalletsTextBlock"
+                Width="100"
+                Background="Transparent"
+                BorderThickness="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="140,355,0,0"
+                FontSize="12"
+                Foreground="{DynamicResource Text}"
+                FontFamily="Aptos">
+                <FlowDocument>
+                    <Paragraph>
+                        PLEASE ENTER
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
 
 
             <DataGrid x:Name="DataGridCI"
@@ -390,7 +465,7 @@
                 VerticalAlignment="Top"
                 Margin="25,675,0,0"
                 FontSize="12"
-                Foreground="#007FFF"
+                Foreground="{DynamicResource Accent}"
                 FontWeight="Bold"
                 FontFamily="Aptos"/>
             <TextBlock x:Name="ShipModeTextBlock"
@@ -399,7 +474,7 @@
                 VerticalAlignment="Top"
                 Margin="145,675,0,0"
                 FontSize="12"
-                Foreground="Black"
+                Foreground="{DynamicResource Text}"
                 FontFamily="Aptos"/>
 
             <TextBlock Text="Certification: "
@@ -407,7 +482,7 @@
                 VerticalAlignment="Top"
                 Margin="25,695,0,0"
                 FontSize="12"
-                Foreground="#007FFF"
+                Foreground="{DynamicResource Accent}"
                 FontWeight="Bold"
                 FontFamily="Aptos"/>
             <TextBlock x:Name="CertTextBlock"
@@ -416,7 +491,7 @@
                 VerticalAlignment="Top"
                 Margin="145,695,0,0"
                 FontSize="12"
-                Foreground="Black"
+                Foreground="{DynamicResource Text}"
                 FontFamily="Aptos"/>
 
             <Rectangle Fill="LightBlue"                 
@@ -434,7 +509,7 @@
                 VerticalAlignment="Top"
                 Margin="580,675,0,0"
                 FontSize="12"
-                Foreground="#007FFF"
+                Foreground="{DynamicResource Accent}"
                 FontWeight="Bold"
                 FontFamily="Aptos"/>
             <TextBlock x:Name="SubTotTextBlock"
@@ -443,7 +518,7 @@
                 VerticalAlignment="Top"
                 Margin="680,675,0,0"
                 FontSize="12"
-                Foreground="Black"
+                Foreground="{DynamicResource Text}"
                 FontFamily="Aptos"/>
             
             <TextBlock Text="VAT: "
@@ -451,7 +526,7 @@
                 VerticalAlignment="Top"
                 Margin="580,695,0,0"
                 FontSize="12"
-                Foreground="#007FFF"
+                Foreground="{DynamicResource Accent}"
                 FontWeight="Bold"
                 FontFamily="Aptos"/>
             <TextBlock x:Name="VATTextBlock"
@@ -460,7 +535,7 @@
                 VerticalAlignment="Top"
                 Margin="680,695,0,0"
                 FontSize="12"
-                Foreground="Black"
+                Foreground="{DynamicResource Text}"
                 FontFamily="Aptos"/>
 
             <TextBlock Text="Total: "
@@ -468,7 +543,7 @@
                 VerticalAlignment="Top"
                 Margin="580,715,0,0"
                 FontSize="12"
-                Foreground="#007FFF"
+                Foreground="{DynamicResource Accent}"
                 FontWeight="Bold"
                 FontFamily="Aptos"/>
             <TextBlock x:Name="TotTextBlock"
@@ -477,7 +552,7 @@
                 VerticalAlignment="Top"
                 Margin="680,715,0,0"
                 FontSize="12"
-                Foreground="Black"
+                Foreground="{DynamicResource Text}"
                 FontFamily="Aptos"/>
 
             <TextBlock x:Name="CurrencyTextBlock"
@@ -486,7 +561,7 @@
                 VerticalAlignment="Top"
                 Margin="580,740,0,0"
                 FontSize="12"
-                Foreground="Black"
+                Foreground="{DynamicResource Text}"
                 FontFamily="Aptos"/>
 
             <TextBlock Text="Polythene UK hereby certify that the information on this document is true and"
@@ -494,35 +569,35 @@
                 VerticalAlignment="Top"
                 Margin="25,735,0,0"
                 FontSize="12"
-                Foreground="Black"
+                Foreground="{DynamicResource Text}"
                 FontFamily="Aptos"/>
             <TextBlock Text="correct and that the contents of this shipment are as stated above. "
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Margin="25,750,0,0"
                 FontSize="12"
-                Foreground="Black"
+                Foreground="{DynamicResource Text}"
                 FontFamily="Aptos"/>
             <TextBlock Text="The exporter (EORI GB903824828000 / XI903824828000) of products covered"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Margin="25,765,0,0"
                 FontSize="12"
-                Foreground="Black"
+                Foreground="{DynamicResource Text}"
                 FontFamily="Aptos"/>
             <TextBlock Text="by this document declares that, except where otherwise clearly indicated these"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Margin="25,780,0,0"
                 FontSize="12"
-                Foreground="Black"
+                Foreground="{DynamicResource Text}"
                 FontFamily="Aptos"/>
             <TextBlock Text="products are of GB preferential origin. "
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Margin="25,795,0,0"
                 FontSize="12"
-                Foreground="Black"
+                Foreground="{DynamicResource Text}"
                 FontFamily="Aptos"/>
 
             <TextBlock Text="Authorised Signature "
@@ -530,7 +605,7 @@
                 VerticalAlignment="Top"
                 Margin="25,845,0,0"
                 FontSize="12"
-                Foreground="#007FFF"
+                Foreground="{DynamicResource Accent}"
                 FontWeight="Bold"
                 FontFamily="Aptos"/>
             <Image x:Name="MDsig"
@@ -544,7 +619,7 @@
                 VerticalAlignment="Top"
                 Margin="25,915,0,0"
                 FontSize="12"
-                Foreground="Black"
+                Foreground="{DynamicResource Text}"
                 FontFamily="Aptos"/>
 
         </Grid>

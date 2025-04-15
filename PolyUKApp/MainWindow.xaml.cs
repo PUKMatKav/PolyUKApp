@@ -165,7 +165,7 @@ namespace PolyUKApp
         private void TextBlockWelcome_Loaded(object sender, RoutedEventArgs e)
         {
             string loginname = Environment.UserName;
-            if (loginname == "MatthewKavanagh")
+            if (loginname == "matthewkavanagh")
             {
                 TextBlockWelcome.AppendText("Hello Matt K");
             }
@@ -321,15 +321,24 @@ namespace PolyUKApp
                 "- Theme settings should save for individual users\n" +
                 "- Fixed duplicate van collection job crash\n" +
                 "- Added amend button to completed van jobs\n");*/
-
-            System.Windows.MessageBox.Show("v1.1.2.0k" +
+            /*System.Windows.MessageBox.Show("v1.1.2.0k" +
                 "\r" + "" + "\r" +
                 "- Updated window fluidity for smaller screens (beta - van calendar)\n" +
                 "- Updated permissions for van calendar buttons\n" +
                 "- Included customer type drop down\n" +
                 "- Updated database to include customer_type data field\n" +
                 "- Small formatting changes to van calendar pop up screens\n" +
-                "- (k) Adjusted user permissions again\n");
+                "- (k) Adjusted user permissions again\n");*/
+
+            System.Windows.MessageBox.Show("v1.2.0.0" +
+                "\r" + "" + "\r" +
+                "- Added Dark mode to Commercial Invoice page\n" +
+                "- Rebuilt database for CI page\n" +
+                "- Added draft function for CI generation\n" +
+                "- Added better numbering system for new CI numbers\n" +
+                "- Increased number of editable fields on CI page\n" +
+                "- Added automatic recall of drafts for CIs already created\n" +
+                "- Added extra info fields for CI creation");
         }
 
         private void BtnCommInvoice_Click(object sender, RoutedEventArgs e)

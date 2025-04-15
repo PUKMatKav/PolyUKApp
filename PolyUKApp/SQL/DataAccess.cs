@@ -106,6 +106,7 @@ namespace PolyUKApp.SQL
                 "SOPOrderReturn.DocumentNo, SOPOrderReturn.UseInvoiceAddress, SOPOrderReturn.CustomerDocumentNo, SOPOrderReturn.SubtotalGoodsValue, SOPOrderReturn.TotalTaxValue, SOPOrderReturn.TotalGrossValue, " +
                 "SLCustomerAccount.CustomerAccountName, SLCustomerAccount.TradingTerms,  SLCustomerAccount.MainTelephoneAreaCode, SLCustomerAccount.MainTelephoneSubscriberNumber, SLCustomerAccount.TaxRegistrationNumber, " +
                 "SLCustomerLocation.AddressLine1, SLCustomerLocation.AddressLine2, SLCustomerLocation.AddressLine3, SLCustomerLocation.AddressLine4, SLCustomerLocation.PostCode AS InvPostCode, " +
+                "SLCustomerContactDefaultsVw.DefaultEmail, " +
                 "SYSCurrency.Symbol, SYSCurrency.Name, " +
                 "SYSCountryCode.Code, " +
                 "SOPDocDelAddress.PostalName, SOPDocDelAddress.AddressLine1 AS DelAdd1, SOPDocDelAddress.AddressLine2 AS DelAdd2, SOPDocDelAddress.AddressLine3 AS DelAdd3, SOPDocDelAddress.PostCode AS DelPostcode, SOPDocDelAddress.City AS DelCity " +
@@ -115,8 +116,9 @@ namespace PolyUKApp.SQL
                 "INNER JOIN SLCustomerLocation ON SLCustomerAccount.SLCustomerAccountID=SLCustomerLocation.SLCustomerAccountID " +
                 "LEFT JOIN SYSCurrency ON SLCustomerAccount.SYSCurrencyID=SYSCurrency.SYSCurrencyID " +
                 "LEFT JOIN SYSCountryCode ON SLCustomerAccount.SYSCountryCodeID=SYSCountryCode.SYSCountryCodeID " +
+                "LEFT JOIN SLCustomerContactDefaultsVw ON SLCustomerAccount.SLCustomerAccountID=SLCustomerContactDefaultsVw.SLCustomerAccountID " +
                 "LEFT JOIN SOPDocDelAddress ON SOPOrderReturnLine.SOPOrderReturnID=SOPDocDelAddress.SOPOrderReturnID " +
-                "WHERE SOPOrderReturn.DocumentNo = @OrderNum and SOPOrderReturnLine.ItemCode <> '' and SOPOrderReturnLine.ItemCode <> 'Carriage'";
+                "WHERE SOPOrderReturn.DocumentNo = @OrderNum and SOPOrderReturnLine.ItemCode <> '' and SOPOrderReturnLine.ItemCode <> 'Carriage' and (SLCustomerContactDefaultsVw.ContactRoleName = 'Account' and SLCustomerContactDefaultsVw.IsPreferredContactForRole = 'TRUE')";
 
             public static String OrderCICodeQuery = "SELECT DISTINCT " +
                 "SOPOrderReturnLine.ItemCode," +

@@ -389,7 +389,7 @@ namespace PolyUKApp.Windows
         private void buttonCheckerAccept()
         {
             string loginname = Environment.UserName;
-            if (loginname == "MatthewKavanagh" || loginname == "JakeBassi" || loginname == "SophieGroth" || loginname == "AntonyGroth" || loginname == "KylieWoollard")
+            if (loginname == "matthewkavanagh" || loginname == "JakeBassi" || loginname == "SophieGroth" || loginname == "AntonyGroth" || loginname == "KylieWoollard")
             {
                 BtnAccept.Visibility = Visibility.Visible;
             }
