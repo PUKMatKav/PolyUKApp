@@ -189,7 +189,8 @@
                     Content="Download Daily Data"
                     Click="BtnQueryServer_Click"
                     Width="125"
-                    Style="{DynamicResource GeneralButtonTheme}"/>
+                    Style="{DynamicResource GeneralButtonTheme}"
+                    Visibility="Hidden"/>
         </StackPanel>
         <StackPanel x:Name="ReturnTabPanel"
                     Grid.Row="1"

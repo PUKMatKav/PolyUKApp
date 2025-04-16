@@ -694,7 +694,7 @@ namespace PolyUKApp.Windows
                 foreach (string line in lines)
                     sw.WriteLine(line);
             }
-            MessageBox.Show("Saved!");
+            MessageBox.Show("Saved Draft!");
         }
 
         private void DetailsRecall()

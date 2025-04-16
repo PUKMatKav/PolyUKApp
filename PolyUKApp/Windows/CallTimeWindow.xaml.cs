@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Exchange.WebServices.Data;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
 using System;
@@ -126,12 +127,18 @@ namespace PolyUKApp.Windows
         public void LoadDailyJSON()
             {
                 string CurrentUser = Globals.Username;
-                var jsonPath = @"C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Matt K Stuff\\612d239751dd5a85_-5362eb36_18b5c897a7f_10e5.JSON";
-            StateItem[] states = JObject.Parse(jsonPath).Properties().Select(i => new StateItem { index = i.Name, Statistics = i.Value.ToObject<State>()}).ToArray();
+                var jsonPath = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Matt K Stuff\\612d239751dd5a85_-5362eb36_18b5c897a7f_10e5.JSON";
+
+            using (StreamReader reader = new StreamReader(jsonPath))
+            {
+                string json = reader.ReadToEnd();
+                List<Item> items = JsonConvert.DeserializeObject<List<Item>>(json);
+            }
+
+
             MessageBox.Show("test");
-
-
         }
+
         public void LoadWeekly()
         {
             string CurrentUser = Globals.Username;
@@ -157,6 +164,7 @@ namespace PolyUKApp.Windows
 
         private void BtnRefreshCallTime_Click(object sender, RoutedEventArgs e)
         {
+            
             LoadDaily();
             LoadWeekly();
             string currentTime = DateTime.Now.ToString();
@@ -196,7 +204,7 @@ namespace PolyUKApp.Windows
             else
             {
                 TextBlockRefreshExplainer.Text = "Downloading, please wait...";
-                await Task.Delay(1000);
+                await System.Threading.Tasks.Task.Delay(1000);
                 AkixiPuller();
                 DateTime currentTime = DateTime.Now;
                 var AddedTime = currentTime.AddMinutes(10);
@@ -285,12 +293,13 @@ namespace PolyUKApp.Windows
                 if (statusCode == HttpStatusCode.OK)  //
                 {
                     sessionAuth = true;
+                    MessageBox.Show("Successfully connected to Akixi");
 
                 }
                 else
                 {
                     sessionAuth = false;
-
+                    MessageBox.Show("Failed to connect to Akixi");
                 }
             }
             else
@@ -328,6 +337,8 @@ namespace PolyUKApp.Windows
                 var logoutRequest = new RestRequest($"{tenantId}/logout", Method.Get);
                 logoutRequest.AddHeader("Cookie", SessionID);
                 RestResponse logoutresponse = sessionClient.Execute(logoutRequest);
+                String jsonpath = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Matt K Stuff\\data\\jsondata.txt";
+                File.WriteAllText(jsonpath, jsonReply.ToString());
             }
             else
             {

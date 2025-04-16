@@ -381,7 +381,7 @@ HorizontalAlignment="Stretch"
                HorizontalAlignment="Left"/>
 
         <TextBlock x:Name="versionbox"
-                   Text="v1.2.0.0"
+                   Text="v1.2.0.1"
                    Grid.Row="3"
                    FontFamily="Aptos"
                    Foreground="Gray"
