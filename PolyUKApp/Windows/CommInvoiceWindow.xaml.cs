@@ -620,7 +620,7 @@ namespace PolyUKApp.Windows
                 String PriceTOSAVE2 = dr2["Price"].ToString();
                 String TotalItemTOSAVE2 = dr2["Total"].ToString();
 
-                ItemLineTwo = CodeTOSAVE2 + "," + DescTOSAVE2 + "," + QtyTOSAVE2 + "," + UnitTOSAVE2 + "," + HSCodeTOSAVE2 + "," + WeightTOSave2 + "," + GrossKGTOSAVE2 + "," + PriceTOSAVE2 + "," + TotalItemTOSAVE2;
+                ItemLineTwo = CodeTOSAVE2 + "¬" + DescTOSAVE2 + "¬" + QtyTOSAVE2 + "¬" + UnitTOSAVE2 + "¬" + HSCodeTOSAVE2 + "¬" + WeightTOSave2 + "¬" + GrossKGTOSAVE2 + "¬" + PriceTOSAVE2 + "¬" + TotalItemTOSAVE2;
             }
             catch
             {
@@ -640,7 +640,7 @@ namespace PolyUKApp.Windows
                 String PriceTOSAVE3 = dr3["Price"].ToString();
                 String TotalItemTOSAVE3 = dr3["Total"].ToString();
 
-                ItemLineThree = CodeTOSAVE3 + "," + DescTOSAVE3 + "," + QtyTOSAVE3 + "," + UnitTOSAVE3 + "," + HSCodeTOSAVE3 + "," + WeightTOSave3 + "," + GrossKGTOSAVE3 + "," + PriceTOSAVE3 + "," + TotalItemTOSAVE3;
+                ItemLineThree = CodeTOSAVE3 + "¬" + DescTOSAVE3 + "¬" + QtyTOSAVE3 + "¬" + UnitTOSAVE3 + "¬" + HSCodeTOSAVE3 + "¬" + WeightTOSave3 + "¬" + GrossKGTOSAVE3 + "¬" + PriceTOSAVE3 + "¬" + TotalItemTOSAVE3;
             }
             catch
             {
@@ -660,14 +660,14 @@ namespace PolyUKApp.Windows
                 String PriceTOSAVE4 = dr4["Price"].ToString();
                 String TotalItemTOSAVE4 = dr4["Total"].ToString();
 
-                ItemLineFour = CodeTOSAVE4 + "," + DescTOSAVE4 + "," + QtyTOSAVE4 + "," + UnitTOSAVE4 + "," + HSCodeTOSAVE4 + "," + WeightTOSave4 + "," + GrossKGTOSAVE4 + "," + PriceTOSAVE4 + "," + TotalItemTOSAVE4;
+                ItemLineFour = CodeTOSAVE4 + "¬" + DescTOSAVE4 + "¬" + QtyTOSAVE4 + "¬" + UnitTOSAVE4 + "¬" + HSCodeTOSAVE4 + "¬" + WeightTOSave4 + "¬" + GrossKGTOSAVE4 + "¬" + PriceTOSAVE4 + "¬" + TotalItemTOSAVE4;
             }
             catch
             {
                 ItemLineFour = "";
             }
 
-            String ItemLineOne = CodeTOSAVE + "," + DescTOSAVE + "," + QtyTOSAVE + "," + UnitTOSAVE + "," + HSCodeTOSAVE + "," + WeightTOSave + "," + GrossKGTOSAVE + "," + PriceTOSAVE + "," + TotalItemTOSAVE;
+            String ItemLineOne = CodeTOSAVE + "¬" + DescTOSAVE + "¬" + QtyTOSAVE + "¬" + UnitTOSAVE + "¬" + HSCodeTOSAVE + "¬" + WeightTOSave + "¬" + GrossKGTOSAVE + "¬" + PriceTOSAVE + "¬" + TotalItemTOSAVE;
             
             //Create string for each variable on each line
             string[] lines = { InvNumberTOSAVE, OriginTOSAVE, OrderNumberTOSAVE, CusPOTOSAVE, TermsTOSAVE, INCOTERMSTOSAVE, ContactEmailTOSAVE, PalletsTOSAVE, SubTotalTOSAVE, VATTOSAVE, TotalTOSAVE, "---", ItemLineOne, "---", ItemLineTwo, "---", ItemLineThree, "---", ItemLineFour, InvAddressTOSAVE, "****", DelAddressTOSAVE, "****", CertTOSAVE, CurrencyTOSAVE };
@@ -764,7 +764,7 @@ namespace PolyUKApp.Windows
                             {
                                 if (itemline.Length > 0)
                                 {
-                                    string[] items = itemline.Split(",");
+                                    string[] items = itemline.Split("¬");
                                     ItemTable.Rows.Add(items);
                                 }
                             }

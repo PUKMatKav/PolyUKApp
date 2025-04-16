@@ -125,18 +125,24 @@ namespace PolyUKApp.Windows
 
         //Not working yet, need a re-think! Must be better than csv in the long run. Access nested fields?
         public void LoadDailyJSON()
-            {
-                string CurrentUser = Globals.Username;
-                var jsonPath = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Matt K Stuff\\612d239751dd5a85_-5362eb36_18b5c897a7f_10e5.JSON";
+        {
+            string CurrentUser = Globals.Username;
+            var rawjsonPath = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Matt K Stuff\\data\\jsondata2.txt";
 
-            using (StreamReader reader = new StreamReader(jsonPath))
+            using (StreamReader reader = new StreamReader(rawjsonPath))
             {
-                string json = reader.ReadToEnd();
-                List<Item> items = JsonConvert.DeserializeObject<List<Item>>(json);
+                string jsonstring = reader.ReadToEnd();
+                string jsontrim = jsonstring.Substring(1282);
+                string jsontoparse = jsontrim.Remove(jsontrim.Length - 479);
+
+                JObject jsonObject = JObject.Parse(jsonstring);
+
+                JsonConvert.DeserializeObject<DataTable>(jsonObject.ToString());
+                MessageBox.Show("test");
             }
 
 
-            MessageBox.Show("test");
+
         }
 
         public void LoadWeekly()
@@ -164,7 +170,6 @@ namespace PolyUKApp.Windows
 
         private void BtnRefreshCallTime_Click(object sender, RoutedEventArgs e)
         {
-            
             LoadDaily();
             LoadWeekly();
             string currentTime = DateTime.Now.ToString();

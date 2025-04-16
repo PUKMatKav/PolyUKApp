@@ -190,7 +190,7 @@
                     Click="BtnQueryServer_Click"
                     Width="125"
                     Style="{DynamicResource GeneralButtonTheme}"
-                    Visibility="Hidden"/>
+                    Visibility="Visible"/>
         </StackPanel>
         <StackPanel x:Name="ReturnTabPanel"
                     Grid.Row="1"

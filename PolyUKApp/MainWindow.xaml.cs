@@ -165,7 +165,7 @@ namespace PolyUKApp
         private void TextBlockWelcome_Loaded(object sender, RoutedEventArgs e)
         {
             string loginname = Environment.UserName;
-            if (loginname == "matthewkavanagh")
+            if (loginname == "MatthewKavanagh")
             {
                 TextBlockWelcome.AppendText("Hello Matt K");
             }
@@ -338,7 +338,10 @@ namespace PolyUKApp
                 "- Added better numbering system for new CI numbers\n" +
                 "- Increased number of editable fields on CI page\n" +
                 "- Added automatic recall of drafts for CIs already created\n" +
-                "- Added extra info fields for CI creation");
+                "- Added extra info fields for CI creation" +
+                "\r" + "" + "\r" +
+                "v1.2.0.1 - removed call time download button for now\n" +
+                "v1.2.0.2 - changed delimiter for CI draft saving to avoid comma confusion");
         }
 
         private void BtnCommInvoice_Click(object sender, RoutedEventArgs e)
