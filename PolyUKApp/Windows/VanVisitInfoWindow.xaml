@@ -1039,6 +1039,34 @@ BorderThickness="0"
 IsEditable="True"
 Style="{DynamicResource ComboBoxFlatStyle}">
                 </ComboBox>
+                <TextBlock x:Name="PhotosTxt"
+                           Text="Photos"
+                           Foreground="{DynamicResource Text}"
+                           Margin="595,25,0,0"
+                           HorizontalAlignment="left"
+                           FontFamily="Aptos"
+                           FontSize="14"
+                           FontWeight="SemiBold"
+                           Width="70"/>
+
+                <Button x:Name="PictureSaveBtn"
+                           Margin="592,47,0,0"
+                           HorizontalAlignment="left"
+                        VerticalAlignment="Top"
+                        Content="Save"
+                        Width="65"
+                        Click="PictureSaveBtn_Click"
+                        Style="{DynamicResource SearchButtonTheme}"/>
+
+                <Button x:Name="PictureViewBtn"
+                           Margin="672,47,0,0"
+                           HorizontalAlignment="left"
+                        VerticalAlignment="Top"
+                        Width="65"
+                        Content="View"
+                        Click="PictureViewBtn_Click"
+                        Style="{DynamicResource SearchButtonTheme}"/>
+
                 <TextBlock x:Name="TextBlockPlsEnter"
 x:FieldModifier="public"
 Text=""

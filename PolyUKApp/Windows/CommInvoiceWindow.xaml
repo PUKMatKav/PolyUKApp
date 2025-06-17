@@ -441,11 +441,12 @@
                     MinColumnWidth="40"
                       VerticalAlignment="Top"
                       Height="auto"
-                      MaxHeight="240"
+                      MaxHeight="270"
                       VerticalScrollBarVisibility="Disabled"
                     Style="{DynamicResource DataGridThemeCI}"
                     CellStyle="{DynamicResource DataGridCellStockThemeCI}"
                     ColumnHeaderStyle="{DynamicResource ColumnHeaderStockThemeCI}"
+                      CurrentCellChanged="DataGridCI_CurrentCellChanged"
                       AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn IsReadOnly="False" Header="Code" Binding="{Binding Code}" ElementStyle="{DynamicResource WrapText}" Width="130"/>
@@ -460,7 +461,8 @@
                 </DataGrid.Columns>
             </DataGrid>
 
-            <TextBlock Text="Mode of Shipment: "
+            <TextBlock Name="ShipModeTitle"
+                Text="Mode of Shipment: "
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Margin="25,675,0,0"
@@ -477,7 +479,8 @@
                 Foreground="{DynamicResource Text}"
                 FontFamily="Aptos"/>
 
-            <TextBlock Text="Certification: "
+            <TextBlock Name="CertTitle"
+                Text="Certification: "
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Margin="25,695,0,0"
@@ -494,7 +497,8 @@
                 Foreground="{DynamicResource Text}"
                 FontFamily="Aptos"/>
 
-            <Rectangle Fill="LightBlue"                 
+            <Rectangle Name="TotalRectangle"
+                Fill="LightBlue"                 
                 HorizontalAlignment="left"
                 VerticalAlignment="Top"
                        Margin="565,663,0,0"
@@ -504,7 +508,8 @@
                        RadiusY="10"
                        Opacity="0.4"/>
 
-            <TextBlock Text="Sub Total: "
+            <TextBlock Name="SubTotTitle"
+                Text="Sub Total: "
                 HorizontalAlignment="left"
                 VerticalAlignment="Top"
                 Margin="580,675,0,0"
@@ -521,7 +526,8 @@
                 Foreground="{DynamicResource Text}"
                 FontFamily="Aptos"/>
             
-            <TextBlock Text="VAT: "
+            <TextBlock Name="VATtitle"
+                Text="VAT: "
                 HorizontalAlignment="left"
                 VerticalAlignment="Top"
                 Margin="580,695,0,0"
@@ -538,7 +544,8 @@
                 Foreground="{DynamicResource Text}"
                 FontFamily="Aptos"/>
 
-            <TextBlock Text="Total: "
+            <TextBlock Name="TotalTitle"
+                Text="Total: "
                 HorizontalAlignment="left"
                 VerticalAlignment="Top"
                 Margin="580,715,0,0"
@@ -564,35 +571,40 @@
                 Foreground="{DynamicResource Text}"
                 FontFamily="Aptos"/>
 
-            <TextBlock Text="Polythene UK hereby certify that the information on this document is true and"
+            <TextBlock Name="Dec1"
+                Text="Polythene UK hereby certify that the information on this document is true and"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Margin="25,735,0,0"
                 FontSize="12"
                 Foreground="{DynamicResource Text}"
                 FontFamily="Aptos"/>
-            <TextBlock Text="correct and that the contents of this shipment are as stated above. "
+            <TextBlock Name="Dec2"
+                Text="correct and that the contents of this shipment are as stated above. "
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Margin="25,750,0,0"
                 FontSize="12"
                 Foreground="{DynamicResource Text}"
                 FontFamily="Aptos"/>
-            <TextBlock Text="The exporter (EORI GB903824828000 / XI903824828000) of products covered"
+            <TextBlock Name="Dec3"
+                Text="The exporter (EORI GB903824828000 / XI903824828000) of products covered"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Margin="25,765,0,0"
                 FontSize="12"
                 Foreground="{DynamicResource Text}"
                 FontFamily="Aptos"/>
-            <TextBlock Text="by this document declares that, except where otherwise clearly indicated these"
+            <TextBlock Name="Dec4"
+                Text="by this document declares that, except where otherwise clearly indicated these"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Margin="25,780,0,0"
                 FontSize="12"
                 Foreground="{DynamicResource Text}"
                 FontFamily="Aptos"/>
-            <TextBlock Text="products are of GB preferential origin. "
+            <TextBlock Name="Dec5"
+                Text="products are of GB preferential origin. "
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Margin="25,795,0,0"
@@ -600,7 +612,8 @@
                 Foreground="{DynamicResource Text}"
                 FontFamily="Aptos"/>
 
-            <TextBlock Text="Authorised Signature "
+            <TextBlock Name="SigTitle"
+                Text="Authorised Signature "
                 HorizontalAlignment="left"
                 VerticalAlignment="Top"
                 Margin="25,845,0,0"
@@ -614,7 +627,8 @@
                    VerticalAlignment="Top"
                    HorizontalAlignment="Left"
                    Margin="28,860,0,0"/>
-            <TextBlock Text="James Wollard (Managing Director) "
+            <TextBlock Name="MDTitle"
+                Text="James Wollard (Managing Director) "
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Margin="25,915,0,0"

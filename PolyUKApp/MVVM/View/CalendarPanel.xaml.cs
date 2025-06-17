@@ -177,6 +177,7 @@ namespace PolyUKApp.MVVM.View
                     _cmd.Parameters.AddWithValue("@Status", "New");
                     _cmd.Parameters.AddWithValue("@Status1", "Issued");
                     _cmd.Parameters.AddWithValue("@Status2", "Allocated");
+                    _cmd.Parameters.AddWithValue("@Status3", "Part Allocated");
                     _dap.Fill(WOTable);
                 }
 
@@ -186,6 +187,7 @@ namespace PolyUKApp.MVVM.View
                     _cmd2.Parameters.AddWithValue("@WOStatus", "New");
                     _cmd2.Parameters.AddWithValue("@WOStatus1", "Issued");
                     _cmd2.Parameters.AddWithValue("@WOStatus2", "Allocated");
+                    _cmd2.Parameters.AddWithValue("@WOStatus3", "Part Allocated");
                     _dap2.Fill(WODetails);
                 }
 

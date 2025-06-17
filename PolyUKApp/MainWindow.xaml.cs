@@ -189,7 +189,15 @@ namespace PolyUKApp
             {
                 TextBlockWelcome.AppendText("Hello Kylie!");
             }
-            else TextBlockWelcome.AppendText("Hello unkown user!");
+            else if (loginname == "JamesWoollard")
+            {
+                TextBlockWelcome.AppendText("Hello James!");
+            }
+            else if (loginname == "TomMatthews")
+            {
+                TextBlockWelcome.AppendText("Hello Tom!");
+            }
+            else TextBlockWelcome.AppendText("Hello new user!");
         }
 
         private void BtnCallTime_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
@@ -202,7 +210,7 @@ namespace PolyUKApp
         {
             TextBlockInfo.Document.Blocks.Clear();
             TextBlockInfo.AppendText("Show works order calendar and list of currently live works orders being completed downstairs.\n" +
-                "This may not fit on smaller screens currently!" );
+                "This may not fit on smaller screens currently!");
         }
 
         private void BtnDatabaseViewer_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
@@ -330,7 +338,7 @@ namespace PolyUKApp
                 "- Small formatting changes to van calendar pop up screens\n" +
                 "- (k) Adjusted user permissions again\n");*/
 
-            System.Windows.MessageBox.Show("v1.2.0.0" +
+            /*System.Windows.MessageBox.Show("v1.2.0.0" +
                 "\r" + "" + "\r" +
                 "- Added Dark mode to Commercial Invoice page\n" +
                 "- Rebuilt database for CI page\n" +
@@ -341,15 +349,24 @@ namespace PolyUKApp
                 "- Added extra info fields for CI creation" +
                 "\r" + "" + "\r" +
                 "v1.2.0.1 - removed call time download button for now\n" +
-                "v1.2.0.2 - changed delimiter for CI draft saving to avoid comma confusion");
+                "v1.2.0.2 - changed delimiter for CI draft saving to avoid comma confusion");*/
+
+            System.Windows.MessageBox.Show("v1.2.1.0" +
+                "\r" + "" + "\r" +
+                "- Added more functionality to CI page\n" +
+                "- CI Page now allow on the fly edits to qty\n" +
+                "- Added file dialog for van calendar\n" +
+                "- Allows for saving and viewing of images\n" +
+                "- Auto creates folder for each job when images saved\n" +
+                "- Some minor things I have done and long since forgotten\n" );
         }
 
         private void BtnCommInvoice_Click(object sender, RoutedEventArgs e)
         {
-                var CIWindow = new CommInvoiceWindow();
-                CIWindow.Closed += childFormCommInvoiceClosed;
-                CIWindow.Show();
-                this.Hide();
+            var CIWindow = new CommInvoiceWindow();
+            CIWindow.Closed += childFormCommInvoiceClosed;
+            CIWindow.Show();
+            this.Hide();
 
         }
 
@@ -358,6 +375,8 @@ namespace PolyUKApp
             ((CommInvoiceWindow)sender).Closed -= childFormCommInvoiceClosed;
             this.Show();
         }
+
+
 
         private void BtnCommInvoice_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
@@ -415,6 +434,8 @@ namespace PolyUKApp
             BtnCompanyInfo_MouseEnter(sender, e);
         }
 
+
+
         private void BtnLight_Click(object sender, RoutedEventArgs e)
         {
             var CurrentUser = Environment.UserName;
@@ -460,5 +481,28 @@ namespace PolyUKApp
             return;
 
         }
+
+        private void BtnPODs_Click(object sender, RoutedEventArgs e)
+        {
+            var PODWindow = new PODWindow();
+            PODWindow.Closed += childFormPODsClosed;
+            PODWindow.Show();
+            this.Hide();
+        }
+
+        void childFormPODsClosed(object sender, EventArgs e)
+        {
+            ((PODWindow)sender).Closed -= childFormPODsClosed;
+            this.Show();
+        }
+
+        private void BtnPODs_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            TextBlockInfo.Document.Blocks.Clear();
+            TextBlockInfo.AppendText("Can display outstanding PODs and draft emails to send to request them.");
+
+        }
+
+
     }
 }

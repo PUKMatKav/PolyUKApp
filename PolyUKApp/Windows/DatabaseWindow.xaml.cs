@@ -85,7 +85,7 @@ namespace PolyUKApp.Windows
 
         private void BtnCRMLoad_Click(object sender, RoutedEventArgs e)
         {
-            SqlConnectCRM();
+            SqlCommsCRM();
         }
 
         private void BtnIntakeLoad_Click(object sender, RoutedEventArgs e)
@@ -95,6 +95,29 @@ namespace PolyUKApp.Windows
         private void BtnVanLoad_Click(object sender, RoutedEventArgs e)
         {
             LoadMySql();
+        }
+
+        private void SqlCommsCRM()
+        {
+            string connectionString = DataAccess.GlobalSQL.ConnectionCRM;
+            DataTable commsTable = new DataTable();
+
+            using (SqlConnection _con = new SqlConnection(connectionString))
+            {
+                var commandStatement = DataAccess.GlobalSQLNonQueries.WriteCRMComms;
+                //var queryStatement = DataAccess.GlabalSQLQueries.ReadCRMComms;
+                //_con.Open();
+
+                using (SqlCommand _cmd =  new SqlCommand(commandStatement, _con))
+                {
+                    _con.Open();
+                    //SqlDataAdapter _dap = new SqlDataAdapter(_cmd);
+                    //_dap.Fill(commsTable);
+                    _cmd.ExecuteNonQuery();
+                    _con.Close();
+                }
+                System.Windows.MessageBox.Show("Done");
+            }
         }
 
         public void SqlConnectCRM()

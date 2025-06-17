@@ -26,6 +26,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using static PolyUKApp.Windows.CallTimeWindow;
+using static System.Net.Mime.MediaTypeNames;
 using MessageBox = System.Windows.MessageBox;
 
 namespace PolyUKApp.Windows
@@ -55,15 +56,15 @@ namespace PolyUKApp.Windows
             public static extern bool UnregisterHotKey(IntPtr windowHandle, int hotkeyId);
         }
 
-        void InitializeHook()
+        /*void InitializeHook()
         {
             var windowHelper = new WindowInteropHelper(this);
             var windowSource = HwndSource.FromHwnd(windowHelper.Handle);
 
             windowSource.AddHook(MessagePumpHook);
-        }
+        }*/
 
-        IntPtr MessagePumpHook(IntPtr handle, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        /*IntPtr MessagePumpHook(IntPtr handle, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             if (msg == WM_HOTKEY)
             {
@@ -76,16 +77,16 @@ namespace PolyUKApp.Windows
             }
 
             return IntPtr.Zero;
-        }
+        }*/
 
-        protected override void OnSourceInitialized(EventArgs e)
+        /*protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
             InitializeHook();
             InitializeHotKey();
         }
-
-        void InitializeHotKey()
+        */
+        /*void InitializeHotKey()
         {
             var windowHelper = new WindowInteropHelper(this);
 
@@ -98,84 +99,92 @@ namespace PolyUKApp.Windows
             NativeMethods.RegisterHotKey(windowHelper.Handle, MyHotKeyId, modifiers, virtualKey);
 
 
-        }
+        }*/
 
-        void UninitializeHotKey()
-        {
-            var windowHelper = new WindowInteropHelper(this);
-            NativeMethods.UnregisterHotKey(windowHelper.Handle, MyHotKeyId);
-        }
+        /* void UninitializeHotKey()
+         {
+             var windowHelper = new WindowInteropHelper(this);
+             NativeMethods.UnregisterHotKey(windowHelper.Handle, MyHotKeyId);
+         }*/
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
-            UninitializeHotKey();
+            //UninitializeHotKey();
             Close();
         }
 
         private async void BtnPrint_Click(object sender, RoutedEventArgs e)
         {
             SaveDraft();
+            var PalletText = new TextRange(PalletsTextBlock.Document.ContentStart, PalletsTextBlock.Document.ContentEnd);
+            if (PalletText.Text.Replace("\r", "").Replace("\n", "") == "PLEASE ENTER")
+            {
+                MessageBox.Show("Please enter Pallet Quantity before continuing");
 
-            //hide some stuff
-            BtnClose.Visibility = Visibility.Hidden;
-            BtnPrint.Visibility = Visibility.Hidden;
-            BtnSaveCI.Visibility = Visibility.Hidden;
-            BtnResetCI.Visibility = Visibility.Hidden;
-            SearchBorder.Visibility = Visibility.Hidden;
-            DragHandle.Visibility = Visibility.Hidden;
-            
-
-            //set light theme
-            AppTheme.ChangeTheme(new Uri("Theme/AppLight.xaml", UriKind.Relative));
-
-
-            //set window to size
-            double AWindowHeight = 1019;
-            double AWindowFinalHeight = 1020;
-            double AWindowWidth = 800;
-            CommInvWindow.Height = AWindowHeight;
-            CommInvWindow.Width = AWindowWidth;
-            CommInvWindow.Height = AWindowFinalHeight;
-
-            System.Windows.Controls.PrintDialog dialog = new System.Windows.Controls.PrintDialog();
-            if (dialog.ShowDialog() == true)
+            }
+            else
             {
 
-                //get printer capabilities
-                System.Printing.PrintCapabilities capabilities = dialog.PrintQueue.GetPrintCapabilities(dialog.PrintTicket);
+                //hide some stuff
+                BtnClose.Visibility = Visibility.Hidden;
+                BtnPrint.Visibility = Visibility.Hidden;
+                BtnSaveCI.Visibility = Visibility.Hidden;
+                BtnResetCI.Visibility = Visibility.Hidden;
+                SearchBorder.Visibility = Visibility.Hidden;
+                DragHandle.Visibility = Visibility.Hidden;
 
-                double scale = Math.Min(capabilities.PageImageableArea.ExtentWidth / this.ActualWidth, capabilities.PageImageableArea.ExtentHeight / this.ActualHeight);
-                this.LayoutTransform = new ScaleTransform(scale, scale);
-                System.Windows.Size sz = new System.Windows.Size(capabilities.PageImageableArea.ExtentWidth, capabilities.PageImageableArea.ExtentHeight);
-                this.Measure(sz);
-                this.Arrange(new Rect(new System.Windows.Point(capabilities.PageImageableArea.OriginWidth, capabilities.PageImageableArea.OriginHeight), sz));
-                dialog.PrintVisual(this, "Info Grid");
+
+                //set light theme
+                AppTheme.ChangeTheme(new Uri("Theme/AppLight.xaml", UriKind.Relative));
+
+
+                //set window to size
+                double AWindowHeight = 1019;
+                double AWindowFinalHeight = 1020;
+                double AWindowWidth = 800;
+                CommInvWindow.Height = AWindowHeight;
+                CommInvWindow.Width = AWindowWidth;
+                CommInvWindow.Height = AWindowFinalHeight;
+
+                System.Windows.Controls.PrintDialog dialog = new System.Windows.Controls.PrintDialog();
+                if (dialog.ShowDialog() == true)
+                {
+
+                    //get printer capabilities
+                    System.Printing.PrintCapabilities capabilities = dialog.PrintQueue.GetPrintCapabilities(dialog.PrintTicket);
+
+                    double scale = Math.Min(capabilities.PageImageableArea.ExtentWidth / this.ActualWidth, capabilities.PageImageableArea.ExtentHeight / this.ActualHeight);
+                    this.LayoutTransform = new ScaleTransform(scale, scale);
+                    System.Windows.Size sz = new System.Windows.Size(capabilities.PageImageableArea.ExtentWidth, capabilities.PageImageableArea.ExtentHeight);
+                    this.Measure(sz);
+                    this.Arrange(new Rect(new System.Windows.Point(capabilities.PageImageableArea.OriginWidth, capabilities.PageImageableArea.OriginHeight), sz));
+                    dialog.PrintVisual(this, "Info Grid");
+                }
+                //reset window to original size
+                double WindowHeight = 1019;
+                double WindowFinalHeight = 1020;
+                double WindowWidth = 800;
+                CommInvWindow.Height = WindowHeight;
+                CommInvWindow.Width = WindowWidth;
+                CommInvWindow.Height = WindowFinalHeight;
+                //show some stuff
+                BtnClose.Visibility = Visibility.Visible;
+                BtnPrint.Visibility = Visibility.Visible;
+                BtnSaveCI.Visibility = Visibility.Visible;
+                BtnResetCI.Visibility = Visibility.Visible;
+                SearchBorder.Visibility = Visibility.Visible;
+                DragHandle.Visibility = Visibility.Visible;
+                //dialog.ShowDialog();
+
+                //set original theme
+                LoadTheme();
+
+                //Update CI number on Print Press
+                //string CurrentUser = Globals.Username;
+                //String filepath = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Matt K Stuff\\data\\CommInvNumber.txt";
+                //var ComInvNum = Convert.ToDouble(File.ReadAllText(filepath)) + 1;
+                //File.WriteAllText(filepath, ComInvNum.ToString());
             }
-            //reset window to original size
-            double WindowHeight = 1019;
-            double WindowFinalHeight = 1020;
-            double WindowWidth = 800;
-            CommInvWindow.Height = WindowHeight;
-            CommInvWindow.Width = WindowWidth;
-            CommInvWindow.Height = WindowFinalHeight;
-            //show some stuff
-            BtnClose.Visibility = Visibility.Visible;
-            BtnPrint.Visibility = Visibility.Visible;
-            BtnSaveCI.Visibility = Visibility.Visible;
-            BtnResetCI.Visibility = Visibility.Visible;
-            SearchBorder.Visibility = Visibility.Visible;
-            DragHandle.Visibility = Visibility.Visible;
-            //dialog.ShowDialog();
-
-            //set original theme
-            LoadTheme();
-
-            //Update CI number on Print Press
-            //string CurrentUser = Globals.Username;
-            //String filepath = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Matt K Stuff\\data\\CommInvNumber.txt";
-            //var ComInvNum = Convert.ToDouble(File.ReadAllText(filepath)) + 1;
-            //File.WriteAllText(filepath, ComInvNum.ToString());
-            
 
         }
 
@@ -282,7 +291,7 @@ namespace PolyUKApp.Windows
                 if (MergeRow[5] is DBNull)
                 {
                     MergeRow.Delete();
-                   
+
                 }
             }
             OrderTable.AcceptChanges();
@@ -299,8 +308,8 @@ namespace PolyUKApp.Windows
                 }
                 OrderTable.AcceptChanges();
                 var TotalPrice = Convert.ToDouble(Row["UnitSellingPrice"]) * Convert.ToDouble(Row["LineQuantity"]);
-                var NetWeight = Math.Round(Convert.ToDouble(Row["Weight"]) * Convert.ToDouble(Row["LineQuantity"]),0);
-                double SellingPrice = Math.Round(Convert.ToDouble(Row["UnitSellingPrice"]),2);
+                var NetWeight = Math.Round(Convert.ToDouble(Row["Weight"]) * Convert.ToDouble(Row["LineQuantity"]), 0);
+                double SellingPrice = Math.Round(Convert.ToDouble(Row["UnitSellingPrice"]), 2);
                 double LineQuantity = Math.Round(Convert.ToDouble(Row["LineQuantity"]), 2);
                 var GrossWeight = NetWeight + 20;
                 if (NetWeight > 0)
@@ -345,11 +354,11 @@ namespace PolyUKApp.Windows
                     _dap.Fill(InvoiceAddTable);
                 }
 
-                    _con.Close();
+                _con.Close();
                 //general info for order (codes etc)
                 foreach (DataRow Row in InvoiceAddTable.Rows)
                 {
-                    
+
                     String PUKOrderNum = Row["DocumentNo"].ToString();
                     OrderNumberTextBlock.Text = PUKOrderNum;
                     String CustomerPONum = Row["CustomerDocumentNo"].ToString();
@@ -358,7 +367,7 @@ namespace PolyUKApp.Windows
                     TermsTextBlock.Text = CusTerms;
                     INCOTERMSTextBlock.Document.Blocks.Clear();
                     INCOTERMSTextBlock.AppendText("DAP");
-                    String ItemCodeBRC = Row["ItemCode"].ToString().Substring(0,3);
+                    String ItemCodeBRC = Row["ItemCode"].ToString().Substring(0, 3);
                     if (ItemCodeBRC == "BRC")
                     {
                         CertTextBlock.Text = "BRC";
@@ -486,7 +495,7 @@ namespace PolyUKApp.Windows
                     }
                 }
 
-                
+
 
             }
 
@@ -499,7 +508,7 @@ namespace PolyUKApp.Windows
 
             string[] fullfiles = Directory.GetFiles(Filepath);
             List<int> filelist = new List<int>();
-            
+
             if (fullfiles.Length > 0)
             {
                 foreach (string file in fullfiles)
@@ -668,7 +677,7 @@ namespace PolyUKApp.Windows
             }
 
             String ItemLineOne = CodeTOSAVE + "¬" + DescTOSAVE + "¬" + QtyTOSAVE + "¬" + UnitTOSAVE + "¬" + HSCodeTOSAVE + "¬" + WeightTOSave + "¬" + GrossKGTOSAVE + "¬" + PriceTOSAVE + "¬" + TotalItemTOSAVE;
-            
+
             //Create string for each variable on each line
             string[] lines = { InvNumberTOSAVE, OriginTOSAVE, OrderNumberTOSAVE, CusPOTOSAVE, TermsTOSAVE, INCOTERMSTOSAVE, ContactEmailTOSAVE, PalletsTOSAVE, SubTotalTOSAVE, VATTOSAVE, TotalTOSAVE, "---", ItemLineOne, "---", ItemLineTwo, "---", ItemLineThree, "---", ItemLineFour, InvAddressTOSAVE, "****", DelAddressTOSAVE, "****", CertTOSAVE, CurrencyTOSAVE };
 
@@ -706,7 +715,7 @@ namespace PolyUKApp.Windows
             string[] FilesStringArray = Directory.GetFiles(Folderpath);
             String AllFiles = String.Concat(FilesStringArray);
 
-            if(AllFiles.Contains(OrderNum))
+            if (AllFiles.Contains(OrderNum))
             {
                 foreach (String SingleString in FilesStringArray)
                 {
@@ -714,6 +723,7 @@ namespace PolyUKApp.Windows
                     {
                         var filename = SingleString.ToString();
                         var DiagResult = MessageBox.Show("A draft already exists for this order, recall?", filename, MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                        TxtBxSearch.Visibility = Visibility.Hidden;
 
                         if (DiagResult == MessageBoxResult.Yes)
                         {
@@ -754,8 +764,8 @@ namespace PolyUKApp.Windows
 
                             RecallTable.Columns.Clear();
                             var currentdate = (DateTime.Now).ToString().Substring(0, 10);
-                            for (int col=0; col<linecount; col++)
-                                RecallTable.Columns.Add(new DataColumn("Column" + (col+1).ToString()));
+                            for (int col = 0; col < linecount; col++)
+                                RecallTable.Columns.Add(new DataColumn("Column" + (col + 1).ToString()));
 
                             RecallTable.Rows.Add(lines[0], lines[1], lines[2], lines[3], lines[4], lines[5], lines[6], lines[7], lines[8], lines[9], lines[10]);
 
@@ -772,7 +782,7 @@ namespace PolyUKApp.Windows
 
                             DataRow Row = RecallTable.Rows[0];
 
-                            InvFromText.AppendText("XI903824828000" + "\r" + "Polythene UK Ltd" + "\r" + "31c Avenue 1" + "\r" + "Station Lane" + "\r" + "Witney" + "\r" + "OX28 4XZ" + "\r" + "0845 643 1601");
+                            InvFromText.AppendText("XI903824828000" + "\r" + "Polythene UK Ltd" + "\r" + "4 Witan Park" + "\r" + "Avenue Twp" + "\r" + "Witney" + "\r" + "OX28 4FH" + "\r" + "0845 643 1601");
 
                             InvNumber.Document.Blocks.Clear();
                             InvNumber.AppendText(Row["Column1"].ToString());
@@ -782,7 +792,7 @@ namespace PolyUKApp.Windows
                             CusPOTextBlock.Text = Row["Column4"].ToString();
                             TermsTextBlock.Text = Row["Column5"].ToString();
                             ContactEmailTextBlock.Document.Blocks.Clear();
-                            ContactEmailTextBlock.AppendText(Row["Column7"].ToString()); 
+                            ContactEmailTextBlock.AppendText(Row["Column7"].ToString());
                             INCOTERMSTextBlock.Document.Blocks.Clear();
                             INCOTERMSTextBlock.AppendText(Row["Column6"].ToString());
                             PalletsTextBlock.Document.Blocks.Clear();
@@ -793,7 +803,7 @@ namespace PolyUKApp.Windows
 
                             CertTextBlock.Text = lines[35 - LineDiff].ToString();
                             CurrencyTextBlock.Text = lines[36 - LineDiff].ToString();
-                            
+
 
                             InvToText.Document.Blocks.Clear();
                             DelToText.Document.Blocks.Clear();
@@ -811,7 +821,7 @@ namespace PolyUKApp.Windows
                                     int FirstSplit = counter;
                                     string[] linesaddresssplit = linesaddress.Skip(FirstSplit + 3).ToArray();
 
-                                    foreach(string lineaddresstest in linesaddresssplit)
+                                    foreach (string lineaddresstest in linesaddresssplit)
                                     {
                                         if (lineaddresstest.Length > 0 && lineaddresstest is not "****")
                                         {
@@ -828,7 +838,7 @@ namespace PolyUKApp.Windows
 
                         }
 
-                        else if(DiagResult == MessageBoxResult.No)
+                        else if (DiagResult == MessageBoxResult.No)
                         {
                             PUKLogo.Visibility = Visibility.Visible;
                             GeneratedBorder.Visibility = Visibility.Visible;
@@ -846,7 +856,7 @@ namespace PolyUKApp.Windows
 
                             var currentdate = (DateTime.Now).ToString().Substring(0, 10);
 
-                            
+
                             OrderDataSQL();
                             DetailsSQL();
                             ReadWriteCINumber();
@@ -855,9 +865,9 @@ namespace PolyUKApp.Windows
 
                             MessageBox.Show("Please check all information is correct and filled in");
                         }
-                        else if (DiagResult == MessageBoxResult.Cancel) 
+                        else if (DiagResult == MessageBoxResult.Cancel)
                         {
-                        
+
                         }
                     }
 
@@ -895,10 +905,88 @@ namespace PolyUKApp.Windows
 
         private void BtnSaveCI_Click(object sender, RoutedEventArgs e)
         {
-            SaveDraft(); 
-
+            SaveDraft();
         }
 
+        private void DataGridCI_CurrentCellChanged(object sender, EventArgs e)
+        {
+            double TableHeight = DataGridCI.ActualHeight;
+            if ( TableHeight > 240 )
+            {
+                Layoutmove();
+            }
 
+            DataTable RecalcTable = new DataTable();
+            RecalcTable = ((DataView)DataGridCI.ItemsSource).ToTable();
+            bool updated = false;
+            double NewNetTotal = 0;
+
+            foreach (DataRow row in RecalcTable.Rows)
+            {
+                if (row["Qty"] != DBNull.Value && row["Price"] != DBNull.Value && row["Total"] != DBNull.Value)
+                {
+                    double QtyVal = Convert.ToDouble(row["Qty"]);
+                    double PriceVal = Convert.ToDouble(row["Price"]);
+                    double TotalVal = QtyVal * PriceVal;
+
+                    if (TotalVal != Convert.ToDouble(row["Total"]) && TotalVal != 0)
+                    {
+                        row["Total"] = TotalVal;
+                        updated = true;
+                        break;
+                    }
+                }
+            }
+            if (updated)
+            {
+                DataGridCI.ItemsSource = RecalcTable.DefaultView;
+
+            }
+            //Update Overall totals
+            foreach (DataRow rowTot in RecalcTable.Rows)
+            {
+                if (rowTot["Qty"] != DBNull.Value && rowTot["Price"] != DBNull.Value && rowTot["Total"] != DBNull.Value)
+                {
+                    NewNetTotal = NewNetTotal + Convert.ToDouble(rowTot["Total"]);
+                }
+            }
+            SubTotTextBlock.Text = Math.Round(NewNetTotal, 2).ToString("0.00");
+            if (VATTextBlock.Text == "0.00")
+            {
+                TotTextBlock.Text = Math.Round(NewNetTotal, 2).ToString("0.00");
+            }
+            else
+            {
+                VATTextBlock.Text = Math.Round(NewNetTotal * 0.2, 2).ToString("0.00");
+                TotTextBlock.Text = Math.Round(NewNetTotal * 1.2, 2).ToString("0.00");
+            }
+        }
+
+        private void Layoutmove()
+        {
+            ShipModeTitle.Margin = new Thickness(25, 705, 0, 0);
+            ShipModeTextBlock.Margin = new Thickness(145, 705, 0, 0);
+            CertTitle.Margin = new Thickness(25, 725, 0, 0);
+            CertTextBlock.Margin = new Thickness(145, 725, 0, 0);
+
+            TotalRectangle.Margin = new Thickness(565, 703, 0, 0);
+            SubTotTitle.Margin = new Thickness(580, 715, 0, 0);
+            SubTotTextBlock.Margin = new Thickness(680, 715, 0, 0);
+            VATtitle.Margin = new Thickness(580, 735, 0, 0);
+            VATTextBlock.Margin = new Thickness(680, 735, 0, 0);
+            TotalTitle.Margin = new Thickness(580, 755, 0, 0);
+            TotTextBlock.Margin = new Thickness(680, 755, 0, 0);
+            CurrencyTextBlock.Margin = new Thickness(580, 780, 0, 0);
+
+            Dec1.Margin = new Thickness(25, 765, 0, 0);
+            Dec2.Margin = new Thickness(25, 780, 0, 0);
+            Dec3.Margin = new Thickness(25, 795, 0, 0);
+            Dec4.Margin = new Thickness(25, 810, 0, 0);
+            Dec5.Margin = new Thickness(25, 825, 0, 0);
+
+            SigTitle.Margin = new Thickness(25, 875, 0, 0);
+            MDsig.Margin = new Thickness(25, 890, 0, 0);
+            MDTitle.Margin = new Thickness(25, 945, 0, 0);
+        }
     }
 }

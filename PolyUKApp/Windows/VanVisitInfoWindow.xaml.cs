@@ -30,6 +30,9 @@ using Microsoft.Exchange.WebServices.Data;
 using System.Web.Services.Description;
 using System.Net;
 using System.Security;
+using Org.BouncyCastle.Asn1.Pkcs;
+using System.IO;
+using System.Diagnostics;
 
 
 
@@ -225,7 +228,7 @@ namespace PolyUKApp.Windows
             var ConnectionString = DataAccess.GlobalSQL.ConnectionMySQLVan;
             DataTable VanTableALL = new DataTable();
             var IDRANGE = new TextRange(RichTextVisitID.Document.ContentStart, RichTextVisitID.Document.ContentEnd);
-            int IDText = Convert.ToInt32(IDRANGE.Text.ToString().Replace("\r","").Replace("\n", ""));
+            int IDText = Convert.ToInt32(IDRANGE.Text.ToString().Replace("\r", "").Replace("\n", ""));
 
             using (MySqlConnection _con = new MySqlConnection(ConnectionString))
             {
@@ -294,7 +297,7 @@ namespace PolyUKApp.Windows
                     ComboCompanyType.Text = CompanyType;
 
                     String CompleteStatus = Row["completed"].ToString();
-                    if(CompleteStatus == "Yes")
+                    if (CompleteStatus == "Yes")
                     {
                         BtnRemoveDate.Visibility = Visibility.Hidden;
                         BtnValidate.Visibility = Visibility.Hidden;
@@ -332,7 +335,7 @@ namespace PolyUKApp.Windows
             if (selectedDate != null)
             {
                 RichTextPromDate.Document.Blocks.Clear();
-                RichTextPromDate.AppendText(selectedDate.ToString().Substring(0,10));
+                RichTextPromDate.AppendText(selectedDate.ToString().Substring(0, 10));
                 RichTextDatePotential.Document.Blocks.Clear();
                 RichTextDatePotential.AppendText("Not Saved");
             }
@@ -383,7 +386,7 @@ namespace PolyUKApp.Windows
 
             using (MySqlConnection _con = new MySqlConnection(connectionString))
             {
-                
+
                 var CommandStatement = DataAccess.GlobalSQLNonQueries.UpdateVanList;
                 using (MySqlCommand _cmd = new MySqlCommand(CommandStatement, _con))
                 {
@@ -418,7 +421,7 @@ namespace PolyUKApp.Windows
                     _cmd.ExecuteNonQuery();
                     _con.Close();
                 }
-                
+
 
                 RichTextDatePotential.Document.Blocks.Clear();
 
@@ -511,12 +514,12 @@ namespace PolyUKApp.Windows
                 if (StaffText == "Jake")
                 {
                     SendICalJake();
-                    
+
                 }
                 else if (StaffText == "Ant")
                 {
                     SendICalAnt();
-                   
+
                 }
                 else
                 {
@@ -527,7 +530,7 @@ namespace PolyUKApp.Windows
 
 
                 }
-                
+
             }
         }
 
@@ -555,10 +558,10 @@ namespace PolyUKApp.Windows
             object VanStartDay = DateText.Substring(0, 2);
             object VanStartMonth = DateText.Substring(3, 2);
             object VanStartYr = DateText.Substring(6, 4);
-            object VanStartTimeHr = ComboPromTime.Text.ToString().Substring(0,2);
-            object VanStartTimeMin = ComboPromTime.Text.ToString().Substring(3,2);
+            object VanStartTimeHr = ComboPromTime.Text.ToString().Substring(0, 2);
+            object VanStartTimeMin = ComboPromTime.Text.ToString().Substring(3, 2);
             object VanJobTime = ComboJobTime.Text.ToString();
-            
+
             var SysDateStart = new DateTime(Convert.ToInt32(VanStartYr), Convert.ToInt32(VanStartMonth), Convert.ToInt32(VanStartDay), Convert.ToInt32(VanStartTimeHr), Convert.ToInt32(VanStartTimeMin), 00);
             var SysDateEnd = SysDateStart.AddHours(Convert.ToSingle(VanJobTime));
 
@@ -754,7 +757,7 @@ namespace PolyUKApp.Windows
             appointment.Location = "Conf Room";
             appointment.RequiredAttendees.Add("matthewkavanagh@polytheneuk.co.uk");
 
-            
+
             // Send the meeting request to all attendees and save a copy in the Sent Items folder.
             appointment.Save(SendInvitationsMode.SendToAllAndSaveCopy);
         }
@@ -930,5 +933,74 @@ namespace PolyUKApp.Windows
                 }
             }
         }
+
+        private void PictureViewBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var CurrentUser = Environment.UserName;
+            // folder to use -- C:\Users\matthewkavanagh\Polythene UK Limited\Shared - Documents\Waste Collection\Waste Photos
+
+            // getting job ID
+            var IDRANGE = new TextRange(RichTextVisitID.Document.ContentStart, RichTextVisitID.Document.ContentEnd);
+            int IDText = Convert.ToInt32(IDRANGE.Text.ToString().Replace("\r", "").Replace("\n", ""));
+            System.Windows.Clipboard.Clear();
+            System.Windows.Clipboard.SetDataObject(IDText.ToString());
+
+            //final folder path with ID
+            var targetFolderPath = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Waste Collection\\Waste Photos\\" + IDText;
+
+
+            if (!Directory.Exists(targetFolderPath))
+            {
+                System.Windows.MessageBox.Show("No photos saved");
+            }
+            else
+            {
+                string[] files = Directory.GetFiles(targetFolderPath).Select(file => System.IO.Path.GetFileName(file)).ToArray();
+                Process.Start("explorer.exe", targetFolderPath);
+            }
+
+
+        }
+
+        private void PictureSaveBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+            var filePath = string.Empty;
+            var CurrentUser = Environment.UserName;
+            // folder to use -- C:\Users\matthewkavanagh\Polythene UK Limited\Shared - Documents\Waste Collection\Waste Photos
+
+            // getting job ID
+            var IDRANGE = new TextRange(RichTextVisitID.Document.ContentStart, RichTextVisitID.Document.ContentEnd);
+            int IDText = Convert.ToInt32(IDRANGE.Text.ToString().Replace("\r", "").Replace("\n", ""));
+            System.Windows.Clipboard.Clear();
+            System.Windows.Clipboard.SetDataObject(IDText.ToString());
+
+            //final folder path with ID
+            var targetFolderPath = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Waste Collection\\Waste Photos\\" + IDText;
+
+            if (!Directory.Exists(targetFolderPath))
+            {
+                Directory.CreateDirectory(targetFolderPath);
+            }
+            else { }
+
+
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = targetFolderPath;
+                openFileDialog.ShowDialog();
+
+                if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    filePath = openFileDialog.FileName;
+                    string imageName = System.IO.Path.GetFileName(filePath);
+
+                    File.Copy(filePath, targetFolderPath + "\\" + imageName);
+
+                }
+            }
+
+        }
+
     }
 }

@@ -35,7 +35,7 @@ namespace PolyUKApp.Windows
         {
             var CompanyInfoText = "Company Details \n" +
             "Polythene Uk Ltd\r" +
-            "31c Avenue One, Station Lane, Witney, OX28 4XZ\n" +
+            "4 Witan Park, Avenue Two, Station Lane, Witney, OX28 4FH\n" +
             "Reg: 06039291\r" +
             "VAT: GB903824828\r" +
             "GB EORI: GB903824828000\r" +

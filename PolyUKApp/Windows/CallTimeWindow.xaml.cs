@@ -127,7 +127,7 @@ namespace PolyUKApp.Windows
         public void LoadDailyJSON()
         {
             string CurrentUser = Globals.Username;
-            var rawjsonPath = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Matt K Stuff\\data\\jsondata2.txt";
+            var rawjsonPath = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Matt K Stuff\\data\\jsondata.txt";
 
             using (StreamReader reader = new StreamReader(rawjsonPath))
             {
@@ -170,6 +170,7 @@ namespace PolyUKApp.Windows
 
         private void BtnRefreshCallTime_Click(object sender, RoutedEventArgs e)
         {
+            LoadDailyJSON();
             LoadDaily();
             LoadWeekly();
             string currentTime = DateTime.Now.ToString();

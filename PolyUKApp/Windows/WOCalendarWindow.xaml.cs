@@ -258,6 +258,7 @@ namespace PolyUKApp.Windows
                     _cmd.Parameters.AddWithValue("@WOStatus", "New");
                     _cmd.Parameters.AddWithValue("@WOStatus1", "Issued");
                     _cmd.Parameters.AddWithValue("@WOStatus2", "Allocated");
+                    _cmd.Parameters.AddWithValue("@WOStatus3", "Part Allocated");
                     _dap.Fill(WOListTable);
                 }
                 using (SqlCommand _cmd2 = new SqlCommand(queryStatement2 , _con))
@@ -266,6 +267,7 @@ namespace PolyUKApp.Windows
                     _cmd2.Parameters.AddWithValue("@Status", "New");
                     _cmd2.Parameters.AddWithValue("@Status1", "Issued");
                     _cmd2.Parameters.AddWithValue("@Status2", "Allocated");
+                    _cmd2.Parameters.AddWithValue("@Status3", "Part Allocated");
                     _dap2.Fill(WOInfoTable);
                 }
 

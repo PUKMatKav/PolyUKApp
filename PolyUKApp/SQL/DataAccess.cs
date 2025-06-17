@@ -43,7 +43,7 @@ namespace PolyUKApp.SQL
         {
             using (IDbConnection connection = new SqlConnection(Helper.ConnValue("polysql01")))
             {
-                var output = connection.Query<WOInfoDB>($"SELECT * from SiWorksOrderListView WHERE WONumber = '{WONumber}' and (Status = 'New' or Status = 'Allocated' or Status = 'Issued')").ToList();
+                var output = connection.Query<WOInfoDB>($"SELECT * from SiWorksOrderListView WHERE WONumber = '{WONumber}' and (Status = 'New' or Status = 'Allocated' or Status = 'Issued' or Status = 'Part Allocated')").ToList();
                 return output;
             }
         }
@@ -51,7 +51,7 @@ namespace PolyUKApp.SQL
         {
             using (IDbConnection connection = new SqlConnection(Helper.ConnValue("polysql01")))
             {
-                var output = connection.Query<WOInfoDB2>($"SELECT * from SC_BI_Poly_WODetails WHERE WONumber = '{WONumber}' and (WOStatus = 'New' or WOStatus = 'Allocated' or WOStatus = 'Issued')").ToList();
+                var output = connection.Query<WOInfoDB2>($"SELECT * from SC_BI_Poly_WODetails WHERE WONumber = '{WONumber}' and (WOStatus = 'New' or WOStatus = 'Allocated' or WOStatus = 'Issued' or WOStatus = 'Part Allocated')").ToList();
                 return output;
             }
         }
@@ -88,6 +88,7 @@ namespace PolyUKApp.SQL
             public static String Connection = (Helper.ConnValue("polysql01")).ToString();
             public static String ConnectionTEST = (Helper.ConnValue("polysql01TEST")).ToString();
             public static String ConnectionMySQLVan = (Helper.ConnValue("MySQLVan")).ToString();
+            public static String ConnectionCRM = (Helper.ConnValue("CRM")).ToString();
         }
 
         public static class GlabalSQLQueries
@@ -126,13 +127,26 @@ namespace PolyUKApp.SQL
                 "FROM SOPOrderReturnLine " +
                 "LEFT JOIN StockItem ON SOPOrderReturnLine.ItemCode=StockItem.Code ";
 
+            public static String PODQuery = "SELECT " +
+                "SOPOrderReturn.DocumentNo, SOPOrderReturn.SpareDate1, FORMAT(SOPOrderReturn.SpareDate1, 'MMM') as ConfirmedMonth, FORMAT(SOPOrderReturn.SpareDate1, 'yy') as ConfirmedYear, CONVERT (varchar, SOPOrderReturn.DocumentDate, 111) as RaisedDate, " +
+                "SLCustomerAccount.CustomerAccountName, " +
+                "SOPOrderReturnX.SOPOrderReturnXID, " +
+                "PLSupplierAccount.SupplierAccountNumber, " +
+                "PLPostedSupplierTran.TransactionReference, FORMAT(PLPostedSupplierTran.DueDate, 'MMM') as InvDueMonth, FORMAT(PLPostedSupplierTran.DueDate, 'yy') as InvDueYear " +
+                "FROM SOPOrderReturn " +
+                "LEFT JOIN SLCustomerAccount ON SOPOrderReturn.CustomerID=SLCustomerAccount.SLCustomerAccountID " +
+                "LEFT JOIN SOPOrderReturnX ON SOPOrderReturn.SOPOrderReturnID=SOPOrderReturnX.SOPOrderReturnXID " +
+                "LEFT JOIN PLSupplierAccount ON SOPOrderReturnX.SupplierID=PLSupplierAccount.PLSupplierAccountID " +
+                "LEFT JOIN PLPostedSupplierTran ON SOPOrderReturn.DocumentNo=PLPostedSupplierTran.SecondReference " +
+                "WHERE (SOPOrderReturn.SpareDate1 >= '01/01/2025' and SOPOrderReturn.SpareDate1 <= '01/32/2025') and SOPOrderReturn.DocumentTypeID = '0' and SOPOrderReturn.AnalysisCode2 = 'DD'";
+
             public static String WOItemListQuery = "SELECT Code, Name, Description, StockUnitName AS 'Unit', ProductGroupDescription AS 'Type' " +
                                                  "FROM STKStockItemView " +
                                                  "WHERE Code = @Code";
 
             public static String WOQuery = "SELECT SiWorksOrderID, WONumber, WOName, Quantity, StartDate, DueDate, Status  " +
                 "FROM SiWorksOrderListView " +
-                "WHERE (Status = @Status or Status = @Status1 or Status = @Status2)";
+                "WHERE (Status = @Status or Status = @Status1 or Status = @Status2 or Status = @Status3)";
 
             public static String WOQueryEndDate = "SELECT SiWorksOrderID, WONumber, WOName, Quantity, CONVERT(char(10), StartDateShort, 112) as DateStart, CONVERT(char(10), DueDateShort, 112) as DateEnd, Status " +
                 "FROM SiWorksOrderListView " +
@@ -140,15 +154,15 @@ namespace PolyUKApp.SQL
 
             public static String WODetails = "SELECT SiWorksOrderID, WONumber, WOName, WOType, WOStatus, SONumber, CustomerAccountNumber, CustomerAccountName, PromisedDeliveryDate  " +
                 "FROM SC_BI_Poly_WODetails " +
-                "WHERE (WOStatus = @WOStatus or WOStatus = @WOStatus1 or WOStatus = @WOStatus2)";
+                "WHERE (WOStatus = @WOStatus or WOStatus = @WOStatus1 or WOStatus = @WOStatus2 or WOStatus = @WOStatus3)";
 
             public static String WODetailsList = "SELECT SiWorksOrderID, WONumber, WOType, WOStatus, CustomerAccountName, CONVERT(char(10), PromisedDeliveryDate, 111) AS PromisedDeliveryDate " +
                 "FROM SC_BI_Poly_WODetails " +
-                "WHERE (WOStatus = @WOStatus or WOStatus = @WOStatus1 or WOStatus = @WOStatus2)";
+                "WHERE (WOStatus = @WOStatus or WOStatus = @WOStatus1 or WOStatus = @WOStatus2 or WOStatus = @WOStatus3)";
 
             public static String WOInfoForList = "SELECT SiWorksOrderID, Quantity, Status  " +
                 "FROM SiWorksOrderListView " +
-                "WHERE (Status = @Status or Status = @Status1 or Status = @Status2)";
+                "WHERE (Status = @Status or Status = @Status1 or Status = @Status2 or Status = @Status3)";
 
             public static String VanListCombo = "SELECT * from collection_database " +
                 "WHERE completed = 'No'";
@@ -175,6 +189,9 @@ namespace PolyUKApp.SQL
 
             public static String VanListALLPending = "SELECT * from pending_database " +
                 "WHERE id = @IDTEXT";
+
+            public static String ReadCRMComms = "SELECT * from vListCommunicationLink " +
+                "WHERE Comp_Name = 'Test Matt'";
 
         }
         public static class GlobalSQLNonQueries
@@ -206,6 +223,10 @@ namespace PolyUKApp.SQL
 
             public static String DeleteFromVanPendingList = "DELETE FROM pending_database " +
                 "WHERE id = @IDTEXT";
+
+            public static String WriteCRMComms = "UPDATE vListCommunicationLink " +
+                "SET pers_sc_grading = 'Prospect_End_User' " +
+                "WHERE Comp_Name = 'Test Matt'";
 
         }
     }

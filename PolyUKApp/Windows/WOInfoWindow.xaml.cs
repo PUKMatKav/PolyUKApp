@@ -123,10 +123,17 @@ namespace PolyUKApp.Windows
                 RichTextSalesPersonInfo.AppendText(SalesPerson);
                 var Item_Code = WOInfo2[0].BuiltItem.ToString();
                 RichTextItemCode.AppendText(Item_Code);
-                var Prom_Date_Day = WOInfo2[0].PromisedDeliveryDate.ToString().Substring(3, 2);
-                var Prom_Date_Month = WOInfo2[0].PromisedDeliveryDate.ToString().Substring(0, 2);
-                var Prom_Date_Year = WOInfo2[0].PromisedDeliveryDate.ToString().Substring(6, 4);
-                RichTextPromDate.AppendText(Prom_Date_Day + "/" + Prom_Date_Month + "/" + Prom_Date_Year);
+                if (WOInfo2[0].PromisedDeliveryDate != null)
+                {
+                    var Prom_Date_Day = WOInfo2[0].PromisedDeliveryDate.ToString().Substring(3, 2);
+                    var Prom_Date_Month = WOInfo2[0].PromisedDeliveryDate.ToString().Substring(0, 2);
+                    var Prom_Date_Year = WOInfo2[0].PromisedDeliveryDate.ToString().Substring(6, 4);
+                    RichTextPromDate.AppendText(Prom_Date_Day + "/" + Prom_Date_Month + "/" + Prom_Date_Year);
+                }
+                else
+                {
+                    RichTextPromDate.AppendText("00" + "/" + "00" + "/" + "00");
+                }
 
             }
             else
