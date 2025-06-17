@@ -360,7 +360,9 @@ namespace PolyUKApp
                 "- Auto creates folder for each job when images saved\n" +
                 "- Some minor things I have done and long since forgotten\n" +
                 "\r" + "" + "\r" +
-                "v1.2.1.1 - Removed duplicate opening of save image dialog, also correctly checks if file saved on close\n");
+                "v1.2.1.1 - Removed duplicate opening of save image dialog \n" +
+                "v1.2.1.1 - Correctly checks if photo to be saved on close of save box\n" +
+                "v1.2.1.1 - Fixed weight dialog box being uneditable");
         }
 
         private void BtnCommInvoice_Click(object sender, RoutedEventArgs e)
