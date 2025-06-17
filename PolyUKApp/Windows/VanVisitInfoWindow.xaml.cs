@@ -990,14 +990,19 @@ namespace PolyUKApp.Windows
                 openFileDialog.InitialDirectory = targetFolderPath;
                 openFileDialog.ShowDialog();
 
-                if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    filePath = openFileDialog.FileName;
-                    string imageName = System.IO.Path.GetFileName(filePath);
+                filePath = openFileDialog.FileName;
+                string imageName = System.IO.Path.GetFileName(filePath);
 
-                    File.Copy(filePath, targetFolderPath + "\\" + imageName);
+                if(imageName == "")
+                {
 
                 }
+                else
+                {
+                    File.Copy(filePath, targetFolderPath + "\\" + imageName);
+                    System.Windows.MessageBox.Show("Saved image");
+                }
+
             }
 
         }

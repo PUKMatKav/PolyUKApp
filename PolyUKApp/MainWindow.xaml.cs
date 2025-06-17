@@ -358,7 +358,9 @@ namespace PolyUKApp
                 "- Added file dialog for van calendar\n" +
                 "- Allows for saving and viewing of images\n" +
                 "- Auto creates folder for each job when images saved\n" +
-                "- Some minor things I have done and long since forgotten\n" );
+                "- Some minor things I have done and long since forgotten\n" +
+                "\r" + "" + "\r" +
+                "v1.2.1.1 - Removed duplicate opening of save image dialog, also correctly checks if file saved on close\n");
         }
 
         private void BtnCommInvoice_Click(object sender, RoutedEventArgs e)

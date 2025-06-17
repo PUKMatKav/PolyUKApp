@@ -1044,10 +1044,12 @@ Style="{DynamicResource ComboBoxFlatStyle}">
                            Foreground="{DynamicResource Text}"
                            Margin="595,25,0,0"
                            HorizontalAlignment="left"
+                           VerticalAlignment="Top"
                            FontFamily="Aptos"
                            FontSize="14"
                            FontWeight="SemiBold"
-                           Width="70"/>
+                           Width="70"
+                           Height="auto"/>
 
                 <Button x:Name="PictureSaveBtn"
                            Margin="592,47,0,0"
