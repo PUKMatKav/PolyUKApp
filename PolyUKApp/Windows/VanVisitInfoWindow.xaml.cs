@@ -96,7 +96,7 @@ namespace PolyUKApp.Windows
             ComboCompanyType.Items.Add("Customer");
             ComboCompanyType.Items.Add("Prospect");
 
-            ComboAdminStaff.Items.Add("Ant");
+            
             ComboAdminStaff.Items.Add("Jake");
             ComboAdminStaff.Items.Add("Both");
             ComboAdminStaff.Items.Add("James");
@@ -516,15 +516,10 @@ namespace PolyUKApp.Windows
                     SendICalJake();
 
                 }
-                else if (StaffText == "Ant")
-                {
-                    SendICalAnt();
-
-                }
                 else
                 {
                     SendICalJake();
-                    SendICalAnt();
+                    //SendICalAnt(); - ded code
                     //SecureString pswd = new NetworkCredential("", "Yos55527").SecurePassword;
                     //SendEWSInvite("matthewkavanagh@polytehenuk.co.uk", pswd);
 
@@ -992,10 +987,15 @@ namespace PolyUKApp.Windows
 
                 filePath = openFileDialog.FileName;
                 string imageName = System.IO.Path.GetFileName(filePath);
+                string[] files = Directory.GetFiles(targetFolderPath).Select(file => System.IO.Path.GetFileName(file)).ToArray();
 
-                if(imageName == "")
+                if (imageName == "")
                 {
 
+                }
+                else if (File.Exists(filePath))
+                {
+                    System.Windows.MessageBox.Show("Image already saved in folder");
                 }
                 else
                 {

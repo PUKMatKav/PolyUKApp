@@ -57,7 +57,7 @@ namespace PolyUKApp.Windows
             ComboSalesStaff.Items.Add("Ryan King");
             ComboSalesStaff.Items.Add("Tom Matthews");
 
-            ComboAdminStaff.Items.Add("Ant");
+            
             ComboAdminStaff.Items.Add("Jake");
             ComboAdminStaff.Items.Add("Both");
             ComboAdminStaff.Items.Add("James");

@@ -26,6 +26,8 @@ using PolyUKApp.SQL.Models;
 using Mysqlx.Resultset;
 using System.Runtime.CompilerServices;
 using System.Diagnostics;
+using ClosedXML;
+using ClosedXML.Excel;
 
 namespace PolyUKApp.Windows
 {
@@ -277,14 +279,14 @@ namespace PolyUKApp.Windows
                 VisitInfoBox.WindowState = WindowState.Maximized;
                 VisitInfoBox.Closed += childFormEditVisitClosed;
                 VisitInfoBox.Show();
-                
+
             }
             else
             {
                 var VisitInfoBox = new VanVisitInfoWindow { Left = WindowLeft, Top = WindowTop, Width = WindowWidth, Height = WindowHeight };
                 VisitInfoBox.Closed += childFormEditVisitClosed;
                 VisitInfoBox.Show();
-                
+
             }
             BtnEditVisit.Visibility = Visibility.Hidden;
             BtnDeleteVisit.Visibility = Visibility.Hidden;
@@ -292,25 +294,28 @@ namespace PolyUKApp.Windows
         }
         public void childFormEditVisitClosed(object sender, EventArgs e)
         {
-            ((VanVisitInfoWindow)sender).Closed -= childFormEditVisitClosed;
             MySQLGetVan();
             CalData.Children.Clear();
             CalendarDays();
+            GetCSV();
+            ((VanVisitInfoWindow)sender).Closed -= childFormEditVisitClosed;
+
 
         }
         void childFormAddVisitClosed(object sender, EventArgs e)
         {
-            ((VanVisitAddWindow)sender).Closed -= childFormAddVisitClosed;
             MySQLGetVan();
             CalData.Children.Clear();
             CalendarDays();
-            
+            GetCSV();
+            ((VanVisitAddWindow)sender).Closed -= childFormAddVisitClosed;
+
         }
 
         private void VanDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var VisitCellInfo = VanDataGrid.SelectedCells[4];
-            
+
             if (VisitCellInfo.Column != null)
             {
                 BtnEditVisit.Visibility = Visibility.Visible;
@@ -369,7 +374,7 @@ namespace PolyUKApp.Windows
 
         private void BtnCSVExport_Click(object sender, RoutedEventArgs e)
         {
-
+            GetCSV();
         }
 
         private void BtnviewlOldJobs_Click(object sender, RoutedEventArgs e)
@@ -397,10 +402,11 @@ namespace PolyUKApp.Windows
         }
         void childFormVisitListClosed(object sender, EventArgs e)
         {
-            ((VanVisitListWindow)sender).Closed -= childFormVisitListClosed;
+            GetCSV();
             MySQLGetVan();
             CalData.Children.Clear();
             CalendarDays();
+            ((VanVisitListWindow)sender).Closed -= childFormVisitListClosed;
 
         }
 
@@ -429,7 +435,7 @@ namespace PolyUKApp.Windows
                 MySQLGetVan();
                 CalData.Children.Clear();
                 CalendarDays();
-
+                GetCSV();
             }
             else
             {
@@ -441,13 +447,13 @@ namespace PolyUKApp.Windows
         private void BtnViewPending_Click(object sender, RoutedEventArgs e)
         {
             MySQLGetPending();
-            
+
         }
 
         private void BtnViewVisits_Click(object sender, RoutedEventArgs e)
         {
             MySQLGetVan();
-            
+
         }
 
         public void MySQLGetVan()
@@ -466,11 +472,11 @@ namespace PolyUKApp.Windows
                     _con.Close();
                 }
             }
-            
+
             VanDataGridPending.ItemsSource = null;
             DataGridBorderPending.IsHitTestVisible = false;
             VanDataGridPending.IsHitTestVisible = false;
-            
+
             VanDataGrid.ItemsSource = null;
             VanDataGrid.IsHitTestVisible = true;
             DataGridBorder.IsHitTestVisible = true;
@@ -589,8 +595,9 @@ namespace PolyUKApp.Windows
         }
         void childFormRequestVisitClosed(object sender, EventArgs e)
         {
-            ((VanRequestVisit)sender).Closed -= childFormRequestVisitClosed;
             MySQLGetPending();
+            GetCSV();
+            ((VanRequestVisit)sender).Closed -= childFormRequestVisitClosed;
 
         }
 
@@ -624,10 +631,11 @@ namespace PolyUKApp.Windows
         }
         void childFormEditRequestVisitClosed(object sender, EventArgs e)
         {
-            ((VanEditRequestVisit)sender).Closed -= childFormEditRequestVisitClosed;
+            GetCSV();
             MySQLGetPending();
             CalData.Children.Clear();
             CalendarDays();
+            ((VanEditRequestVisit)sender).Closed -= childFormEditRequestVisitClosed;
 
         }
 
@@ -654,6 +662,7 @@ namespace PolyUKApp.Windows
                 }
                 System.Windows.MessageBox.Show("Visit Deleted");
                 MySQLGetPending();
+                GetCSV();
             }
             else
             {
@@ -664,7 +673,7 @@ namespace PolyUKApp.Windows
         public void UserButtonChecker()
         {
             string loginname = Environment.UserName;
-            if (loginname == "MatthewKavanagh" || loginname == "matthewkavanagh" || loginname == "JakeBassi" || loginname == "SophieGroth" || loginname == "AntonyGroth" || loginname == "kyliewoollard")
+            if (loginname == "MatthewKavanagh" || loginname == "matthewkavanagh" || loginname == "JakeBassi" || loginname == "SophieGroth" || loginname == "kyliewoollard")
             {
                 StackPanelButtonsBottom.Visibility = Visibility.Visible;
             }
@@ -713,7 +722,7 @@ namespace PolyUKApp.Windows
                 VisitAddBox.Show();
             }
         }
-    
+
 
         public void NotificationLight()
         {
@@ -780,25 +789,41 @@ namespace PolyUKApp.Windows
             }
         }*/
 
-        /*public void GetCSV()
+        public void GetCSV()
         {
-            string CurrentUser = Globals.Username;
-            string filepath = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Waste Collection\\2024 Collection List Database.csv";
-            DataTable CSVList = new DataTable();
-            foreach(var headerline in File.ReadLines(filepath).Take(1))
-            {
-                foreach (var headerItem in headerline.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-                {
-                    CSVList.Columns.Add(headerItem.Trim().Replace("\"", ""));
-                }
-            }
-            foreach (var line in File.ReadLines(filepath).Skip(1))
-            {
-                CSVList.Rows.Add(line.Replace("\"", "").Split(','));
-            }
-            VanDataGrid.ItemsSource = null;
-            VanDataGrid.ItemsSource = CSVList.DefaultView;
-        */
+            var CurrentUser = Environment.UserName;
+            string filepath = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Waste Collection\\JobList.xlsx";
 
+            var connectionString = DataAccess.GlobalSQL.ConnectionMySQLVan;
+            DataTable exportList = new DataTable();
+
+            using (MySqlConnection _con = new MySqlConnection(connectionString))
+            {
+                var queryStatement = DataAccess.GlabalSQLQueries.VanListCombo;
+                using (MySqlCommand _cmd = new MySqlCommand(queryStatement, _con))
+                {
+                    MySqlDataAdapter _dap = new MySqlDataAdapter(_cmd);
+                    _con.Open();
+                    _dap.Fill(exportList);
+                    _con.Close();
+                }
+                exportList.Columns.Remove("visit_form");
+                exportList.Columns.Remove("waste_form");
+                exportList.Columns.Remove("leads");
+                exportList.Columns.Remove("scrap_type");
+                exportList.Columns.Remove("credit_checked");
+                exportList.Columns.Remove("weight_waste");
+                exportList.Columns.Remove("planned_start");
+                exportList.Columns.Remove("job_time");
+                exportList.Columns.Remove("job_notes");
+                exportList.Columns.Remove("annual_spend");
+                exportList.Columns.Remove("company_reg");
+                exportList.Columns.Remove("company_type");
+                exportList.AcceptChanges();
+                XLWorkbook wb = new XLWorkbook();
+                wb.Worksheets.Add(exportList, "Jobs");
+                wb.SaveAs(filepath);
+            }
+        }
     }
 }

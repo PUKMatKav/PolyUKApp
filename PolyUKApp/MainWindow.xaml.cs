@@ -362,7 +362,12 @@ namespace PolyUKApp
                 "\r" + "" + "\r" +
                 "v1.2.1.1 - Removed duplicate opening of save image dialog \n" +
                 "v1.2.1.1 - Correctly checks if photo to be saved on close of save box\n" +
-                "v1.2.1.1 - Fixed weight dialog box being uneditable");
+                "v1.2.1.1 - Fixed weight dialog box being uneditable" +
+                "\r" + "" + "\r" +
+                "v1.2.2.1 - Checks if photo already saved for visits \n" +
+                "v1.2.2.1 - Name adjustments for visits \n" +
+                "v1.2.2.1 - Manual export button current visits \n" +
+                "v1.2.2.1 - Auto updates excel when changes made to visits for map");
         }
 
         private void BtnCommInvoice_Click(object sender, RoutedEventArgs e)
