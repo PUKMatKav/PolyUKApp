@@ -367,7 +367,9 @@ namespace PolyUKApp
                 "v1.2.2.1 - Checks if photo already saved for visits \n" +
                 "v1.2.2.1 - Name adjustments for visits \n" +
                 "v1.2.2.1 - Manual export button current visits \n" +
-                "v1.2.2.1 - Auto updates excel when changes made to visits for map");
+                "v1.2.2.1 - Auto updates excel when changes made to visits for map" +
+                "\r" + "" + "\r" +
+                "v1.2.2.2 - Set update of CSV to fire from calendar selection visits");
         }
 
         private void BtnCommInvoice_Click(object sender, RoutedEventArgs e)

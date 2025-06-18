@@ -1,9 +1,13 @@
-﻿using PolyUKApp.Windows;
+﻿using ClosedXML.Excel;
+using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Asn1.Pkcs;
 using PolyUKApp.SQL;
+using PolyUKApp.Windows;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,11 +20,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using static PolyUKApp.Windows.CallTimeWindow;
-using MySql.Data.MySqlClient;
 using System.Xml.Linq;
-using Org.BouncyCastle.Asn1.Pkcs;
-using System.IO;
+using static PolyUKApp.Windows.CallTimeWindow;
 
 namespace PolyUKApp.MVVM.View
 {
@@ -235,12 +236,14 @@ namespace PolyUKApp.MVVM.View
                 {
                     var VisitInfoBox = new VanVisitInfoWindow();
                     VisitInfoBox.WindowState = WindowState.Maximized;
+                    VisitInfoBox.Closed += childFormEditVisitClosed;
                     VisitInfoBox.Show();
 
                 }
                 else
                 {
                     var VisitInfoBox = new VanVisitInfoWindow { Left = WindowLeft, Top = WindowTop, Width = WindowWidth, Height = WindowHeight };
+                    VisitInfoBox.Closed += childFormEditVisitClosed;
                     VisitInfoBox.Show();
 
                 }
@@ -248,7 +251,49 @@ namespace PolyUKApp.MVVM.View
             }
 
         }
+        public void childFormEditVisitClosed(object sender, EventArgs e)
+        {
+            GetCSV();
+            ((VanVisitInfoWindow)sender).Closed -= childFormEditVisitClosed;
 
+        }
+
+        public void GetCSV()
+        {
+            var CurrentUser = Environment.UserName;
+            string filepath = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Waste Collection\\JobList.xlsx";
+
+            var connectionString = DataAccess.GlobalSQL.ConnectionMySQLVan;
+            DataTable exportList = new DataTable();
+
+            using (MySqlConnection _con = new MySqlConnection(connectionString))
+            {
+                var queryStatement = DataAccess.GlabalSQLQueries.VanListCombo;
+                using (MySqlCommand _cmd = new MySqlCommand(queryStatement, _con))
+                {
+                    MySqlDataAdapter _dap = new MySqlDataAdapter(_cmd);
+                    _con.Open();
+                    _dap.Fill(exportList);
+                    _con.Close();
+                }
+                exportList.Columns.Remove("visit_form");
+                exportList.Columns.Remove("waste_form");
+                exportList.Columns.Remove("leads");
+                exportList.Columns.Remove("scrap_type");
+                exportList.Columns.Remove("credit_checked");
+                exportList.Columns.Remove("weight_waste");
+                exportList.Columns.Remove("planned_start");
+                exportList.Columns.Remove("job_time");
+                exportList.Columns.Remove("job_notes");
+                exportList.Columns.Remove("annual_spend");
+                exportList.Columns.Remove("company_reg");
+                exportList.Columns.Remove("company_type");
+                exportList.AcceptChanges();
+                XLWorkbook wb = new XLWorkbook();
+                wb.Worksheets.Add(exportList, "Jobs");
+                wb.SaveAs(filepath);
+            }
+        }
 
         public void VisitDisplayRefresh()
         {
