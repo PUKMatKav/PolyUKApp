@@ -369,7 +369,12 @@ namespace PolyUKApp
                 "v1.2.2.1 - Manual export button current visits \n" +
                 "v1.2.2.1 - Auto updates excel when changes made to visits for map" +
                 "\r" + "" + "\r" +
-                "v1.2.2.2 - Set update of CSV to fire from calendar selection visits");
+                "v1.2.2.2 - Set update of CSV to fire from calendar selection visits" +
+                "\r" + "" + "\r" +
+                "v1.2.2.3 - Rebuilt equations for updating total values when editing CIs \n" +
+                "v1.2.2.3 - CI Price/Qty now stored as global variable while editing page \n" +
+                "v1.2.2.3 - CI Price/Qty now to 5 decimal places for maths functions\n" +
+                "v1.2.2.3 - CI Price/Qty displays as rounded number for currency purposes");
         }
 
         private void BtnCommInvoice_Click(object sender, RoutedEventArgs e)

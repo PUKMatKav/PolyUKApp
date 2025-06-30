@@ -1,4 +1,5 @@
-﻿using Google.Protobuf.WellKnownTypes;
+﻿using DocumentFormat.OpenXml.Drawing;
+using Google.Protobuf.WellKnownTypes;
 using Microsoft.Data.SqlClient;
 using Microsoft.Exchange.WebServices.Data;
 using Microsoft.VisualBasic;
@@ -38,8 +39,18 @@ namespace PolyUKApp.Windows
     {
         static readonly int MyHotKeyId = 0x3000;
         static readonly int WM_HOTKEY = 0x312;
-
-
+        double unitPrice1 = 0.00;
+        double unitPrice2 = 0.00;
+        double unitPrice3 = 0.00;
+        double unitPrice4 = 0.00;
+        double unitQty1 = 0.00;
+        double unitQty2 = 0.00;
+        double unitQty3 = 0.00;
+        double unitQty4 = 0.00;
+        double unitTot1 = 0.00;
+        double unitTot2 = 0.00;
+        double unitTot3 = 0.00;
+        double unitTot4 = 0.00;
 
         public CommInvoiceWindow()
         {
@@ -227,6 +238,23 @@ namespace PolyUKApp.Windows
             PalletsTextBlock.AppendText("PLEASE ENTER");
             DataGridCI.ItemsSource = null;
             CurrencyTextBlock.Text = string.Empty;
+
+            unitPrice1 = 0.00;
+            unitPrice2 = 0.00;
+            unitPrice3 = 0.00;
+            unitPrice4 = 0.00;
+            unitPrice1 = 0.00;
+            unitPrice2 = 0.00;
+            unitPrice3 = 0.00;
+            unitPrice4 = 0.00;
+            unitQty1 = 0.00;
+            unitQty2 = 0.00;
+            unitQty3 = 0.00;
+            unitQty4 = 0.00;
+            unitTot1 = 0.00;
+            unitTot2 = 0.00;
+            unitTot3 = 0.00;
+            unitTot4 = 0.00;
         }
 
         public void OrderDataSQL()
@@ -309,6 +337,26 @@ namespace PolyUKApp.Windows
                 OrderTable.AcceptChanges();
                 var TotalPrice = Convert.ToDouble(Row["UnitSellingPrice"]) * Convert.ToDouble(Row["LineQuantity"]);
                 var NetWeight = Math.Round(Convert.ToDouble(Row["Weight"]) * Convert.ToDouble(Row["LineQuantity"]), 0);
+                if (unitPrice1 is 0.00)
+                {
+                    unitPrice1 = Convert.ToDouble(Row["UnitSellingPrice"]);
+                    unitQty1 = Convert.ToDouble(Row["LineQuantity"]);
+                }
+                else if ((unitPrice1 is not 0.00) && unitPrice2 is 0.00)
+                {
+                    unitPrice2 = Convert.ToDouble(Row["UnitSellingPrice"]);
+                    unitQty2 = Convert.ToDouble(Row["LineQuantity"]);
+                }
+                else if ((unitPrice1 is not 0.00) && (unitPrice2 is not 0.00) && unitPrice3 is 0.00)
+                {
+                    unitPrice3 = Convert.ToDouble(Row["UnitSellingPrice"]);
+                    unitQty3 = Convert.ToDouble(Row["LineQuantity"]);
+                }
+                else if ((unitPrice1 is not 0.00) && (unitPrice2 is not 0.00) && (unitPrice3 is not 0.00) && unitPrice4 is 0.00)
+                {
+                    unitPrice4 = Convert.ToDouble(Row["UnitSellingPrice"]);
+                    unitQty4 = Convert.ToDouble(Row["LineQuantity"]);
+                }
                 double SellingPrice = Math.Round(Convert.ToDouble(Row["UnitSellingPrice"]), 2);
                 double LineQuantity = Math.Round(Convert.ToDouble(Row["LineQuantity"]), 2);
                 var GrossWeight = NetWeight + 20;
@@ -860,7 +908,7 @@ namespace PolyUKApp.Windows
                             OrderDataSQL();
                             DetailsSQL();
                             ReadWriteCINumber();
-                            InvFromText.AppendText("XI903824828000" + "\r" + "Polythene UK Ltd" + "\r" + "31c Avenue 1" + "\r" + "Station Lane" + "\r" + "Witney" + "\r" + "OX28 4XZ" + "\r" + "0845 643 1601");
+                            InvFromText.AppendText("XI903824828000" + "\r" + "Polythene UK Ltd" + "\r" + "4 Witan Park" + "\r" + "Avenue Twp" + "\r" + "Witney" + "\r" + "OX28 4FH" + "\r" + "0845 643 1601");
                             InvDate.Text = currentdate;
 
                             MessageBox.Show("Please check all information is correct and filled in");
@@ -891,7 +939,7 @@ namespace PolyUKApp.Windows
 
                 var currentdate = (DateTime.Now).ToString().Substring(0, 10);
 
-                InvFromText.AppendText("XI903824828000" + "\r" + "Polythene UK Ltd" + "\r" + "31c Avenue 1" + "\r" + "Station Lane" + "\r" + "Witney" + "\r" + "OX28 4XZ" + "\r" + "0845 643 1601");
+                InvFromText.AppendText("XI903824828000" + "\r" + "Polythene UK Ltd" + "\r" + "4 Witan Park" + "\r" + "Avenue Twp" + "\r" + "Witney" + "\r" + "OX28 4FH" + "\r" + "0845 643 1601");
                 OriginLOC.Text = "UK";
                 InvDate.Text = currentdate;
 
@@ -910,8 +958,144 @@ namespace PolyUKApp.Windows
 
         private void DataGridCI_CurrentCellChanged(object sender, EventArgs e)
         {
+
+        }
+        private void Layoutmove()
+        {
+            ShipModeTitle.Margin = new Thickness(25, 705, 0, 0);
+            ShipModeTextBlock.Margin = new Thickness(145, 705, 0, 0);
+            CertTitle.Margin = new Thickness(25, 725, 0, 0);
+            CertTextBlock.Margin = new Thickness(145, 725, 0, 0);
+
+            TotalRectangle.Margin = new Thickness(565, 703, 0, 0);
+            SubTotTitle.Margin = new Thickness(580, 715, 0, 0);
+            SubTotTextBlock.Margin = new Thickness(680, 715, 0, 0);
+            VATtitle.Margin = new Thickness(580, 735, 0, 0);
+            VATTextBlock.Margin = new Thickness(680, 735, 0, 0);
+            TotalTitle.Margin = new Thickness(580, 755, 0, 0);
+            TotTextBlock.Margin = new Thickness(680, 755, 0, 0);
+            CurrencyTextBlock.Margin = new Thickness(580, 780, 0, 0);
+
+            Dec1.Margin = new Thickness(25, 765, 0, 0);
+            Dec2.Margin = new Thickness(25, 780, 0, 0);
+            Dec3.Margin = new Thickness(25, 795, 0, 0);
+            Dec4.Margin = new Thickness(25, 810, 0, 0);
+            Dec5.Margin = new Thickness(25, 825, 0, 0);
+
+            SigTitle.Margin = new Thickness(25, 875, 0, 0);
+            MDsig.Margin = new Thickness(25, 890, 0, 0);
+            MDTitle.Margin = new Thickness(25, 945, 0, 0);
+        }
+
+        private void DataGridCI_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            DataTable RecalcTable = new DataTable();
+
+            if (e.EditAction == DataGridEditAction.Commit)
+            {
+                var column = e.Column as DataGridBoundColumn;
+                if (column != null)
+                {
+                    var bindingPath = (column.Binding as System.Windows.Data.Binding).Path.Path;
+                    if (bindingPath == "Price")
+                    {
+                        int rowIndex = e.Row.GetIndex();
+                        var el = e.EditingElement as System.Windows.Controls.TextBox;
+                        if (rowIndex == 0)
+                        {
+                            unitPrice1 = Convert.ToDouble(el.Text);
+                        }
+                        else if (rowIndex == 1)
+                        {
+                            unitPrice2 = Convert.ToDouble(el.Text);
+                        }
+                        else if (rowIndex == 2)
+                        {
+                            unitPrice3 = Convert.ToDouble(el.Text);
+                        }
+                        else if (rowIndex == 3)
+                        {
+                            unitPrice4 = Convert.ToDouble(el.Text);
+                        }
+                    }
+                    if (bindingPath == "Qty")
+                    {
+                        int rowIndex = e.Row.GetIndex();
+                        var el = e.EditingElement as System.Windows.Controls.TextBox;
+                        if (rowIndex == 0)
+                        {
+                            unitQty1 = Convert.ToDouble(el.Text);
+                        }
+                        else if (rowIndex == 1)
+                        {
+                            unitQty2 = Convert.ToDouble(el.Text);
+                        }
+                        else if (rowIndex == 2)
+                        {
+                            unitQty3 = Convert.ToDouble(el.Text);
+                        }
+                        else if (rowIndex == 3)
+                        {
+                            unitQty4 = Convert.ToDouble(el.Text);
+                        }
+                    }
+                }
+            }
+            RecalcTable = ((DataView)DataGridCI.ItemsSource).ToTable();
+            foreach (DataRow row in RecalcTable.Rows)
+            {
+                var rowIndex = RecalcTable.Rows.IndexOf(row);
+                if (rowIndex == 0)
+                {
+                    unitTot1 = unitQty1 * unitPrice1;
+                    row["Total"] = Math.Round(unitQty1 * unitPrice1, 2);
+                    row["Price"] = Math.Round(unitPrice1, 2).ToString();
+                    row["Qty"] = Math.Round(unitQty1, 2).ToString();
+                }
+                else if (rowIndex == 1)
+                {
+                    unitTot2 = unitQty2 * unitPrice2;
+                    row["Total"] = Math.Round(unitQty2 * unitPrice2, 2);
+                    row["Price"] = Math.Round(unitPrice2, 2).ToString();
+                    row["Qty"] = Math.Round(unitQty2, 2).ToString();
+                }
+                else if (rowIndex == 2)
+                {
+                    unitTot3 = unitQty3 * unitPrice3;
+                    row["Total"] = Math.Round(unitQty3 * unitPrice3, 2);
+                    row["Price"] = Math.Round(unitPrice3, 2).ToString();
+                    row["Qty"] = Math.Round(unitQty3, 2).ToString();
+                }
+                else if (rowIndex == 3)
+                {
+                    unitTot4 = unitQty4 * unitPrice4;
+                    row["Total"] = Math.Round(unitQty4 * unitPrice4, 2);
+                    row["Price"] = Math.Round(unitPrice4, 2).ToString();
+                    row["Qty"] = Math.Round(unitQty4, 2).ToString();
+                }
+                else { }
+                DataGridCI.ItemsSource = RecalcTable.DefaultView;
+                //MessageBox.Show("test");
+                //Update Overall totals
+
+                double NewNetTotal = unitTot1 + unitTot2 + unitTot3 + unitTot4;
+                SubTotTextBlock.Text = Math.Round(NewNetTotal, 2).ToString("0.00");
+                if (VATTextBlock.Text == "0.00")
+                {
+                    TotTextBlock.Text = Math.Round(NewNetTotal, 2).ToString("0.00");
+                }
+                else
+                {
+                    VATTextBlock.Text = Math.Round(NewNetTotal * 0.2, 2).ToString("0.00");
+                    TotTextBlock.Text = Math.Round(NewNetTotal * 1.2, 2).ToString("0.00");
+                }
+            }
+        }
+
+        private void CellUpdate()
+        {
             double TableHeight = DataGridCI.ActualHeight;
-            if ( TableHeight > 240 )
+            if (TableHeight > 240)
             {
                 Layoutmove();
             }
@@ -923,11 +1107,10 @@ namespace PolyUKApp.Windows
 
             foreach (DataRow row in RecalcTable.Rows)
             {
-                if (row["Qty"] != DBNull.Value && row["Price"] != DBNull.Value && row["Total"] != DBNull.Value)
+                int rowIndex = RecalcTable.Rows.IndexOf(row);
+                if (rowIndex is 0 && row["Qty"] != DBNull.Value && row["Price"] != DBNull.Value && row["Total"] != DBNull.Value)
                 {
-                    double QtyVal = Convert.ToDouble(row["Qty"]);
-                    double PriceVal = Convert.ToDouble(row["Price"]);
-                    double TotalVal = QtyVal * PriceVal;
+                    double TotalVal = unitPrice1 * unitQty1;
 
                     if (TotalVal != Convert.ToDouble(row["Total"]) && TotalVal != 0)
                     {
@@ -960,33 +1143,6 @@ namespace PolyUKApp.Windows
                 VATTextBlock.Text = Math.Round(NewNetTotal * 0.2, 2).ToString("0.00");
                 TotTextBlock.Text = Math.Round(NewNetTotal * 1.2, 2).ToString("0.00");
             }
-        }
-
-        private void Layoutmove()
-        {
-            ShipModeTitle.Margin = new Thickness(25, 705, 0, 0);
-            ShipModeTextBlock.Margin = new Thickness(145, 705, 0, 0);
-            CertTitle.Margin = new Thickness(25, 725, 0, 0);
-            CertTextBlock.Margin = new Thickness(145, 725, 0, 0);
-
-            TotalRectangle.Margin = new Thickness(565, 703, 0, 0);
-            SubTotTitle.Margin = new Thickness(580, 715, 0, 0);
-            SubTotTextBlock.Margin = new Thickness(680, 715, 0, 0);
-            VATtitle.Margin = new Thickness(580, 735, 0, 0);
-            VATTextBlock.Margin = new Thickness(680, 735, 0, 0);
-            TotalTitle.Margin = new Thickness(580, 755, 0, 0);
-            TotTextBlock.Margin = new Thickness(680, 755, 0, 0);
-            CurrencyTextBlock.Margin = new Thickness(580, 780, 0, 0);
-
-            Dec1.Margin = new Thickness(25, 765, 0, 0);
-            Dec2.Margin = new Thickness(25, 780, 0, 0);
-            Dec3.Margin = new Thickness(25, 795, 0, 0);
-            Dec4.Margin = new Thickness(25, 810, 0, 0);
-            Dec5.Margin = new Thickness(25, 825, 0, 0);
-
-            SigTitle.Margin = new Thickness(25, 875, 0, 0);
-            MDsig.Margin = new Thickness(25, 890, 0, 0);
-            MDTitle.Margin = new Thickness(25, 945, 0, 0);
         }
     }
 }

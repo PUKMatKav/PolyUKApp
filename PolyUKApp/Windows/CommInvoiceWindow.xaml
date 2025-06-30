@@ -447,6 +447,7 @@
                     CellStyle="{DynamicResource DataGridCellStockThemeCI}"
                     ColumnHeaderStyle="{DynamicResource ColumnHeaderStockThemeCI}"
                       CurrentCellChanged="DataGridCI_CurrentCellChanged"
+                      CellEditEnding="DataGridCI_CellEditEnding"
                       AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn IsReadOnly="False" Header="Code" Binding="{Binding Code}" ElementStyle="{DynamicResource WrapText}" Width="130"/>
