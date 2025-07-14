@@ -1,4 +1,5 @@
 ﻿using Azure;
+using ClosedXML.Excel;
 using Microsoft.Data.SqlClient;
 using PolyUKApp.SQL;
 using PolyUKApp.SQL.Models;
@@ -6,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -29,6 +31,10 @@ namespace PolyUKApp.Windows
     /// </summary>
     public partial class PODWindow : Window
     {
+        String MonthSelected = "";
+        String YearSelected = "";
+        DataTable SupplierTable = new DataTable();
+
         public PODWindow()
         {
             InitializeComponent();
@@ -100,14 +106,16 @@ namespace PolyUKApp.Windows
             {
                 ComboBoxSupplier.Visibility = Visibility.Visible;
                 TextBlockSupplier.Visibility = Visibility.Visible;
+
                 SupplierLoadSQL();
             }
         }
 
         private void ComboBoxSupplier_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            PODQuerySQL();
-            //PODInfoLoad();
+                BtnExport.Visibility = Visibility.Visible;
+                PODQuerySQL();
+                //PODInfoLoad();
         }
 
         public async Task SupplierLoad()
@@ -241,111 +249,205 @@ namespace PolyUKApp.Windows
         public async Task PODQuerySQL()
         {
             await Task.Delay(100);
-            var connectionString = DataAccess.GlobalSQL.Connection;
-            DataTable PODTable = new DataTable();
-            
-            //load PODs
-
-            using (SqlConnection _con = new SqlConnection(connectionString))
+            if (ComboBoxSupplier.Text == "")
             {
-                var queryStatement = DataAccess.GlabalSQLQueries.PODQuery;
-                _con.Open();
+                DataGrid1.ItemsSource = null;
+            }
+            else
+            {
+                var connectionString = DataAccess.GlobalSQL.Connection;
+                String supplierCode = ComboBoxSupplier.Text;
+                //SupplierTable.Columns.Remove("");
+                DataView supplierDataView = new DataView(SupplierTable);
 
-                using (SqlCommand _cmd = new SqlCommand(queryStatement, _con))
+                BindingSource bs = new BindingSource
                 {
-                    SqlDataAdapter _dap = new SqlDataAdapter(_cmd);
-                    _dap.Fill(PODTable);
+                    DataSource = supplierDataView.Table,
+                    Filter = "[SupplierAccountNumber] like '%" + supplierCode + "%'"
+                };
 
-
-                }
+                DataGrid1.ItemsSource = bs;
+                DataGrid1.Columns[1].Visibility = Visibility.Collapsed;
+                DataGrid1.Columns[2].Visibility = Visibility.Collapsed;
+                DataGrid1.Columns[4].Visibility = Visibility.Collapsed;
+                DataGrid1.Columns[5].Visibility = Visibility.Collapsed;
+                DataGrid1.Columns[7].Visibility = Visibility.Collapsed;
+                DataGrid1.Columns[8].Visibility = Visibility.Collapsed;
 
             }
-            System.Windows.MessageBox.Show("Done");
+
         }
 
         public async Task SupplierLoadSQL()
         {
+            SupplierTable.Dispose();
+            SupplierTable.Clear();
+            DataGrid1.ItemsSource = null;
             await Task.Delay(100);
             var connectionString = DataAccess.GlobalSQL.Connection;
-            String YearSelected = ComboBoxYear.Text;
-            String MonthSelected = ComboBoxMonth.Text.Substring(0, 3);
+            YearSelected = ComboBoxYear.Text;
+            MonthSelected = ComboBoxMonth.Text.Substring(0, 3);
             int MonthNumber = DateTime.ParseExact(MonthSelected, "MMM", CultureInfo.CurrentCulture).Month;
             String MonthNumSQL = "";
+            String DaysMax = "";
             if (MonthNumber < 10)
             {
                 MonthNumSQL = "0" + MonthNumber.ToString();
             }
             if (MonthNumSQL == "01" | MonthNumSQL == "03" | MonthNumSQL == "05" | MonthNumSQL == "07" | MonthNumSQL == "08" | MonthNumSQL == "10" | MonthNumSQL == "12")
             {
-
+                DaysMax = "31";
             }
             else if (MonthNumSQL == "02")
             {
-
+                DaysMax = "28";
             }
             else
             {
-
+                DaysMax = "30";
             }
 
-            String SQLDateEnd = MonthNumSQL + "/" + "31" + "/" + YearSelected; 
-            DataTable SupplierTable = new DataTable();
+            String SQLDateEnd = MonthNumSQL + "/" + DaysMax + "/" + YearSelected;
+            String SQLDateStart = MonthNumSQL + "/" + "01" + "/" + YearSelected;
+            
 
             //get list of PODs saved currently
             var CurrentUser = Environment.UserName;
             var Filepath = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Accounts - Documents\\PODS 2020";
+            var filePathCoC = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\BRC &  ISO 2020\\BRCGS\\Coc & Data Sheets\\BRC SUPPLIER CERTIFICATES OF CONFORMITY";
 
             string[] PODArray = Directory.GetFiles(Filepath, "*.*", SearchOption.AllDirectories);
             String PODFIles = String.Concat(PODArray);
 
+            string[] CoCArray = Directory.GetFiles(filePathCoC, "*.*", SearchOption.AllDirectories);
+            String CoCFiles = String.Concat(CoCArray);
+
             //load Suppliers based on above
             using (SqlConnection _con = new SqlConnection(connectionString))
             {
-                var queryStatement = DataAccess.GlabalSQLQueries.PODQuery;
+                var queryStatement = DataAccess.GlabalSQLQueries.PODSupplierQuery;
                 _con.Open();
 
                 using (SqlCommand _cmd = new SqlCommand(queryStatement, _con))
                 {
                     SqlDataAdapter _dap = new SqlDataAdapter(_cmd);
 
-                    //_cmd.Parameters.AddWithValue("ConfirmedYear", YearSelected);
-                    //_cmd.Parameters.AddWithValue("ConfirmedMonth", MonthSelected);
+                    _cmd.Parameters.AddWithValue("MonthSelected", MonthSelected);
+                    _cmd.Parameters.AddWithValue("YearSelected", YearSelected);
 
                     _dap.Fill(SupplierTable);
-                    SupplierTable.Columns.Add("POD");
 
-                    //foreach (DataRow baseRow in SupplierTable.Rows)
-                    //{
-                    //    if (PODFIles.Contains(baseRow["DocumentNo"].ToString().Substring(4, 6)))
-                    //    {
-                    //        baseRow["POD"] = "YES";
-                    //    }
-                    //}
+                    if (!SupplierTable.Columns.Contains("POD"))
+                    {
+                        SupplierTable.Columns.Add("POD");
+                    }
+                    if (!SupplierTable.Columns.Contains("BRC CoC"))
+                    {
+                        SupplierTable.Columns.Add("BRC CoC");
+                    }
 
-                    //List<string> SupplierList = new List<string>();
+                    foreach (DataRow CoCRow in SupplierTable.Rows)
+                    {
+                        if (CoCFiles.Contains(CoCRow["DocumentNo"].ToString().Substring(4,6)))
+                        {
+                            CoCRow["BRC CoC"] = "SAVED";
+                        }
+                        else if (CoCRow["ItemCode"].ToString().Substring(0,3) == "BRC" && (!CoCFiles.Contains(CoCRow["DocumentNo"].ToString().Substring(4, 6))))
+                        {
+                            CoCRow["BRC CoC"] = "REQUIRED";
+                        }
+                        else
+                        {
+                            CoCRow["BRC CoC"] = "N/A";
+                        }
+                    }
 
-                    //foreach (DataRow row in SupplierTable.Rows)
-                    //{
-                    //    if (row["SupplierAccountNumber"] != DBNull.Value)
-                    //    {
-                    //        if (SupplierList.Contains(row["SupplierAccountNumber"].ToString()) && PODFIles.Contains(row["DocumentNo"].ToString()))
-                    //        {
-                    //            System.Windows.MessageBox.Show("POD found");
-                    //        }
-                    //        else
-                    //        {
-                    //            SupplierList.Add(row["SupplierAccountNumber"].ToString());
-                    //        }
-                    //    }
-                    //}
-                    //SupplierList.Sort();
-                    //ComboBoxSupplier.Items.Clear();
-                    //foreach (var Supplier in SupplierList)
-                    //{
-                    //    ComboBoxSupplier.Items.Add(Supplier);
-                    //}
+                    foreach (DataRow baseRow in SupplierTable.Rows)
+                    {
+                        if (PODFIles.Contains(baseRow["DocumentNo"].ToString().Substring(4, 6)) || PODFIles.Contains(baseRow["TransactionReference"].ToString()))
+                        {
+                            baseRow["POD"] = "Saved";
+
+                            if (baseRow["BRC CoC"].ToString() == "N/A" || baseRow["BRC CoC"].ToString() == "SAVED")
+                            {
+                                baseRow.Delete();
+                            }
+                        }
+                        else
+                        {
+                            baseRow["POD"] = "Missing";
+                        }
+                    }
+                    SupplierTable.AcceptChanges();
+                    
+                    List<string> SupplierList = new List<string>();
+
+                    foreach (DataRow row in SupplierTable.Rows)
+                    {
+                        if (row["SupplierAccountNumber"] != DBNull.Value)
+                        {
+                            if (SupplierList.Contains(row["SupplierAccountNumber"].ToString()))
+                            {
+                                
+                            }
+                            else
+                            {
+                                SupplierList.Add(row["SupplierAccountNumber"].ToString());
+                            }
+                        }
+                    }
+                    SupplierList.Sort();
+                    ComboBoxSupplier.Items.Clear();
+                    foreach (var Supplier in SupplierList)
+                    {
+                        ComboBoxSupplier.Items.Add(Supplier);
+                    }
                 }
             }
+            await Task.Delay(100);
+        }
+
+        private void BtnExport_Click(object sender, RoutedEventArgs e)
+        {
+            string tempResult = System.IO.Path.GetTempPath();
+            string filePath = tempResult + "PODs.xlsx";
+            DataTable exportPODs = new DataTable();
+            exportPODs = SupplierTable.Copy();
+
+            foreach (DataRow row in exportPODs.Rows)
+            {
+                if (row["SupplierAccountNumber"].ToString() != ComboBoxSupplier.Text)
+                {
+                    row.Delete();
+                }
+            }
+            exportPODs.Columns.Remove("ConfirmedMonth");
+            exportPODs.Columns.Remove("ConfirmedYear");
+            exportPODs.Columns.Remove("InvDueMonth");
+            exportPODs.Columns.Remove("InvDueYear");
+            exportPODs.Columns.Remove("ItemCode");
+            exportPODs.Columns.Remove("SupplierAccountNumber");
+            exportPODs.Columns[0].ColumnName = "Order Number";
+            exportPODs.Columns[1].ColumnName = "Customer Name";
+            exportPODs.Columns[2].ColumnName = "Supplier Invoice";
+            exportPODs.AcceptChanges();
+            exportPODs = exportPODs.DefaultView.ToTable(true);
+
+
+
+            XLWorkbook wb = new XLWorkbook();
+            bool answer = false;
+            wb.AddWorksheet(exportPODs, "PODs");
+            try
+            {
+                wb.SaveAs(filePath);
+            }
+            catch (IOException ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+            }
+            var psi = new ProcessStartInfo(filePath) { UseShellExecute = true };
+            Process.Start(psi);
         }
     }
 }

@@ -131,14 +131,30 @@ namespace PolyUKApp.SQL
                 "SOPOrderReturn.DocumentNo, SOPOrderReturn.SpareDate1, FORMAT(SOPOrderReturn.SpareDate1, 'MMM') as ConfirmedMonth, FORMAT(SOPOrderReturn.SpareDate1, 'yy') as ConfirmedYear, CONVERT (varchar, SOPOrderReturn.DocumentDate, 111) as RaisedDate, " +
                 "SLCustomerAccount.CustomerAccountName, " +
                 "SOPOrderReturnX.SOPOrderReturnXID, " +
+                "SOPOrderReturnLine.ItemCode, " +
                 "PLSupplierAccount.SupplierAccountNumber, " +
                 "PLPostedSupplierTran.TransactionReference, FORMAT(PLPostedSupplierTran.DueDate, 'MMM') as InvDueMonth, FORMAT(PLPostedSupplierTran.DueDate, 'yy') as InvDueYear " +
                 "FROM SOPOrderReturn " +
                 "LEFT JOIN SLCustomerAccount ON SOPOrderReturn.CustomerID=SLCustomerAccount.SLCustomerAccountID " +
                 "LEFT JOIN SOPOrderReturnX ON SOPOrderReturn.SOPOrderReturnID=SOPOrderReturnX.SOPOrderReturnXID " +
+                "LEFT JOIN SOPOrderReturnLine ON SOPOrderReturn.SOPOrderReturnID=SOPOrderReturnLine.SOPOrderReturnID " +
                 "LEFT JOIN PLSupplierAccount ON SOPOrderReturnX.SupplierID=PLSupplierAccount.PLSupplierAccountID " +
                 "LEFT JOIN PLPostedSupplierTran ON SOPOrderReturn.DocumentNo=PLPostedSupplierTran.SecondReference " +
-                "WHERE (SOPOrderReturn.SpareDate1 >= '01/01/2025' and SOPOrderReturn.SpareDate1 <= '01/32/2025') and SOPOrderReturn.DocumentTypeID = '0' and SOPOrderReturn.AnalysisCode2 = 'DD'";
+                "WHERE FORMAT(SOPOrderReturn.SpareDate1, 'MMM') = @MonthSelected and FORMAT(SOPOrderReturn.SpareDate1, 'yyyy') = @YearSelected and SOPOrderReturn.DocumentTypeID = '0' and SOPOrderReturn.AnalysisCode2 = 'DD' and PLSupplierAccount.SupplierAccountNumber = @SupplierSelected";
+
+            public static String PODSupplierQuery = "SELECT " +
+                "SOPOrderReturn.DocumentNo, FORMAT(SOPOrderReturn.SpareDate1, 'MMM') as ConfirmedMonth, FORMAT(SOPOrderReturn.SpareDate1, 'yy') as ConfirmedYear, " +
+                "SLCustomerAccount.CustomerAccountName, " +
+                "SOPOrderReturnLine.ItemCode, " +
+                "PLSupplierAccount.SupplierAccountNumber, " +
+                "PLPostedSupplierTran.TransactionReference, FORMAT(PLPostedSupplierTran.DueDate, 'MMM') as InvDueMonth, FORMAT(PLPostedSupplierTran.DueDate, 'yy') as InvDueYear " +
+                "FROM SOPOrderReturn " +
+                "LEFT JOIN SLCustomerAccount ON SOPOrderReturn.CustomerID=SLCustomerAccount.SLCustomerAccountID " +
+                "LEFT JOIN SOPOrderReturnX ON SOPOrderReturn.SOPOrderReturnID=SOPOrderReturnX.SOPOrderReturnXID " +
+                "LEFT JOIN SOPOrderReturnLine ON SOPOrderReturn.SOPOrderReturnID=SOPOrderReturnLine.SOPOrderReturnID " +
+                "LEFT JOIN PLSupplierAccount ON SOPOrderReturnX.SupplierID=PLSupplierAccount.PLSupplierAccountID " +
+                "LEFT JOIN PLPostedSupplierTran ON SOPOrderReturn.DocumentNo=PLPostedSupplierTran.SecondReference " +
+                "WHERE FORMAT(SOPOrderReturn.SpareDate1, 'MMM') = @MonthSelected and FORMAT(SOPOrderReturn.SpareDate1, 'yyyy') = @YearSelected and SOPOrderReturn.DocumentTypeID = '0' and SOPOrderReturn.AnalysisCode2 = 'DD' and SOPOrderReturnLine.ItemCode != 'Carriage' and SOPOrderReturnLine.ItemCode != ''";
 
             public static String WOItemListQuery = "SELECT Code, Name, Description, StockUnitName AS 'Unit', ProductGroupDescription AS 'Type' " +
                                                  "FROM STKStockItemView " +

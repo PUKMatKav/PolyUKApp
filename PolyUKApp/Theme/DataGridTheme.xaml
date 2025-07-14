@@ -61,12 +61,16 @@
         <Setter Property="MinHeight" Value="19"/>
         <Setter Property="MaxHeight" Value="100"/>
         <Setter Property="MaxWidth" Value="320"/>
+        <Setter Property="Padding" Value="5"/>
+        <Setter Property="TextBlock.Padding" Value="0"/>
+        <Setter Property="Margin" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridCell}">
                     <Grid Background="{TemplateBinding Background}">
                         <ContentPresenter HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"/>
+                                       VerticalAlignment="Center"
+                                          Margin="5"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -81,6 +85,7 @@
         <Setter Property="Margin" Value="5,10,0,10"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="TextBlock.Padding" Value="5"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridCell}">

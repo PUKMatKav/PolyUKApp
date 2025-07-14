@@ -118,6 +118,16 @@
                   Visibility="Hidden">
                 </ComboBox>
 
+                <Button x:Name="BtnExport"
+                Content="Export"
+                Margin="700,100,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Click="BtnExport_Click"
+                Width="80"
+                Style="{DynamicResource GeneralButtonTheme}"
+                Visibility="Hidden"/>
+
                 <DataGrid x:Name="DataGrid1"
                 Grid.Row="2"
                 Margin="20,210,20,20"

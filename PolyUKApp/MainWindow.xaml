@@ -324,7 +324,7 @@ HorizontalAlignment="Stretch"
                     Style="{DynamicResource MenuButtonTheme}"
                     Click="BtnPODs_Click"
                     MouseEnter="BtnPODs_MouseEnter"
-                    Visibility="Collapsed"/>
+                    Visibility="Visible"/>
             <Separator Margin="30,2,120,2"
                        Background="{DynamicResource Border}"
                        Opacity="1"/>
@@ -387,7 +387,7 @@ HorizontalAlignment="Stretch"
                HorizontalAlignment="Left"/>
 
         <TextBlock x:Name="versionbox"
-                   Text="v1.2.2.3"
+                   Text="v1.2.3.0"
                    Grid.Row="3"
                    FontFamily="Aptos"
                    Foreground="Gray"

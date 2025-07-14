@@ -26,6 +26,7 @@ namespace PolyUKApp
             InitializeComponent();
             LoadTheme();
             CurrentDateDisplay();
+            PODButtonView();
 
         }
         private void MainWindow_SizeChanged()
@@ -351,7 +352,7 @@ namespace PolyUKApp
                 "v1.2.0.1 - removed call time download button for now\n" +
                 "v1.2.0.2 - changed delimiter for CI draft saving to avoid comma confusion");*/
 
-            System.Windows.MessageBox.Show("v1.2.1.0" +
+            /*System.Windows.MessageBox.Show("v1.2.1.0" +
                 "\r" + "" + "\r" +
                 "- Added more functionality to CI page\n" +
                 "- CI Page now allow on the fly edits to qty\n" +
@@ -374,7 +375,20 @@ namespace PolyUKApp
                 "v1.2.2.3 - Rebuilt equations for updating total values when editing CIs \n" +
                 "v1.2.2.3 - CI Price/Qty now stored as global variable while editing page \n" +
                 "v1.2.2.3 - CI Price/Qty now to 5 decimal places for maths functions\n" +
-                "v1.2.2.3 - CI Price/Qty displays as rounded number for currency purposes");
+                "v1.2.2.3 - CI Price/Qty displays as rounded number for currency purposes" +
+                "\r" + "" + "\r" +
+                "v1.2.2.4 - Removed LoadDailyJSON command to stop call timer crashing on reload");*/
+
+            System.Windows.MessageBox.Show("v1.2.3.0" +
+                "\r" + "" + "\r" +
+                "- Refactored CI table calculations, should now allow for weights to update correctly if manually entered\n" +
+                "- New file format (JSON) for call timer\n" +
+                "- JSON should be more robust, removing end of array errors\n" +
+                "- JSON files set to default for call timer reload\n" +
+                "- Akixi API connector also downloads JSON and saves with CSV\n" +
+                "- Fixed reload data button (calling dead method)\n" +
+                "- Total line removed from Call Time DataGrid as wasn't clear\n" +
+                "- Argument added to load method for daily calls");
         }
 
         private void BtnCommInvoice_Click(object sender, RoutedEventArgs e)
@@ -517,6 +531,19 @@ namespace PolyUKApp
             TextBlockInfo.Document.Blocks.Clear();
             TextBlockInfo.AppendText("Can display outstanding PODs and draft emails to send to request them.");
 
+        }
+
+        private void PODButtonView()
+        {
+            var CurrentUser = Environment.UserName;
+            if (CurrentUser == "MatthewKavanagh")
+            {
+                BtnPODs.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                BtnPODs.Visibility = Visibility.Collapsed;
+            }
         }
 
 

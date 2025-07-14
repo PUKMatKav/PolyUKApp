@@ -11,6 +11,7 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Security.Policy;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -33,15 +34,77 @@ namespace PolyUKApp.Windows
     public partial class CallTimeWindow : Window
     {
         public static string SessionID;
+        string fileToParseDaily = "612d239751dd5a85_-5362eb36_18b5c897a7f_10e5";
+        string fileToParseWeekly = "612d239751dd5a85_-5362eb36_18b5c897a7f_2cbb";
 
         public CallTimeWindow()
         {
             InitializeComponent();
             LoadTheme();
-            LoadDaily();
-            LoadWeekly();
+            ParseJsonToDataTable(fileToParseDaily);
+            ParseJsonToDataTableWeekly(fileToParseWeekly);
             string currentTime = DateTime.Now.ToString();
             DateTimeText.Text = currentTime;
+        }
+
+        //Old CSV Loaders
+        //public void LoadDaily()
+        //{
+        //    string CurrentUser = Globals.Username;
+        //    try
+        //    {
+        //        using DataTable dt = readCSV("C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Matt K Stuff\\612d239751dd5a85_-5362eb36_18b5c897a7f_10e5.csv");
+        //        if (dt.Rows.Count > 0)
+        //        {
+        //            DataGrid1.ItemsSource = null;
+        //            DataGrid1.ItemsSource = dt.DefaultView;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        System.Windows.MessageBox.Show(ex.Message, "Error");
+        //    }
+        //}
+
+        //public void LoadWeekly()
+        //{
+        //    string CurrentUser = Globals.Username;
+        //    try
+        //    {
+        //        using DataTable dt2 = readCSV("C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Matt K Stuff\\612d239751dd5a85_-5362eb36_18b5c897a7f_2cbb.csv");
+        //        if (dt2.Rows.Count > 0)
+        //        {
+        //            DataGrid2.ItemsSource = null;
+        //            DataGrid2.ItemsSource = dt2.DefaultView;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        System.Windows.MessageBox.Show(ex.Message, "Error");
+        //    }
+        //}
+
+        public class Statistic
+        {
+            public int ID { get; set; }
+            public string Value { get; set; }
+        }
+
+        public class Row
+        {
+            public string ID { get; set; }
+            public string Description { get; set; }
+            public List<Statistic> Statistics { get; set; }
+        }
+
+        public class Body
+        {
+            public List<Row> Rows { get; set; }
+        }
+
+        public class Root
+        {
+            public Body Body { get; set; }
         }
         private void BtnMinimise_Click(object sender, RoutedEventArgs e)
         {
@@ -70,7 +133,8 @@ namespace PolyUKApp.Windows
         {
             public static String Username = Environment.UserName;
         }
-        public DataTable readCSV(string filepath)
+
+        /*public DataTable readCSV(string filepath)
         {
             var dt = new DataTable();
             foreach (var headerLine in File.ReadLines(filepath).Take(1))
@@ -93,74 +157,112 @@ namespace PolyUKApp.Windows
                 dt.Rows.Add(line.Replace("\"", "").Split(','));
             }
             return dt;
-        }
-        public void LoadDaily()
-        {
-            string CurrentUser = Globals.Username;
-            try
-            {
-                using DataTable dt = readCSV("C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Matt K Stuff\\612d239751dd5a85_-5362eb36_18b5c897a7f_10e5.csv");
-                if (dt.Rows.Count > 0)
-                {
-                    DataGrid1.ItemsSource = null;
-                    DataGrid1.ItemsSource = dt.DefaultView;
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Windows.MessageBox.Show(ex.Message, "Error");
-            }
-        }
-        public class State
+        }*/
+
+        /*public class State
         {
             public bool on { get; set; }
 
             //another properties
-        }
-        public class StateItem
+        }*/
+        /*public class StateItem
         {
             public string index { get; set; }
             public State Statistics { get; set; }
-        }
+        }*/
 
-        //Not working yet, need a re-think! Must be better than csv in the long run. Access nested fields?
-        public void LoadDailyJSON()
+        //Seems to be working now, need a re-think to tidy! Must be better than csv in the long run.
+        public void ParseJsonToDataTable(string fileName)
         {
             string CurrentUser = Globals.Username;
-            var rawjsonPath = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Matt K Stuff\\data\\jsondata.txt";
+            var rawjsonPath = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Matt K Stuff\\" + fileName + ".json";
+            string json = File.ReadAllText(rawjsonPath);
 
-            using (StreamReader reader = new StreamReader(rawjsonPath))
-            {
-                string jsonstring = reader.ReadToEnd();
-                string jsontrim = jsonstring.Substring(1282);
-                string jsontoparse = jsontrim.Remove(jsontrim.Length - 479);
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            Root root = System.Text.Json.JsonSerializer.Deserialize<Root>(json, options);
 
-                JObject jsonObject = JObject.Parse(jsonstring);
+            // Convert to DataTable
+            DataTable jsontable = ConvertToDataTable(root.Body.Rows);
+            jsontable.Columns["1506"].ColumnName = "Extension";
+            jsontable.Columns["1550"].ColumnName = "Name";
+            jsontable.Columns["1"].ColumnName = "In";
+            jsontable.Columns["2"].ColumnName = "In Ans";
+            jsontable.Columns["9"].ColumnName = "Adv";
+            jsontable.Columns["3"].ColumnName = "In Abnd";
+            jsontable.Columns["4"].ColumnName = "Out";
+            jsontable.Columns["5"].ColumnName = "Out Ans";
+            jsontable.Columns["6"].ColumnName = "Out Fail";
+            jsontable.Columns["31"].ColumnName = "Total Talk (Out)";
+            jsontable.Columns["33"].ColumnName = "Avg Talk (Out)";
+            jsontable.Columns["30"].ColumnName = "Total Talk (In)";
+            jsontable.Columns["32"].ColumnName = "Avg Talk (In)";
+            jsontable.Columns["16"].ColumnName = "Total Talk";
+            jsontable.Columns["17"].ColumnName = "Avg Talk";
+            jsontable.AcceptChanges();
 
-                JsonConvert.DeserializeObject<DataTable>(jsonObject.ToString());
-                MessageBox.Show("test");
-            }
+            DataGrid1.ItemsSource = null;
+            DataGrid1.ItemsSource = jsontable.DefaultView;
 
+        }
+        public void ParseJsonToDataTableWeekly(string fileName)
+        {
+            string CurrentUser = Globals.Username;
+            var rawjsonPath = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Matt K Stuff\\" + fileName + ".json";
+            string json = File.ReadAllText(rawjsonPath);
 
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            Root root = System.Text.Json.JsonSerializer.Deserialize<Root>(json, options);
+
+            // Convert to DataTable
+            DataTable jsontable = ConvertToDataTable(root.Body.Rows);
+            jsontable.Columns["1506"].ColumnName = "Extension";
+            jsontable.Columns["1550"].ColumnName = "Name";
+            jsontable.Columns["1"].ColumnName = "In";
+            jsontable.Columns["2"].ColumnName = "In Ans";
+            jsontable.Columns["9"].ColumnName = "Adv";
+            jsontable.Columns["3"].ColumnName = "In Abnd";
+            jsontable.Columns["4"].ColumnName = "Out";
+            jsontable.Columns["5"].ColumnName = "Out Ans";
+            jsontable.Columns["6"].ColumnName = "Out Fail";
+            jsontable.Columns["31"].ColumnName = "Total Talk (Out)";
+            jsontable.Columns["33"].ColumnName = "Avg Talk (Out)";
+            jsontable.Columns["30"].ColumnName = "Total Talk (In)";
+            jsontable.Columns["32"].ColumnName = "Avg Talk (In)";
+            jsontable.Columns["16"].ColumnName = "Total Talk";
+            jsontable.Columns["17"].ColumnName = "Avg Talk";
+            jsontable.AcceptChanges();
+
+            DataGrid2.ItemsSource = null;
+            DataGrid2.ItemsSource = jsontable.DefaultView;
 
         }
 
-        public void LoadWeekly()
+        static DataTable ConvertToDataTable(List<Row> rows)
         {
-            string CurrentUser = Globals.Username;
-            try
+            var dt = new DataTable();
+
+            // Build a set of unique statistic IDs to create columns dynamically
+            HashSet<int> allStatIds = new HashSet<int>();
+            foreach (var row in rows)
             {
-                using DataTable dt2 = readCSV("C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Matt K Stuff\\612d239751dd5a85_-5362eb36_18b5c897a7f_2cbb.csv");
-                if (dt2.Rows.Count > 0)
+                foreach (var stat in row.Statistics)
                 {
-                    DataGrid2.ItemsSource = null;
-                    DataGrid2.ItemsSource = dt2.DefaultView;
+                    if (!dt.Columns.Contains(stat.ID.ToString()))
+                        dt.Columns.Add(stat.ID.ToString());
+                    allStatIds.Add(stat.ID);
                 }
             }
-            catch (Exception ex)
+            // Fill rows
+            foreach (var row in rows)
             {
-                System.Windows.MessageBox.Show(ex.Message, "Error");
+                DataRow dr = dt.NewRow();
+                foreach (var stat in row.Statistics)
+                {
+                    dr[stat.ID.ToString()] = stat.Value;
+                }
+                dt.Rows.Add(dr);
             }
+            return dt;
         }
 
         private void TextBlockRefreshExplainer_Loaded(object sender, RoutedEventArgs e)
@@ -170,9 +272,8 @@ namespace PolyUKApp.Windows
 
         private void BtnRefreshCallTime_Click(object sender, RoutedEventArgs e)
         {
-            LoadDailyJSON();
-            LoadDaily();
-            LoadWeekly();
+            ParseJsonToDataTable(fileToParseDaily);
+            ParseJsonToDataTableWeekly(fileToParseWeekly);
             string currentTime = DateTime.Now.ToString();
             DateTimeText.Text = currentTime;
         }
@@ -216,7 +317,7 @@ namespace PolyUKApp.Windows
                 var AddedTime = currentTime.AddMinutes(10);
                 File.WriteAllText(filepath, AddedTime.ToString());
                 TextBlockRefreshExplainer.Text = "Complete";
-                LoadDaily();
+                ParseJsonToDataTable(fileToParseDaily);
             }
         }
 
@@ -343,14 +444,30 @@ namespace PolyUKApp.Windows
                 var logoutRequest = new RestRequest($"{tenantId}/logout", Method.Get);
                 logoutRequest.AddHeader("Cookie", SessionID);
                 RestResponse logoutresponse = sessionClient.Execute(logoutRequest);
-                String jsonpath = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Matt K Stuff\\data\\jsondata.txt";
-                File.WriteAllText(jsonpath, jsonReply.ToString());
+                saveJson(ReportID, jsonReply);
+                //String jsonpath = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Matt K Stuff\\data\\jsondata.txt";
+                //File.WriteAllText(jsonpath, jsonReply.ToString());
             }
             else
             {
                 //
             }
         }
+
+        public void saveJson(string reportIDtoSave, string json)
+        {
+            string CurrentUser = Globals.Username;
+            string path = @"C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Matt K Stuff\\" + reportIDtoSave.Replace(":", "_") + ".json";
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            using (StreamWriter sw = File.CreateText(path))
+            {
+                sw.WriteLine(json);
+            }
+        }
+
     }
 
         

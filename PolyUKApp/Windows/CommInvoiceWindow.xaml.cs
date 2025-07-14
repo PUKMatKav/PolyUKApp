@@ -51,6 +51,14 @@ namespace PolyUKApp.Windows
         double unitTot2 = 0.00;
         double unitTot3 = 0.00;
         double unitTot4 = 0.00;
+        double netkg1 = 0.00;
+        double netkg2 = 0.00;
+        double netkg3 = 0.00;
+        double netkg4 = 0.00;
+        double grosskg1 = 0.00;
+        double grosskg2 = 0.00;
+        double grosskg3 = 0.00;
+        double grosskg4 = 0.00;
 
         public CommInvoiceWindow()
         {
@@ -366,12 +374,34 @@ namespace PolyUKApp.Windows
                 }
                 else
                 {
-                    ItemTable.Rows.Add(Row["ItemCode"], Row["ItemDescription"], LineQuantity, Row["SellingUnitDescription"], "3920102899", "Please Enter", "Please Enter", SellingPrice, Math.Round(TotalPrice, 2));
+                    ItemTable.Rows.Add(Row["ItemCode"], Row["ItemDescription"], LineQuantity, Row["SellingUnitDescription"], "3920102899", 0.00, 0.00, SellingPrice, Math.Round(TotalPrice, 2));
                 }
 
+                var Rowweight = ItemTable.Rows;
+                var RowCount = ItemTable.Rows.Count;
+                if (netkg1 is 0.00 && RowCount == 1)
+                {
+                    netkg1 = Convert.ToDouble(Rowweight[0]["Weight"]);
+                    grosskg1 = Convert.ToDouble(Rowweight[0]["Grosskg"]);
+                }
+                else if ((netkg1 is not 0.00) && netkg2 is 0.00 && RowCount == 2)
+                {
+                    netkg2 = Convert.ToDouble(Rowweight[1]["Weight"]);
+                    grosskg2 = Convert.ToDouble(Rowweight[1]["Grosskg"]);
+                }
+                else if ((netkg1 is not 0.00) && (netkg2 is not 0.00) && netkg3 is 0.00 && RowCount == 3)
+                {
+                    netkg3 = Convert.ToDouble(Rowweight[2]["Weight"]);
+                    grosskg3 = Convert.ToDouble(Rowweight[2]["Grosskg"]);
+                }
+                else if ((netkg1 is not 0.00) && (netkg2 is not 0.00) && (netkg3 is not 0.00) && netkg4 is 0.00 && RowCount == 4)
+                {
+                    netkg4 = Convert.ToDouble(Rowweight[3]["Weight"]);
+                    grosskg4 = Convert.ToDouble(Rowweight[3]["Grosskg"]);
+                }
             }
-
             DataGridCI.ItemsSource = ItemTable.DefaultView;
+
         }
 
         public void DetailsSQL()
@@ -1039,6 +1069,48 @@ namespace PolyUKApp.Windows
                             unitQty4 = Convert.ToDouble(el.Text);
                         }
                     }
+                    if (bindingPath == "Weight")
+                    {
+                        int rowIndex = e.Row.GetIndex();
+                        var el = e.EditingElement as System.Windows.Controls.TextBox;
+                        if (rowIndex == 0)
+                        {
+                            netkg1 = Convert.ToDouble(el.Text);
+                        }
+                        else if (rowIndex == 1)
+                        {
+                            netkg2 = Convert.ToDouble(el.Text);
+                        }
+                        else if (rowIndex == 2)
+                        {
+                            netkg3 = Convert.ToDouble(el.Text);
+                        }
+                        else if (rowIndex == 3)
+                        {
+                            netkg4 = Convert.ToDouble(el.Text);
+                        }
+                    }
+                    if (bindingPath == "Grosskg")
+                    {
+                        int rowIndex = e.Row.GetIndex();
+                        var el = e.EditingElement as System.Windows.Controls.TextBox;
+                        if (rowIndex == 0)
+                        {
+                            grosskg1 = Convert.ToDouble(el.Text);
+                        }
+                        else if (rowIndex == 1)
+                        {
+                            grosskg2 = Convert.ToDouble(el.Text);
+                        }
+                        else if (rowIndex == 2)
+                        {
+                            grosskg3 = Convert.ToDouble(el.Text);
+                        }
+                        else if (rowIndex == 3)
+                        {
+                            grosskg4 = Convert.ToDouble(el.Text);
+                        }
+                    }
                 }
             }
             RecalcTable = ((DataView)DataGridCI.ItemsSource).ToTable();
@@ -1051,6 +1123,8 @@ namespace PolyUKApp.Windows
                     row["Total"] = Math.Round(unitQty1 * unitPrice1, 2);
                     row["Price"] = Math.Round(unitPrice1, 2).ToString();
                     row["Qty"] = Math.Round(unitQty1, 2).ToString();
+                    row["Weight"] = netkg1;
+                    row["Grosskg"] = grosskg1;
                 }
                 else if (rowIndex == 1)
                 {
@@ -1058,6 +1132,8 @@ namespace PolyUKApp.Windows
                     row["Total"] = Math.Round(unitQty2 * unitPrice2, 2);
                     row["Price"] = Math.Round(unitPrice2, 2).ToString();
                     row["Qty"] = Math.Round(unitQty2, 2).ToString();
+                    row["Weight"] = netkg2;
+                    row["Grosskg"] = grosskg2;
                 }
                 else if (rowIndex == 2)
                 {
@@ -1065,6 +1141,8 @@ namespace PolyUKApp.Windows
                     row["Total"] = Math.Round(unitQty3 * unitPrice3, 2);
                     row["Price"] = Math.Round(unitPrice3, 2).ToString();
                     row["Qty"] = Math.Round(unitQty3, 2).ToString();
+                    row["Weight"] = netkg3;
+                    row["Grosskg"] = grosskg3;
                 }
                 else if (rowIndex == 3)
                 {
@@ -1072,6 +1150,8 @@ namespace PolyUKApp.Windows
                     row["Total"] = Math.Round(unitQty4 * unitPrice4, 2);
                     row["Price"] = Math.Round(unitPrice4, 2).ToString();
                     row["Qty"] = Math.Round(unitQty4, 2).ToString();
+                    row["Weight"] = netkg4;
+                    row["Grosskg"] = grosskg4;
                 }
                 else { }
                 DataGridCI.ItemsSource = RecalcTable.DefaultView;
