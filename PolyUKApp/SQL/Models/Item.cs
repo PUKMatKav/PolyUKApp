@@ -16,6 +16,7 @@ namespace PolyUKApp.SQL.Models
         public string ProductGroupDescription { get; set; }
         public string Weight { get; set; }
         public string FreeStockQuantity { get; set; }
+        public string AverageBuyingPrice { get; set; }
 
         public string ItemCodeLength
         {

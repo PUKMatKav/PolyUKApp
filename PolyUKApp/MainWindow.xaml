@@ -310,10 +310,16 @@ HorizontalAlignment="Stretch"
             </Button>
             <Button x:Name="BtnStockOrdering"
                     Content="Stock Order Monitor"
-                    Visibility="Visible"
+                    Visibility="Collapsed"
                     Style="{DynamicResource MenuButtonTheme}"
                     Click="BtnStockOrdering_Click"
                     MouseEnter="BtnStockOrdering_MouseEnter"/>
+            <Button x:Name="BtnStockAnalysis"
+                    Content="Stock Item Analysis"
+                    Visibility="Visible"
+                    Style="{DynamicResource MenuButtonTheme}"
+                    Click="BtnStockAnalysis_Click"
+                    MouseEnter="BtnStockAnalysis_MouseEnter"/>
             <Button x:Name="BtnCommInvoice"
                     Content="Commercial Invoices"
                     Style="{DynamicResource MenuButtonTheme}"
@@ -387,7 +393,7 @@ HorizontalAlignment="Stretch"
                HorizontalAlignment="Left"/>
 
         <TextBlock x:Name="versionbox"
-                   Text="v1.2.3.0"
+                   Text="v1.2.3.1"
                    Grid.Row="3"
                    FontFamily="Aptos"
                    Foreground="Gray"

@@ -1,0 +1,353 @@
+﻿<Window x:Class="PolyUKApp.Windows.StockAnalysisWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PolyUKApp.Windows"
+        mc:Ignorable="d"
+        Title="StockAnalysisWindow" 
+        Height="800" Width="1400" MinHeight="800" MinWidth="1200"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResizeWithGrip"
+        Icon="Images/PUKIco.ico">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <Border x:Name="TopBar0"
+            Background="{DynamicResource Accent}"
+            CornerRadius="5,5,0,0"
+            BorderBrush="{DynamicResource AccentBorder}"
+            BorderThickness="1"
+            MouseDown="TopBar0_MouseDown"/>
+
+        <Border Background="{DynamicResource BackgroundBase}"
+            Grid.Row="2"
+            Opacity="1"
+            BorderBrush="{DynamicResource Border}"
+            BorderThickness="1,0"/>
+
+        <Border x:Name="MainBorder"
+            Background="{DynamicResource BackgroundLight}"
+            Margin="25"
+            Grid.Row="2"
+            CornerRadius="5"
+            BorderBrush="{DynamicResource BorderMid}"
+            BorderThickness="1">
+            
+            <StackPanel x:Name="SearchPanel"
+                        Orientation="Horizontal"
+                        Height="50"
+                        Margin="25,50,25,50"
+                        VerticalAlignment="Top">
+            <Border x:Name="SearchBorder"
+                    Width="200"
+                    Height="30"
+                    Background="{DynamicResource BackgroundMid}"
+                    CornerRadius="5"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center">
+                <TextBox x:Name="SearchTextBox"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         Foreground="{DynamicResource Text}"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
+                         Padding="5"
+                         Width="200"
+                         Text="PUK/MACHINE/008PCW"/>
+            </Border>
+                <Button x:Name="BtnSearch"
+                Content="Search"
+                Click="BtnSearch_Click"
+                Width="80"
+                Style="{DynamicResource GeneralButtonTheme}"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                        Margin="20,0,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <TextBlock x:Name="ItemCodeBlock"
+                   Grid.Row="2"
+                   Text="Item Code"
+                   Foreground="{DynamicResource Accent}"
+                   FontFamily="Aptos"
+                   FontSize="18"
+                   VerticalAlignment="Top"
+                   HorizontalAlignment="Left"
+                   Margin="55"
+                   Height="25"/>
+
+        <StackPanel x:Name="MainInfoPanel"
+                    Margin="55,150,55,55"
+                    Grid.Row="2"
+                    Width="300"
+                    HorizontalAlignment="Left">
+            <TextBlock x:Name="ItemDescBlock"
+                   Grid.Row="2"
+                   Text="Name"
+                   Foreground="{DynamicResource Accent}"
+                   FontFamily="Aptos"
+                   FontSize="16"
+                   VerticalAlignment="Top"
+                   HorizontalAlignment="Left"
+                   Margin="0,0,0,0"
+                   Height="25"/>
+            <RichTextBox x:Name="RichTextDesc"
+                     Grid.Row="2"
+                     Margin="0,0,0,0"
+                     Background="Transparent"
+                     Foreground="{DynamicResource Text}"
+                     VerticalAlignment="Top"
+                     HorizontalAlignment="Left"
+                     Width="300"
+                     Height="50"
+                     BorderThickness="0"/>
+            <TextBlock x:Name="ItemSpecBlock"
+                   Grid.Row="2"
+                   Text="Specification"
+                   Foreground="{DynamicResource Accent}"
+                   FontFamily="Aptos"
+                   FontSize="16"
+                   VerticalAlignment="Top"
+                   HorizontalAlignment="Left"
+                   Margin="0,5,0,0"
+                   Height="25"/>
+            <RichTextBox x:Name="RichTextSpec"
+                     Grid.Row="2"
+                     Margin="0,0,0,0"
+                     Background="Transparent"
+                     Foreground="{DynamicResource Text}"
+                     VerticalAlignment="Top"
+                     HorizontalAlignment="Left"
+                     Width="300"
+                     MinHeight="100"
+                     MaxHeight="200"
+                     BorderThickness="0"/>
+
+            <StackPanel x:Name="SubInfoStackPanel"
+                        Orientation="Horizontal"
+                        Width="350"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Margin="0,20,0,0">
+                <StackPanel>
+                    <TextBlock x:Name="ItemFreeStockBlock"
+                        Grid.Row="2"
+                        Text="Free Stock"
+                        Foreground="{DynamicResource Accent}"
+                        FontFamily="Aptos"
+                        FontSize="16"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Left"
+                        Margin="0,5,0,0"
+                        Height="25"/>
+                    <RichTextBox x:Name="RichTextFreeStock"
+                        Grid.Row="2"
+                        Margin="0,0,0,0"
+                        Background="Transparent"
+                        Foreground="{DynamicResource Text}"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Left"
+                        Width="100"
+                        Height="25"
+                        BorderThickness="0"/>
+                </StackPanel>
+                <StackPanel Margin="15,0,0,0">
+                    <TextBlock x:Name="ItemUnitBlock"
+                        Grid.Row="2"
+                        Text="Unit"
+                        Foreground="{DynamicResource Accent}"
+                        FontFamily="Aptos"
+                        FontSize="16"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Left"
+                        Margin="0,5,0,0"
+                        Height="25"/>
+                    <RichTextBox x:Name="RichTextUnit"
+                        Grid.Row="2"
+                        Margin="0,0,0,0"
+                        Background="Transparent"
+                        Foreground="{DynamicResource Text}"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Left"
+                        Width="75"
+                        Height="25"
+                        BorderThickness="0"/>
+                </StackPanel>
+                <StackPanel Margin="10,0,0,0">
+                    <TextBlock x:Name="ItemWeightBlock"
+                        Grid.Row="2"
+                        Text="Weight"
+                        Foreground="{DynamicResource Accent}"
+                        FontFamily="Aptos"
+                        FontSize="16"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Left"
+                        Margin="0,5,0,0"
+                        Height="25"/>
+                    <RichTextBox x:Name="RichTextWeight"
+                        Grid.Row="2"
+                        Margin="0,0,0,0"
+                        Background="Transparent"
+                        Foreground="{DynamicResource Text}"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Left"
+                        Width="100"
+                        Height="25"
+                        BorderThickness="0"/>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel x:Name="SubInfoStackPanel2"
+                        Orientation="Horizontal"
+                        Width="350"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Margin="0,10,0,0">
+                <StackPanel>
+                    <TextBlock x:Name="ItemAvPriceBlock"
+                        Grid.Row="2"
+                        Text="Avg Buying Price"
+                        Foreground="{DynamicResource Accent}"
+                        FontFamily="Aptos"
+                        FontSize="16"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Left"
+                        Margin="0,5,0,0"
+                        Height="25"/>
+                    <RichTextBox x:Name="RichTextAvPrice"
+                        Grid.Row="2"
+                        Margin="0,0,0,0"
+                        Background="Transparent"
+                        Foreground="{DynamicResource Text}"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Left"
+                        Width="100"
+                        Height="25"
+                        BorderThickness="0"/>
+                </StackPanel>
+                <StackPanel Margin="35,0,0,0">
+                    <TextBlock x:Name="ItemTrendPriceBlock"
+                        Grid.Row="2"
+                        Text="Last Price"
+                        Foreground="{DynamicResource Accent}"
+                        FontFamily="Aptos"
+                        FontSize="16"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Left"
+                        Margin="0,5,0,0"
+                        Height="25"/>
+                    <RichTextBox x:Name="RichTextTrendPrice"
+                        Grid.Row="2"
+                        Margin="0,0,0,0"
+                        Background="Transparent"
+                        Foreground="{DynamicResource Text}"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Left"
+                        Width="100"
+                        Height="25"
+                        BorderThickness="0"/>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+
+        <Rectangle x:Name="horizontalsep"
+                   Width="1"
+                   Height="250"
+                   Fill="{DynamicResource Border}"
+                   Grid.Row="2"
+                   HorizontalAlignment="Left"
+                   Margin="380, 75"/>
+
+        <StackPanel x:Name="BatchInfoPanel"
+                    Margin="405,150,55,55"
+                    Grid.Row="2"
+                    Width="400"
+                    HorizontalAlignment="Left">
+            <TextBlock x:Name="ItemBatchBlock"
+                   Grid.Row="2"
+                   Text="In Stock Batches"
+                   Foreground="{DynamicResource Accent}"
+                   FontFamily="Aptos"
+                   FontSize="16"
+                   VerticalAlignment="Top"
+                   HorizontalAlignment="Left"
+                   Margin="0,0,0,0"
+                   Height="25"/>
+            <DataGrid x:Name="BatchGrid"
+                      Style="{DynamicResource DataGridThemeVAN}"
+                      HeadersVisibility="None"
+                      MinHeight="50"/>
+            <TextBlock x:Name="ItemAlloBatchBlock"
+                   Grid.Row="2"
+                   Text="Allocated Batches"
+                   Foreground="{DynamicResource Accent}"
+                   FontFamily="Aptos"
+                   FontSize="16"
+                   VerticalAlignment="Top"
+                   HorizontalAlignment="Left"
+                   Margin="0,5,0,0"
+                   Height="25"/>
+            <DataGrid x:Name="AllocatedBatchGrid"
+                      Style="{DynamicResource DataGridThemeVAN}"
+                      HeadersVisibility="None"
+                      MinHeight="50"/>
+        </StackPanel>
+
+            <Border x:Name="BotBar0"
+            Background="{DynamicResource BackgroundMid}"
+            Grid.Row="3"
+            BorderBrush="{DynamicResource Border}"
+            BorderThickness="1"
+            CornerRadius="0,0,5,5"/>
+
+        <Border x:Name="LogoBar0"
+            Background="{DynamicResource BackgroundMid}"
+            Grid.Row="1"
+            BorderBrush="{DynamicResource Border}"
+            BorderThickness="1,0,1,1"/>
+
+        <StackPanel Orientation="Horizontal"
+            HorizontalAlignment="Right"
+            Margin="0,0,10,0">
+            <Button x:Name="BtnMinimise"
+                Width="40" Height="35"
+                Content="_"
+                Style="{DynamicResource ControlButtonTheme}"
+                 Click="BtnMinimise_Click"/>
+            <Button x:Name="BtnMaximise"
+                 Width="40" Height="35"
+                Content="🗖"
+                Style="{DynamicResource ControlButtonTheme}"
+                Click="BtnMaximise_Click"/>
+            <Button x:Name="BtnClose"
+                 Width="40" Height="35"
+                Content="X"
+                Style="{DynamicResource ControlButtonTheme}"
+                Click="BtnClose_Click"/>
+        </StackPanel>
+
+        <Image x:Name="PUKLogo"
+            Source="Images\PUK_Blue_Logo_512.png"
+            Grid.Row="1"
+            Margin="20,8,15,8"
+            HorizontalAlignment="Left"/>
+
+        <TextBlock x:Name="versionbox"
+            Text="v0.1"
+            Grid.Row="3"
+            FontFamily="Aptos"
+            Foreground="Gray"
+            VerticalAlignment="Center"
+            Margin="10 0 0 0"/>
+
+    </Grid>
+</Window>

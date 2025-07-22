@@ -102,6 +102,35 @@ namespace PolyUKApp.SQL
                                      "WHERE (Code = 'PUK/HAND/001/E') or (Code = 'PUK/HAND/001/S') or (Code = 'PUK/HAND/002/E') or (Code = 'PUK/HAND/002/S') or (Code = 'PUK/HAND/005/E') or (Code = 'PUK/HANDBLACK/001/E') or (Code = 'PUK/HANDBLACK/001/S') or (Code = 'PUK/HANDPRE/001/E')  or (Code = 'PUK/HSTRMINI/001PCW') or (Code = 'PUK/MACHINE/001') or (Code = 'PUK/MACHINE/002') or (Code = 'PUK/MACHINE/004PCW') or (Code = 'PUK/MACHINE/005') or (Code = 'PUK/MACHINE/006PCW') or (Code = 'PUK/MACHINE/008PCW') or (Code = 'PUK/MACHINE/009') or (Code = 'PUK/MACHINE/010PCW') or (Code = 'PUK/MACHINE/011PCW') or (Code = 'PUK/MACHINE/012PCW') or (Code = 'PUK/MACHINE/013PCW') or (Code = 'PUK/MACHINE/014') or (Code = 'PUK/SPIRAL/034PCW')" +
                                      "ORDER BY Code";
 
+            public static String ItemAnalysisQuery = "SELECT " +
+                "MovementBalance.ItemID,  MovementBalance.CostPrice, MovementBalance.DateTimeCreated, MovementBalance.OpeningStockLevel, MovementBalance.MovementReference, " +
+                "STKStockItemView.Code, STKStockItemView.Name, STKStockItemView.Description, STKStockItemView.FreeStockQuantity, STKStockItemView.StockUnitName, STKStockItemView.AverageBuyingPrice, STKStockItemView.Weight " +
+                "FROM MovementBalance " +
+                "LEFT JOIN STKStockItemView ON MovementBalance.ItemID=STKStockItemView.ItemID " +
+                "WHERE MovementBalance.MovementBalanceTypeID = '0' AND STKStockItemView.Code = @Code " +
+                "ORDER BY MovementBalance.DateTimeCreated DESC";
+
+            public static String ItemBatchQuery = "SELECT " +
+                "TraceableItem.TraceableItemID, TraceableItem.IdentificationNo, TraceableItem.ReceiptDate, " +
+                "STKStockItemView.Code, " +
+                "TraceableBinItem.WarehouseName, TraceableBinItem.GoodsInQuantity, TraceableBinItem.GoodsOutQuantity, TraceableBinItem.AllocatedQuantity " +
+                "FROM TraceableItem " +
+                "LEFT JOIN STKStockItemView ON TraceableItem.StockItemID=STKStockItemView.ItemID " +
+                "LEFT JOIN TraceableBinItem ON TraceableItem.TraceableItemID=TraceableBinItem.TraceableItemID " +
+                "WHERE STKStockItemView.Code = @Code " +
+                "ORDER BY TraceableItem.ReceiptDate DESC ";
+
+            public static String ItemAllocatedBatchQuery = "SELECT " +
+                "AllocationBalance.RecipientName, AllocationBalance.Reference, " +
+                "TraceableAllocationBal.AllocatedQuantity, " +
+                "TraceableItem.IdentificationNo " +
+                "FROM AllocationBalance " +
+                "LEFT JOIN STKStockItemView ON AllocationBalance.ItemID=STKStockItemView.ItemID " +
+                "LEFT JOIN TraceableAllocationBal ON AllocationBalance.AllocationID=TraceableAllocationBal.AllocationBalanceID " +
+                "LEFT JOIN TraceableBinItem ON TraceableAllocationBal.TraceableBinItemID=TraceableBinItem.TraceableBinItemID " +
+                "LEFT JOIN TraceableItem ON TraceableBinItem.TraceableItemID=TraceableItem.TraceableItemID " +
+                "WHERE STKStockItemView.Code = @Code";
+
             public static String OrderCIQuery = "SELECT " +
                 "SOPOrderReturnLine.ItemCode, SOPOrderReturnLine.LineQuantity, SOPOrderReturnLine.UnitSellingPrice, SOPOrderReturnLine.SellingUnitDescription, SOPOrderReturnLine.ItemDescription, " +
                 "SOPOrderReturn.DocumentNo, SOPOrderReturn.UseInvoiceAddress, SOPOrderReturn.CustomerDocumentNo, SOPOrderReturn.SubtotalGoodsValue, SOPOrderReturn.TotalTaxValue, SOPOrderReturn.TotalGrossValue, " +

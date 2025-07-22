@@ -59,6 +59,10 @@ namespace PolyUKApp.Windows
         double grosskg2 = 0.00;
         double grosskg3 = 0.00;
         double grosskg4 = 0.00;
+        string HSCode1 = "0";
+        string HSCode2 = "0";
+        string HSCode3 = "0";
+        string HSCode4 = "0";
 
         public CommInvoiceWindow()
         {
@@ -398,6 +402,24 @@ namespace PolyUKApp.Windows
                 {
                     netkg4 = Convert.ToDouble(Rowweight[3]["Weight"]);
                     grosskg4 = Convert.ToDouble(Rowweight[3]["Grosskg"]);
+                }
+
+                var HSNumber = ItemTable.Rows;
+                if (HSCode1 is "0" && RowCount == 1)
+                {
+                    HSCode1 = HSNumber[0]["HSCode"].ToString();
+                }
+                else if ((HSCode1 is not "0") && HSCode2 is "0" && RowCount == 2)
+                {
+                    HSCode2 = HSNumber[1]["HSCode"].ToString();
+                }
+                else if ((HSCode1 is not "0") && (HSCode2 is not "0") && HSCode3 is "0" && RowCount == 3)
+                {
+                    HSCode3 = HSNumber[2]["HSCode"].ToString();
+                }
+                else if ((HSCode1 is not "0") && (HSCode2 is not "0") && (HSCode3 is not "0") && HSCode4 is "0" && RowCount == 4)
+                {
+                    HSCode4 = HSNumber[3]["HSCode"].ToString();
                 }
             }
             DataGridCI.ItemsSource = ItemTable.DefaultView;
@@ -1111,6 +1133,29 @@ namespace PolyUKApp.Windows
                             grosskg4 = Convert.ToDouble(el.Text);
                         }
                     }
+                    if (bindingPath == "HSCode")
+                    {
+                        int rowIndex = e.Row.GetIndex();
+                        var el = e.EditingElement as System.Windows.Controls.TextBox;
+                        if (rowIndex == 0)
+                        {
+                            HSCode1 = el.Text;
+                        }
+                        else if (rowIndex == 1)
+                        {
+                            HSCode2 = el.Text;
+                        }
+                        else if (rowIndex == 2)
+                        {
+                            HSCode3 = el.Text;
+                        }
+                        else if (rowIndex == 3)
+                        {
+                            HSCode4 = el.Text;
+                        }
+                    }
+
+                    
                 }
             }
             RecalcTable = ((DataView)DataGridCI.ItemsSource).ToTable();
@@ -1125,6 +1170,7 @@ namespace PolyUKApp.Windows
                     row["Qty"] = Math.Round(unitQty1, 2).ToString();
                     row["Weight"] = netkg1;
                     row["Grosskg"] = grosskg1;
+                    row["HSCode"] = HSCode1;
                 }
                 else if (rowIndex == 1)
                 {
@@ -1134,6 +1180,7 @@ namespace PolyUKApp.Windows
                     row["Qty"] = Math.Round(unitQty2, 2).ToString();
                     row["Weight"] = netkg2;
                     row["Grosskg"] = grosskg2;
+                    row["HSCode"] = HSCode2;
                 }
                 else if (rowIndex == 2)
                 {
@@ -1143,6 +1190,7 @@ namespace PolyUKApp.Windows
                     row["Qty"] = Math.Round(unitQty3, 2).ToString();
                     row["Weight"] = netkg3;
                     row["Grosskg"] = grosskg3;
+                    row["HSCode"] = HSCode3;
                 }
                 else if (rowIndex == 3)
                 {
@@ -1152,6 +1200,7 @@ namespace PolyUKApp.Windows
                     row["Qty"] = Math.Round(unitQty4, 2).ToString();
                     row["Weight"] = netkg4;
                     row["Grosskg"] = grosskg4;
+                    row["HSCode"] = HSCode4;
                 }
                 else { }
                 DataGridCI.ItemsSource = RecalcTable.DefaultView;

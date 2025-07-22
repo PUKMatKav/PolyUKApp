@@ -576,7 +576,7 @@ namespace PolyUKApp.Windows
             MailMessage msg = new MailMessage();
 
             msg.From = new MailAddress("matthewkavanagh@polytheneuk.co.uk", "Van Visit");
-            msg.To.Add(new MailAddress("jakebassi@polytheneuk.co.uk"));
+            msg.To.Add(new MailAddress("matthewkavanagh@polytheneuk.co.uk"));
             msg.Subject = "Visit to " + COText;
             msg.Body = "Address: " + AddressText + ", " + TownText + ", " + PostcodeText + "\v" + "Job: " + DescText + "\v" + "Contact: " + NameText + " - " + NumberText + " - " + EmailText;
 

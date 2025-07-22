@@ -388,7 +388,9 @@ namespace PolyUKApp
                 "- Akixi API connector also downloads JSON and saves with CSV\n" +
                 "- Fixed reload data button (calling dead method)\n" +
                 "- Total line removed from Call Time DataGrid as wasn't clear\n" +
-                "- Argument added to load method for daily calls");
+                "- Argument added to load method for daily calls" +
+                "\r" + "" + "\r" +
+                "v1.2.3.1 - Refactored the CI tabel (again), correctly updates HS Code number");
         }
 
         private void BtnCommInvoice_Click(object sender, RoutedEventArgs e)
@@ -546,6 +548,24 @@ namespace PolyUKApp
             }
         }
 
+        private void BtnStockAnalysis_Click(object sender, RoutedEventArgs e)
+        {
+            var StockAnalysisWindow = new StockAnalysisWindow();
+            StockAnalysisWindow.Closed += childFormStockAnalysisClosed;
+            StockAnalysisWindow.Show();
+            this.Hide();
+        }
 
+        void childFormStockAnalysisClosed(object sender, EventArgs e)
+        {
+            ((StockAnalysisWindow)sender).Closed -= childFormStockAnalysisClosed;
+            this.Show();
+        }
+
+        private void BtnStockAnalysis_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            TextBlockInfo.Document.Blocks.Clear();
+            TextBlockInfo.AppendText("Gives information relating to specific stock codes");
+        }
     }
 }
