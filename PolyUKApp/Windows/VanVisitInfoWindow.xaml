@@ -532,6 +532,28 @@
                         </RichTextBox.Resources>
                     </RichTextBox>
                 </Border>
+                <TextBlock x:Name="TextBlockLastOrder"
+       Foreground="{DynamicResource Text}"
+       Grid.Column="1"
+       Grid.Row="2"
+       Text="Last Transaction"
+       FontFamily="Aptos"
+       FontWeight="SemiBold"
+       FontSize="14"
+       Margin="1035,350,0,0"
+       Width="120"
+       Height="20"
+       HorizontalAlignment="Left"
+       VerticalAlignment="Top"/>
+                <TextBlock x:Name="TransactionBlock"
+                                  Margin="1035,380,0,0"
+                                  Width="120"
+                                    Height="20"
+                                  HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                  FontFamily="Aptos"
+                                  Foreground="{DynamicResource Text}"
+       FontSize="12"/>
 
 
                 <TextBlock x:Name="TextBlockContactNum"

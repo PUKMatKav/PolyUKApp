@@ -1,4 +1,7 @@
-﻿using Microsoft.Exchange.WebServices.Data;
+﻿using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Drawing.Geometries;
+using Microsoft.Exchange.WebServices.Data;
 using PolyUKApp.Windows;
 using System.IO;
 using System.Text;
@@ -379,7 +382,7 @@ namespace PolyUKApp
                 "\r" + "" + "\r" +
                 "v1.2.2.4 - Removed LoadDailyJSON command to stop call timer crashing on reload");*/
 
-            System.Windows.MessageBox.Show("v1.2.3.0" +
+            /*System.Windows.MessageBox.Show("v1.2.3.0" +
                 "\r" + "" + "\r" +
                 "- Refactored CI table calculations, should now allow for weights to update correctly if manually entered\n" +
                 "- New file format (JSON) for call timer\n" +
@@ -390,7 +393,21 @@ namespace PolyUKApp
                 "- Total line removed from Call Time DataGrid as wasn't clear\n" +
                 "- Argument added to load method for daily calls" +
                 "\r" + "" + "\r" +
-                "v1.2.3.1 - Refactored the CI tabel (again), correctly updates HS Code number");
+                "v1.2.3.1 - Refactored the CI tabel (again), correctly updates HS Code number")*/
+            
+            System.Windows.MessageBox.Show("v1.3.0.0" +
+                "\r" + "" + "\r" +
+                "- Introduced Stock analysis screen\n" +
+                "- Shows Item details for any item code\n" +
+                "- Includes average buying price and current trend of price based on last purchase\n" +
+                "- (WIP) Shows sales history for item\n" +
+                "- Checks variance between sage and stock sheet for batches\n" +
+                "- Also allows for checking of all batches on stock sheet against sage rather than just a specific code\n" +
+                "- Edit of database CRM function to show customers with no comms (backend)\n" +
+                "- Added update logging for backend debugging work and error fixing\n" +
+                "- Added date of most recent transaction to van calendar for customers\n" +
+                "- Added fuzzy string matching algorithm for finding company on sage from van calendar (details below)\n" +
+                "- Added Levenshtein distance computation, this is an edit distance metric that algebraically computes the minimum number of changes needed to get from one string to another to help work out misspelled terms etc ");
         }
 
         private void BtnCommInvoice_Click(object sender, RoutedEventArgs e)

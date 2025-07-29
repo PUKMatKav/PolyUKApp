@@ -33,6 +33,7 @@ using System.Security;
 using Org.BouncyCastle.Asn1.Pkcs;
 using System.IO;
 using System.Diagnostics;
+using Microsoft.Data.SqlClient;
 
 
 
@@ -48,12 +49,16 @@ namespace PolyUKApp.Windows
     {
         Bitmap memoryImage;
         DataTable VanListInfo = new DataTable();
+        String currentCompName;
+        String closestCompanyMatch;
+        int currentLowestCompute = 99;
         public VanVisitInfoWindow()
         {
             InitializeComponent();
             LoadVisit();
             ComboItems();
             VanInfoSQL();
+            FindCustomerOnSage();
         }
 
         public void LoadVisit()
@@ -281,6 +286,7 @@ namespace PolyUKApp.Windows
                     ComboAdminStaff.Text = StaffMember;
                     String COName = Row["company_name"].ToString();
                     VisitTextBox.Text = COName;
+                    currentCompName = COName;
                     String WasteType = Row["scrap_type"].ToString();
                     ComboCollectedType.Text = WasteType;
                     String CredChecked = Row["credit_checked"].ToString();
@@ -1005,6 +1011,110 @@ namespace PolyUKApp.Windows
 
             }
 
+        }
+
+        static class LevenshteinDistance
+        {
+            /// approximate string matching
+            public static int Compute(string s, string t)
+            {
+                int n = s.Length;
+                int m = t.Length;
+                int[,] d = new int[n + 1, m + 1];
+
+                //step 1
+                if(n == 0)
+                {
+                    return m;
+                }
+                if(m == 0)
+                {
+                    return n;
+                }
+                //step 2
+                for (int i = 0; i <= n; d[i,0] = i++)
+                {
+
+                }
+                for (int j = 0; j <= m; d[0,j] = j++)
+                {
+
+                }
+                //step 3
+                for (int i = 1; i<= n; i++)
+                {
+                    for (int j = 1; j <= m; j++)
+                    {
+                        // Step 5
+                        int cost = (t[j - 1] == s[i - 1]) ? 0 : 1;
+
+                        // Step 6
+                        d[i, j] = Math.Min(
+                            Math.Min(d[i - 1, j] + 1, d[i, j - 1] + 1),
+                            d[i - 1, j - 1] + cost);
+                    }
+                }
+                //step 7
+                return d[n, m];
+            }
+        }
+
+        private void FindCustomerOnSage()
+        {
+            if(ComboCompanyType.Text == "Prospect")
+            {
+                TransactionBlock.Text = "N/A";
+            }
+            else
+            {
+                var connectionString = DataAccess.GlobalSQL.Connection;
+                DataTable compTable = new DataTable();
+                List<string> companyName = new List<string>();
+
+                using (SqlConnection _con =  new SqlConnection(connectionString))
+                {
+                    var queryStatement = DataAccess.GlabalSQLQueries.CompanyList;
+
+                    using (SqlCommand _cmd =  new SqlCommand(queryStatement, _con))
+                    {
+                        SqlDataAdapter _dap = new SqlDataAdapter(_cmd);
+                        _con.Open();
+                        _dap.Fill(compTable);
+                        _con.Close();
+                    }
+                }
+
+                foreach (DataRow row in compTable.Rows)
+                {
+                    companyName.Add(row[0].ToString());
+                }
+
+                foreach (String str in companyName)
+                {
+                    int currentLevenshtein =  LevenshteinDistance.Compute(currentCompName, str);
+                    if (currentLevenshtein < currentLowestCompute)
+                    {
+                        currentLowestCompute = currentLevenshtein;
+                        closestCompanyMatch = str;
+                    }
+                }
+
+                foreach (DataRow row in compTable.Rows)
+                {
+                    if (row[0] == closestCompanyMatch)
+                    {
+                        if (row[1] == DBNull.Value)
+                        {
+                            TransactionBlock.Text = "Never";
+                        }
+                        else
+                        {
+                            TransactionBlock.Text = row[1].ToString().Substring(0, 10);
+                        }
+                    }
+                }
+
+            }
         }
 
     }

@@ -85,7 +85,7 @@ namespace PolyUKApp.Windows
 
         private void BtnCRMLoad_Click(object sender, RoutedEventArgs e)
         {
-            SqlCommsCRM();
+            SqlConnectCRM();
         }
 
         private void BtnIntakeLoad_Click(object sender, RoutedEventArgs e)
@@ -122,14 +122,15 @@ namespace PolyUKApp.Windows
 
         public void SqlConnectCRM()
         {
-            string connectionString = "server=POLYSQL01\\sage; database=CRM; Integrated Security=true; encrypt=false";
-            DataTable commsTable = new DataTable("CommsList");
+            string connectionString = DataAccess.GlobalSQL.ConnectionCRM;
+            DataTable noCommsTable = new DataTable("NoCommsList");
+            DataTable CommsTable = new DataTable("CommsList");
+
 
             using (SqlConnection _con = new SqlConnection(connectionString))
             {
-                string queryStatement = "SELECT Comp_Name AS 'Customer', comp_sc_salesperson AS 'Sales Person', Comm_Note AS 'Communication', Comm_CreatedDate AS 'Created', Comm_UpdatedDate AS 'Updated', Comm_DateTime AS 'Follow Up Date', Comm_Status AS 'Status', comp_sc_lastorder AS 'Last Order', comp_sc_lastinvoice AS 'Last invoice' " +
-                        "FROM dbo.vCalendarCommunication " +
-                        "WHERE Comm_Type = 'Task'";
+                string queryStatement = DataAccess.GlabalSQLQueries.CRMCompanies;
+                string queryStatement2 = DataAccess.GlabalSQLQueries.CRMWithComms;
 
                 using (SqlCommand _cmd = new SqlCommand(queryStatement, _con))
                 {
@@ -137,15 +138,41 @@ namespace PolyUKApp.Windows
                     SqlDataAdapter _dap = new SqlDataAdapter(_cmd);
 
                     _con.Open();
-                    _dap.Fill(commsTable);
+                    _dap.Fill(noCommsTable);
                     _con.Close();
-                    ComboBoxSearch.ItemsSource = commsTable.Columns;
-                    DataGrid1.ItemsSource = null;
-                    DataGrid1.ItemsSource = commsTable.DefaultView;
+
+                }
+                using (SqlCommand _cmd2 = new SqlCommand(queryStatement2, _con))
+                {
+                    SqlDataAdapter _dap2 = new SqlDataAdapter(_cmd2);
+                    _con.Open();
+                    _dap2.Fill(CommsTable);
+                    _con.Close();
+                    //CommsTable = CommsTable.DefaultView.ToTable(true);
                 }
             }
+            List<string> IDList = new List<string>();
+            List<DataRow> toDelete = new List<DataRow>();
+            foreach (DataRow row in CommsTable.Rows)
+            {
+                IDList.Add(row[3].ToString());
+            }
+
+            foreach (DataRow noCommRow in noCommsTable.Rows)
+            {
+                if (IDList.Contains(noCommRow[0].ToString()))
+                {
+                    toDelete.Add(noCommRow);
+                }
+            }
+            foreach (DataRow dr in toDelete)
+            {
+                noCommsTable.Rows.Remove(dr);
+            }
+            noCommsTable.AcceptChanges();
+            DataGrid1.ItemsSource = noCommsTable.DefaultView;
         }
-        
+
         public void SqlConnectIntakeSheet()
         {
             string connectionString = "server=POLYSQL01\\sage; database=PolytheneUK_Sage200; Integrated Security=true; encrypt=false";

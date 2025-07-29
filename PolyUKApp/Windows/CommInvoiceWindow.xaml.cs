@@ -882,7 +882,7 @@ namespace PolyUKApp.Windows
 
                             DataRow Row = RecallTable.Rows[0];
 
-                            InvFromText.AppendText("XI903824828000" + "\r" + "Polythene UK Ltd" + "\r" + "4 Witan Park" + "\r" + "Avenue Twp" + "\r" + "Witney" + "\r" + "OX28 4FH" + "\r" + "0845 643 1601");
+                            InvFromText.AppendText("XI903824828000" + "\r" + "Polythene UK Ltd" + "\r" + "4 Witan Park" + "\r" + "Avenue Two" + "\r" + "Witney" + "\r" + "OX28 4FH" + "\r" + "0845 643 1601");
 
                             InvNumber.Document.Blocks.Clear();
                             InvNumber.AppendText(Row["Column1"].ToString());

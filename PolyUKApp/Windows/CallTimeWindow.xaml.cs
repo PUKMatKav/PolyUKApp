@@ -287,6 +287,7 @@ namespace PolyUKApp.Windows
         {
             string CurrentUser = Globals.Username;
             String filepath = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Matt K Stuff\\data\\CallTimeUpdate.txt";
+            String logPath = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Matt K Stuff\\data\\UpdateLog.txt";
             var testing = File.ReadAllText(filepath).ToString();
 
             int FileDay = Convert.ToInt32(testing.Substring(0, 2));
@@ -319,6 +320,12 @@ namespace PolyUKApp.Windows
                 TextBlockRefreshExplainer.Text = "Complete";
                 ParseJsonToDataTable(fileToParseDaily);
             }
+
+            using (StreamWriter w = File.AppendText(logPath))
+            {
+                w.WriteLine(DateTime.Now + " - " + CurrentUser);
+            }
+
         }
 
         private void BtnLight_Click(object sender, RoutedEventArgs e)
@@ -438,9 +445,9 @@ namespace PolyUKApp.Windows
                     i++;
                     Thread.Sleep(5000);
                 }
-                WebClient CSVclient = new WebClient();
-                CSVclient.Headers.Add(HttpRequestHeader.Cookie, SessionID);
-                CSVclient.DownloadFile("https://horizon.akixi.com/CCS/App/Horizon?ServletCmd=CMD_RPT_EXEC&Action=ExportCSV&ResType=HTML&ID=" + ReportID + "&RptPortalID=612d239751dd5a85%3A-5362eb36", filepath + "\\" + ReportID.Replace(":", "_") + ".csv");
+                //WebClient CSVclient = new WebClient();
+                //CSVclient.Headers.Add(HttpRequestHeader.Cookie, SessionID);
+                //CSVclient.DownloadFile("https://horizon.akixi.com/CCS/App/Horizon?ServletCmd=CMD_RPT_EXEC&Action=ExportCSV&ResType=HTML&ID=" + ReportID + "&RptPortalID=612d239751dd5a85%3A-5362eb36", filepath + "\\" + ReportID.Replace(":", "_") + ".csv");
                 var logoutRequest = new RestRequest($"{tenantId}/logout", Method.Get);
                 logoutRequest.AddHeader("Cookie", SessionID);
                 RestResponse logoutresponse = sessionClient.Execute(logoutRequest);
