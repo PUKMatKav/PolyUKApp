@@ -85,6 +85,7 @@ namespace PolyUKApp.Windows
 
         private void BtnCRMLoad_Click(object sender, RoutedEventArgs e)
         {
+            DataGrid1.ItemsSource = null;
             SqlConnectCRM();
         }
 
@@ -97,29 +98,6 @@ namespace PolyUKApp.Windows
             LoadMySql();
         }
 
-        private void SqlCommsCRM()
-        {
-            string connectionString = DataAccess.GlobalSQL.ConnectionCRM;
-            DataTable commsTable = new DataTable();
-
-            using (SqlConnection _con = new SqlConnection(connectionString))
-            {
-                var commandStatement = DataAccess.GlobalSQLNonQueries.WriteCRMComms;
-                //var queryStatement = DataAccess.GlabalSQLQueries.ReadCRMComms;
-                //_con.Open();
-
-                using (SqlCommand _cmd =  new SqlCommand(commandStatement, _con))
-                {
-                    _con.Open();
-                    //SqlDataAdapter _dap = new SqlDataAdapter(_cmd);
-                    //_dap.Fill(commsTable);
-                    _cmd.ExecuteNonQuery();
-                    _con.Close();
-                }
-                System.Windows.MessageBox.Show("Done");
-            }
-        }
-
         public void SqlConnectCRM()
         {
             string connectionString = DataAccess.GlobalSQL.ConnectionCRM;
@@ -130,6 +108,59 @@ namespace PolyUKApp.Windows
             using (SqlConnection _con = new SqlConnection(connectionString))
             {
                 string queryStatement = DataAccess.GlabalSQLQueries.CRMCompanies;
+                string queryStatement2 = DataAccess.GlabalSQLQueries.CRMWithComms;
+
+                using (SqlCommand _cmd = new SqlCommand(queryStatement, _con))
+                {
+
+                    SqlDataAdapter _dap = new SqlDataAdapter(_cmd);
+
+                    _con.Open();
+                    _dap.Fill(noCommsTable);
+                    _con.Close();
+
+                }
+                using (SqlCommand _cmd2 = new SqlCommand(queryStatement2, _con))
+                {
+                    SqlDataAdapter _dap2 = new SqlDataAdapter(_cmd2);
+                    _con.Open();
+                    _dap2.Fill(CommsTable);
+                    _con.Close();
+                    //CommsTable = CommsTable.DefaultView.ToTable(true);
+                }
+            }
+            List<string> IDList = new List<string>();
+            List<DataRow> toDelete = new List<DataRow>();
+            foreach (DataRow row in CommsTable.Rows)
+            {
+                IDList.Add(row[3].ToString());
+            }
+
+            foreach (DataRow noCommRow in noCommsTable.Rows)
+            {
+                if (IDList.Contains(noCommRow[0].ToString()))
+                {
+                    toDelete.Add(noCommRow);
+                }
+            }
+            foreach (DataRow dr in toDelete)
+            {
+                noCommsTable.Rows.Remove(dr);
+            }
+            noCommsTable.AcceptChanges();
+            DataGrid1.ItemsSource = noCommsTable.DefaultView;
+        }
+
+        public void SqlCRMProspectsNoComms()
+        {
+            string connectionString = DataAccess.GlobalSQL.ConnectionCRM;
+            DataTable noCommsTable = new DataTable("NoCommsList");
+            DataTable CommsTable = new DataTable("CommsList");
+
+
+            using (SqlConnection _con = new SqlConnection(connectionString))
+            {
+                string queryStatement = DataAccess.GlabalSQLQueries.CRMProspects;
                 string queryStatement2 = DataAccess.GlabalSQLQueries.CRMWithComms;
 
                 using (SqlCommand _cmd = new SqlCommand(queryStatement, _con))
@@ -377,6 +408,12 @@ namespace PolyUKApp.Windows
                 }
                 System.Windows.MessageBox.Show("Information Updated!");
             }
+        }
+
+        private void BtnCRMProspectNoComms_Click(object sender, RoutedEventArgs e)
+        {
+            DataGrid1.ItemsSource = null;
+            SqlCRMProspectsNoComms();
         }
     }
 }

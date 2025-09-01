@@ -105,19 +105,37 @@ namespace PolyUKApp.SQL
             public static String StockItemNames = "SELECT Code " +
                 "FROM STKStockItemView";
 
+            public static String SageItemCrossCheck = "SELECT " +
+                "TraceableItem.IdentificationNo, " +
+                "StockItem.Code, " +
+                "TraceableBinItem.WarehouseName, TraceableBinItem.GoodsInQuantity, TraceableBinItem.GoodsOutQuantity " +
+                "FROM TraceableItem " +
+                "LEFT JOIN StockItem ON TraceableItem.StockItemID=StockItem.ItemID " +
+                "LEFT JOIN TraceableBinItem ON TraceableItem.TraceableItemID=TraceableBinItem.TraceableItemID " +
+                "WHERE TraceableBinItem.WarehouseName IS NOT NULL " +
+                "ORDER BY TraceableItem.DateTimeCreated DESC";
+
+            public static String SageBatchCostPrice = "SELECT " +
+                "MovementBalance.CostPrice, MovementBalance.MovementReference " +
+                "FROM MovementBalance ";
+
             public static String ItemAnalysisQuery = "SELECT " +
                 "MovementBalance.ItemID,  MovementBalance.CostPrice, MovementBalance.DateTimeCreated, MovementBalance.OpeningStockLevel, MovementBalance.MovementReference, " +
-                "STKStockItemView.Code, STKStockItemView.Name, STKStockItemView.Description, STKStockItemView.FreeStockQuantity, STKStockItemView.StockUnitName, STKStockItemView.AverageBuyingPrice, STKStockItemView.Weight " +
+                "STKStockItemView.Code, STKStockItemView.Name, STKStockItemView.Description, STKStockItemView.FreeStockQuantity, STKStockItemView.StockUnitName, STKStockItemView.AverageBuyingPrice, STKStockItemView.Weight, " +
+                "Warehouse.Name " +
                 "FROM MovementBalance " +
                 "LEFT JOIN STKStockItemView ON MovementBalance.ItemID=STKStockItemView.ItemID " +
+                "LEFT JOIN Warehouse ON MovementBalance.WarehouseID=Warehouse.WarehouseID " +
                 "WHERE MovementBalance.MovementBalanceTypeID = '0' AND STKStockItemView.Code = @Code " +
                 "ORDER BY MovementBalance.DateTimeCreated DESC";
 
             public static String ItemAnalysisQueryALL = "SELECT " +
                 "MovementBalance.ItemID,  MovementBalance.CostPrice, MovementBalance.DateTimeCreated, MovementBalance.OpeningStockLevel, MovementBalance.MovementReference, " +
-                "STKStockItemView.Code, STKStockItemView.Name, STKStockItemView.Description, STKStockItemView.FreeStockQuantity, STKStockItemView.StockUnitName, STKStockItemView.AverageBuyingPrice, STKStockItemView.Weight " +
+                "STKStockItemView.Code, STKStockItemView.Name, STKStockItemView.Description, STKStockItemView.FreeStockQuantity, STKStockItemView.StockUnitName, STKStockItemView.AverageBuyingPrice, STKStockItemView.Weight, " +
+                "Warehouse.Name " +
                 "FROM MovementBalance " +
                 "LEFT JOIN STKStockItemView ON MovementBalance.ItemID=STKStockItemView.ItemID " +
+                "LEFT JOIN Warehouse ON MovementBalance.WarehouseID=Warehouse.WarehouseID " +
                 "WHERE MovementBalance.MovementBalanceTypeID = '0' " +
                 "ORDER BY MovementBalance.DateTimeCreated DESC";
 
@@ -263,7 +281,11 @@ namespace PolyUKApp.SQL
 
             public static String CRMCompanies = "SELECT Company.Comp_CompanyId, Company.Comp_Name, Company.comp_sc_salesperson " +
                 "From Company " +
-                "WHERE Company.Comp_Type = 'Customer' AND COmpany.Comp_Status = 'Active'";
+                "WHERE Company.Comp_Type = 'Customer' AND Company.Comp_Status = 'Active'";
+
+            public static String CRMProspects = "SELECT Company.Comp_CompanyId, Company.Comp_Name, Company.comp_sc_salesperson " +
+                "From Company " +
+                "WHERE Company.Comp_Type = 'Prospect' AND Company.Comp_Status = 'Active' AND Company.comp_sc_salesperson != 'Leads' AND Company.comp_sc_salesperson != 'In_Administration'";
 
             public static String CompanyList = "SELECT CustomerAccountName, DateOfLastTransaction " +
                 "FROM SLCustomerAccount";

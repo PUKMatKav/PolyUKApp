@@ -407,7 +407,11 @@ namespace PolyUKApp
                 "- Added update logging for backend debugging work and error fixing\n" +
                 "- Added date of most recent transaction to van calendar for customers\n" +
                 "- Added fuzzy string matching algorithm for finding company on sage from van calendar (details below)\n" +
-                "- Added Levenshtein distance computation, this is an edit distance metric that algebraically computes the minimum number of changes needed to get from one string to another to help work out misspelled terms etc ");
+                "- Added Levenshtein distance computation, this is an edit distance metric that algebraically computes the minimum number of changes needed to get from one string to another to help work out misspelled terms etc " +
+                "\r" + "" + "\r" +
+                "v1.3.0.1b - updated server links to use new server" +
+                "v1.3.0.1b - Refined Stock check to balance cost and qty on admin sheet and sage" +
+                "v1.3.0.1b - Start of dynamic screen for Stock Analysis Window (WIP)");
         }
 
         private void BtnCommInvoice_Click(object sender, RoutedEventArgs e)

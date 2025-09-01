@@ -77,15 +77,6 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                         Margin="20,0,0,0"/>
-                <Button x:Name="BtnCheckItemPrice"
-                    Content="Check Item Prices"
-                    Click="BtnCheckItemPrice_Click"
-                    Width="120"
-                    Visibility="Collapsed"
-                    Style="{DynamicResource GeneralButtonTheme}"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                        Margin="500,0,0,0"/>
                 <Button x:Name="BtnCheckALLPrice"
                     Content="Check All Batch Prices"
                     Click="BtnCheckALLPrice_Click"
@@ -94,6 +85,15 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                         Margin="500,0,0,0"/>
+                <Button x:Name="BtnResetAll"
+                    Content="Reset"
+                    Click="BtnResetAll_Click"
+                    Width="100"
+                    Style="{DynamicResource GeneralButtonTheme}"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                        Visibility="Collapsed"
+                        Margin="20,0,0,0"/>
             </StackPanel>
         </Border>
 
@@ -107,9 +107,13 @@
                    HorizontalAlignment="Left"
                    Margin="55"
                    Height="25"/>
-
-        <StackPanel x:Name="MainInfoPanel"
+        
+        <StackPanel x:Name="MainContainer"
                     Margin="55,150,55,55"
+                    Grid.Row="2"
+                    Orientation="Horizontal">
+        <StackPanel x:Name="MainInfoPanel"
+                    Margin="0"
                     Grid.Row="2"
                     Width="300"
                     HorizontalAlignment="Left">
@@ -287,11 +291,11 @@
                    Fill="{DynamicResource Border}"
                    Grid.Row="2"
                    HorizontalAlignment="Left"
-                   Margin="380, 75"/>
+                   Margin="20,-80,20,0"/>
 
 
         <StackPanel x:Name="BatchInfoPanel"
-                    Margin="405,150,55,55"
+                    Margin="0,0"
                     Grid.Row="2"
                     Width="400"
                     HorizontalAlignment="Left">
@@ -346,15 +350,18 @@
                    Fill="{DynamicResource Border}"
                    Grid.Row="2"
                    HorizontalAlignment="Left"
-                   Margin="825, 75,0,75"/>
+                   Margin="20, -80,0,0"/>
 
-        <StackPanel x:Name="CostComparePanel"
-                    Margin="855,150,55,55"
+        <Grid x:Name="CostComparePanel"
+                    Margin="20,0,0,0"
                     Grid.Row="2"
-                    Width="400"
                     HorizontalAlignment="Left">
-            <TextBlock x:Name="CostPriceBlock"
-                   Grid.Row="2"
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+                <TextBlock x:Name="CostPriceBlock"
+                   Grid.Row="0"
                    Text="Cost Price Cross-Check"
                    Foreground="{DynamicResource Accent}"
                    FontFamily="Aptos"
@@ -363,23 +370,15 @@
                    HorizontalAlignment="Left"
                    Margin="0,0,0,0"
                    Height="25"/>
-            <TextBlock x:Name="TableHeaderBlock"
-                   Grid.Row="2"
-                   Text=" Batch               Sage                     Sheet                     Notes"
-                   Visibility="Collapsed"
-                   Foreground="{DynamicResource Text}"
-                   FontFamily="Aptos"
-                   FontSize="12"
-                   VerticalAlignment="Top"
-                   HorizontalAlignment="Left"
-                   Margin="0,0,0,0"
-                   Height="25"/>
-            <DataGrid x:Name="CostPriceBatchGrid"
+                <DataGrid x:Name="CostPriceBatchGrid"
                       Style="{DynamicResource DataGridThemeVAN}"
-                      HeadersVisibility="None"
-                      MinHeight="50"/>
+                      CellStyle="{DynamicResource DataGridCellStockThemeWOList}"
+                      ColumnHeaderStyle="{DynamicResource ColumnHeaderStockThemeVAN}"
+                      MinHeight="50"
+                      Grid.Row="2"
+                      Margin="0,25,0,0"/>
             <TextBlock x:Name="CheckMessageBlock"
-                   Grid.Row="2"
+                   Grid.Row="3"
                    Text="No price discrepancies detetcted."
                    Visibility="Collapsed"
                    Foreground="{DynamicResource Text}"
@@ -390,9 +389,10 @@
                    Margin="0,0,0,0"
                    Height="25"/>
 
+        </Grid>
         </StackPanel>
 
-            <Border x:Name="BotBar0"
+        <Border x:Name="BotBar0"
             Background="{DynamicResource BackgroundMid}"
             Grid.Row="3"
             BorderBrush="{DynamicResource Border}"
