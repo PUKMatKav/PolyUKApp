@@ -340,6 +340,12 @@ HorizontalAlignment="Stretch"
                     Click="BtnCompanyInfo_Click"
                     MouseEnter="BtnCompanyInfo_MouseEnter">
             </Button>
+            <Button x:Name="BtnCompanyStats"
+                    Content="Company Stats"
+                    Style="{DynamicResource MenuButtonTheme}"
+                    Click="BtnCompanyStats_Click"   
+                    MouseEnter="BtnCompanyStats_MouseEnter">
+            </Button>
             <Separator Margin="30,2,120,2"
                        Background="{DynamicResource Border}"
                        Opacity="1"/>

@@ -1,13 +1,22 @@
-﻿using DocumentFormat.OpenXml.ExtendedProperties;
+﻿using DocumentFormat.OpenXml.Drawing.Charts;
+using DocumentFormat.OpenXml.ExtendedProperties;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+using LiveCharts;
+using LiveCharts.Wpf;
 using LiveChartsCore;
 using LiveChartsCore.Defaults;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Drawing.Geometries;
+using LiveChartsCore.SkiaSharpView.Painting;
 using Microsoft.Data.SqlClient;
+using Org.BouncyCastle.Utilities;
 using PolyUKApp.SQL;
 using PolyUKApp.SQL.Models;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data;
 using System.Data.OleDb;
 using System.IO;
@@ -28,24 +37,14 @@ using System.Windows.Threading;
 
 namespace PolyUKApp.Windows
 {
-    public class ViewModel
-    {        
-        public ISeries[] Series { get; set; } = new ISeries[]
-        {
-             
-                new LineSeries<int>
-                {
-                    Values = new int[] { 4, 6, 5, 3, -3, -1, 2 }
-                }
-        };
-    }
 
     /// <summary>
     /// Interaction logic for StockAnalysisWindow.xaml
     /// </summary>
+    /// 
+
     public partial class StockAnalysisWindow : Window
     {
-        List<Item> ItemCode = new List<Item>();
         List<string> CodeCheck = new List<string>();
         String connectionstring = DataAccess.GlobalSQL.Connection;
         String CurrentUser = Environment.UserName;
@@ -58,13 +57,22 @@ namespace PolyUKApp.Windows
         bool BtnCheckAllclicked2 = false;
         bool BtnResetclicked = false;
         bool BtnResetclicked2 = false;
+        bool BtnSearchClicked = false;
+        bool BtnResetSearchClicked = false;
+
+        public SeriesCollection MySeries { get; set; }
+        public string[] BarLabels { get; set; }
+        public Func<double, string> Formatter { get; set; }
+
 
         public StockAnalysisWindow()
         {
             InitializeComponent();
             LoadTheme();
             ItemCodeList();
+
         }
+
 
         private void BtnMinimise_Click(object sender, RoutedEventArgs e)
         {
@@ -81,6 +89,7 @@ namespace PolyUKApp.Windows
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
             Close();
+
         }
 
         private void TopBar0_MouseDown(object sender, MouseButtonEventArgs e)
@@ -91,8 +100,12 @@ namespace PolyUKApp.Windows
 
         private void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
+
             codeMatch = false;
+
             currentCode = SearchTextBox.Text.ToUpper();
+            BtnSearch.Visibility = Visibility.Collapsed;
+            BtnSearchReset.Visibility = Visibility.Visible;
 
             foreach (string str in CodeCheck)
             {
@@ -105,9 +118,15 @@ namespace PolyUKApp.Windows
             {
                 BatchGrid.ItemsSource = null;
                 AllocatedBatchGrid.ItemsSource = null;
+                BtnSearchClicked = true;
                 LoadItemInfo();
                 LoadBatchInfo();
                 LoadAllocationInfo();
+                DispatcherTimer timer = new DispatcherTimer();
+                timer.Tick += new EventHandler(SmoothGridMove_Tick);
+                timer.Interval = TimeSpan.FromMicroseconds(750);
+                timer.Start();
+                GraphDataLoad(currentCode);
                 BtnCheckALLPrice.Visibility = Visibility.Collapsed;
                 CheckMessageBlock.Visibility = Visibility.Collapsed;
 
@@ -124,21 +143,34 @@ namespace PolyUKApp.Windows
                     }
                 }
                 MessageBoxResult mbr = System.Windows.MessageBox.Show("Did you mean " + closestCode + "?", "Closely Matching Code", MessageBoxButton.YesNo);
-                if(mbr == MessageBoxResult.Yes)
+                if (mbr == MessageBoxResult.Yes)
                 {
                     currentCode = closestCode;
                     BatchGrid.ItemsSource = null;
                     AllocatedBatchGrid.ItemsSource = null;
+                    BtnSearchClicked = true;
                     LoadItemInfo();
                     LoadBatchInfo();
                     LoadAllocationInfo();
+                    DispatcherTimer timer = new DispatcherTimer();
+                    timer.Tick += new EventHandler(SmoothGridMove_Tick);
+                    timer.Interval = TimeSpan.FromMicroseconds(750);
+                    timer.Start();
+                    GraphDataLoad(currentCode);
                     BtnCheckALLPrice.Visibility = Visibility.Collapsed;
                     CheckMessageBlock.Visibility = Visibility.Collapsed;
 
                 }
-                else if(mbr == MessageBoxResult.No)
+                else if (mbr == MessageBoxResult.No)
                 {
                     System.Windows.MessageBox.Show("Code not found, please try again");
+                    BtnSearchReset.Visibility = Visibility.Collapsed;
+                    BtnSearch.Visibility = Visibility.Visible;
+                    codeMatch = false;
+                    currentCode = "";
+                    closestCode = "";
+                    SearchTextBox.Text = "";
+                    currentLowestCompute = 99;
                 }
             }
         }
@@ -154,7 +186,7 @@ namespace PolyUKApp.Windows
             RichTextTrendPrice.Document.Blocks.Clear();
 
 
-            DataTable ItemTable = new DataTable();
+            System.Data.DataTable ItemTable = new System.Data.DataTable();
 
             using (SqlConnection _con = new SqlConnection(connectionstring))
             {
@@ -184,12 +216,12 @@ namespace PolyUKApp.Windows
             RichTextWeight.AppendText(itemWeight + "kg");
             RichTextAvPrice.AppendText("£" + avPrice.ToString());
             RichTextTrendPrice.AppendText("£" + lastPrice + " (" + trendPrice.ToString() + "%)");
-            
+
         }
 
         private void LoadBatchInfo()
         {
-            DataTable BatchTable = new DataTable();
+            System.Data.DataTable BatchTable = new System.Data.DataTable();
 
             using (SqlConnection _con = new SqlConnection(connectionstring))
             {
@@ -198,7 +230,7 @@ namespace PolyUKApp.Windows
 
                 using (SqlCommand _cmd = new SqlCommand(queryStatement, _con))
                 {
-                    SqlDataAdapter _dap  =new SqlDataAdapter(_cmd);
+                    SqlDataAdapter _dap = new SqlDataAdapter(_cmd);
                     _cmd.Parameters.AddWithValue("@Code", currentCode);
                     _dap.Fill(BatchTable);
                 }
@@ -207,13 +239,20 @@ namespace PolyUKApp.Windows
 
             foreach (DataRow row in BatchTable.Rows)
             {
-                row["FreeStock"] = Convert.ToDouble(row["GoodsInQuantity"]) - Convert.ToDouble(row["GoodsOutQuantity"]) - Convert.ToDouble(row["AllocatedQuantity"]);
+                if (row["WarehouseName"] != DBNull.Value)
+                {
+                    row["FreeStock"] = Convert.ToDouble(row["GoodsInQuantity"]) - Convert.ToDouble(row["GoodsOutQuantity"]) - Convert.ToDouble(row["AllocatedQuantity"]);
+                }
             }
             BatchTable.AcceptChanges();
 
             foreach (DataRow row in BatchTable.Rows)
             {
-                if (row["FreeStock"] is not "0")
+                if (row["FreeStock"] == DBNull.Value)
+                {
+                    row.Delete();
+                }
+                else if (row["FreeStock"] is not "0")
                 {
                 }
                 else
@@ -237,7 +276,7 @@ namespace PolyUKApp.Windows
 
         private void LoadAllocationInfo()
         {
-            DataTable AllocationTable = new DataTable();
+            System.Data.DataTable AllocationTable = new System.Data.DataTable();
 
             using (SqlConnection _con = new SqlConnection(connectionstring))
             {
@@ -671,7 +710,7 @@ namespace PolyUKApp.Windows
         {
             System.Windows.MessageBox.Show("Please close Admin Stock Sheet (if open) before continuing");
             String filepath = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Admin\\Admin Stock NEW.xlsx";
-            DataTable AdminSheetTable = new DataTable("AdminSheetTable");
+            System.Data.DataTable AdminSheetTable = new System.Data.DataTable("AdminSheetTable");
             OleDbConnection oleExcelConnection = default(OleDbConnection);
 
             var Connection = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + filepath + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=1\"";
@@ -742,8 +781,8 @@ namespace PolyUKApp.Windows
             }
             AdminSheetTable.AcceptChanges();
 
-            DataTable SageTable = new DataTable("SageItemTable");
-            DataTable SagePriceTable = new DataTable("SagePriceTable");
+            System.Data.DataTable SageTable = new System.Data.DataTable("SageItemTable");
+            System.Data.DataTable SagePriceTable = new System.Data.DataTable("SagePriceTable");
 
             using (SqlConnection _con = new SqlConnection(connectionstring))
             {
@@ -777,7 +816,7 @@ namespace PolyUKApp.Windows
             //Add ID and quantity for Sage values
             SageTable.Columns.Add("ID");
             SageTable.Columns.Add("SageQty");
-            foreach(DataRow row in SageTable.Rows)
+            foreach (DataRow row in SageTable.Rows)
             {
                 if (row["IdentificationNo"].ToString().Count() >= 9)
                 {
@@ -792,7 +831,7 @@ namespace PolyUKApp.Windows
                         row["SageQty"] = Convert.ToDouble(row["GoodsInQuantity"]) - Convert.ToDouble(row["GoodsOutQuantity"]);
                     }
                 }
-                else if(row["IdentificationNo"].ToString().Count() < 9 && row["IdentificationNo"].ToString().Count() >= 6)
+                else if (row["IdentificationNo"].ToString().Count() < 9 && row["IdentificationNo"].ToString().Count() >= 6)
                 {
                     row["ID"] = row["Code"].ToString().ToUpper() + row["IdentificationNo"].ToString() + row["WarehouseName"].ToString();
                     row["SageQty"] = Convert.ToDouble(row["GoodsInQuantity"]) - Convert.ToDouble(row["GoodsOutQuantity"]);
@@ -838,7 +877,7 @@ namespace PolyUKApp.Windows
             AdminSheetTable.Columns.Add("Sage Location");
 
             //Removing sold out entries
-            foreach(DataRow row in AdminSheetTable.Rows)
+            foreach (DataRow row in AdminSheetTable.Rows)
             {
                 if (row["Warehouse"].ToString().Trim().ToUpper() == "SOLD OUT")
                 {
@@ -1007,7 +1046,7 @@ namespace PolyUKApp.Windows
 
         private void ItemCodeList()
         {
-            DataTable CodeTable = new DataTable();
+            System.Data.DataTable CodeTable = new System.Data.DataTable();
             using (SqlConnection _con = new SqlConnection(connectionstring))
             {
                 var queryStatement = DataAccess.GlabalSQLQueries.StockItemNames;
@@ -1043,9 +1082,92 @@ namespace PolyUKApp.Windows
             }
         }
 
+        private void SmoothExpand_Tick(object sender, EventArgs e)
+        {
+            if (BtnResetclicked)
+            {
+                if (MainInfoPanel.Width < 300)
+                {
+                    MainInfoPanel.Width += 2;
+                    BatchInfoPanel.Width += 2;
+                }
+                else
+                {
+
+
+                    BtnResetclicked = false;
+                }
+            }
+        }
+        private void SmoothGridMove_Tick(object sender, EventArgs e)
+        {
+            double WinWidth = this.ActualWidth;
+            double WinHeight = this.ActualHeight;
+            System.Windows.Thickness margin = CostComparePanel.Margin;
+            System.Windows.Thickness marginBtn = BtnCheckALLPrice.Margin;
+            System.Windows.Thickness marginSep = horizontalsep2.Margin;
+
+            if (BtnSearchClicked)
+            {
+                if (CostComparePanel.Margin.Left < (WinWidth * 0.4))
+                {
+                    margin.Left += 2;
+                    marginBtn.Left += 2;
+                    marginSep.Left += 2;
+                    CostComparePanel.Margin = margin;
+                    BtnCheckALLPrice.Margin = marginBtn;
+                    horizontalsep2.Margin = marginSep;
+                }
+                else
+                {
+                    CostComparePanel.Visibility = Visibility.Collapsed;
+                    BtnCheckALLPrice.Visibility = Visibility.Collapsed;
+                    horizontalsep2.Visibility = Visibility.Collapsed;
+                    BtnSearchClicked = false;
+
+                    BatchInfoPanel.Width = WinWidth * 0.65;
+                    MainGraph.Height = WinHeight * 0.375;
+                    timer.Stop();
+                }
+            }
+        }
+
+        private void SmoothGridMoveBack_Tick(object sender, EventArgs e)
+        {
+            double WinWidth = this.ActualWidth;
+            double WinHeight = this.ActualHeight;
+            System.Windows.Thickness margin = CostComparePanel.Margin;
+            System.Windows.Thickness marginBtn = BtnCheckALLPrice.Margin;
+            System.Windows.Thickness marginSep = horizontalsep2.Margin;
+
+            if (BtnResetSearchClicked)
+            {
+                if (CostComparePanel.Margin.Left > 20)
+                {
+                    margin.Left -= 2;
+                    marginBtn.Left -= 2;
+                    marginSep.Left -= 2;
+                    CostComparePanel.Margin = margin;
+                    BtnCheckALLPrice.Margin = marginBtn;
+                    horizontalsep2.Margin = marginSep;
+                }
+                else
+                {
+                    CostComparePanel.Visibility = Visibility.Visible;
+                    BtnCheckALLPrice.Visibility = Visibility.Visible;
+                    horizontalsep2.Visibility = Visibility.Visible;
+                    BtnResetSearchClicked = false;
+
+                    BatchInfoPanel.Width = 400;
+                    MainGraph.Height = 200;
+                    timer.Stop();
+                }
+            }
+        }
+
         private void ButtonMove_Tick(object sender, EventArgs e)
         {
-            Thickness margin = BtnCheckALLPrice.Margin;
+            System.Windows.Thickness margin = BtnCheckALLPrice.Margin;
             if (BtnCheckAllclicked2)
             {
 
@@ -1057,6 +1179,25 @@ namespace PolyUKApp.Windows
                 else
                 {
                     BtnCheckAllclicked2 = false;
+                    timer.Stop();
+                }
+            }
+        }
+
+        private void ButtonExpand_Tick(object sender, EventArgs e)
+        {
+            System.Windows.Thickness margin = BtnCheckALLPrice.Margin;
+            if (BtnResetclicked2)
+            {
+
+                if (BtnCheckALLPrice.Margin.Left < 500)
+                {
+                    margin.Left += 2;
+                    BtnCheckALLPrice.Margin = margin;
+                }
+                else
+                {
+                    BtnResetclicked2 = false;
                     timer.Stop();
                 }
             }
@@ -1093,11 +1234,16 @@ namespace PolyUKApp.Windows
 
         private void BtnResetAll_Click(object sender, RoutedEventArgs e)
         {
+            BtnResetclicked = true;
+            BtnResetclicked2 = true;
             CostPriceBatchGrid.ItemsSource = null;
-
+            MainInfoPanel.Visibility = Visibility.Visible;
+            BatchInfoPanel.Visibility = Visibility.Visible;
+            horizontalsep.Visibility = Visibility.Visible;
+            horizontalsep2.Visibility = Visibility.Visible;
             DispatcherTimer timer = new DispatcherTimer();
-            timer.Tick += new EventHandler(SmoothCollapse_Tick);
-            timer.Tick += new EventHandler(ButtonMove_Tick);
+            timer.Tick += new EventHandler(SmoothExpand_Tick);
+            timer.Tick += new EventHandler(ButtonExpand_Tick);
             timer.Interval = TimeSpan.FromMicroseconds(750);
             timer.Start();
             BtnCheckALLPrice.Visibility = Visibility.Visible;
@@ -1107,5 +1253,148 @@ namespace PolyUKApp.Windows
             BtnSearch.Visibility = Visibility.Visible;
             ItemCodeBlock.Visibility = Visibility.Visible;
         }
+
+        private void BtnSearchReset_Click(object sender, RoutedEventArgs e)
+        {
+            currentCode = "";
+            closestCode = "";
+            codeMatch = false;
+            BtnResetSearchClicked = true;
+            currentLowestCompute = 99;
+            RichTextDesc.Document.Blocks.Clear();
+            RichTextSpec.Document.Blocks.Clear();
+            RichTextFreeStock.Document.Blocks.Clear();
+            RichTextUnit.Document.Blocks.Clear();
+            RichTextWeight.Document.Blocks.Clear();
+            RichTextAvPrice.Document.Blocks.Clear();
+            RichTextTrendPrice.Document.Blocks.Clear();
+            BatchGrid.ItemsSource = null;
+            AllocatedBatchGrid.ItemsSource = null;
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Tick += new EventHandler(SmoothGridMoveBack_Tick);
+            timer.Interval = TimeSpan.FromMicroseconds(750);
+            timer.Start();
+            SearchTextBox.Text = "";
+            BtnSearchReset.Visibility = Visibility.Collapsed;
+            BtnSearch.Visibility = Visibility.Visible;
+            BtnCheckALLPrice.Visibility = Visibility.Visible;
+            MainGraph.Visibility = Visibility.Collapsed;
+            DataContext = null;
+        }
+
+        private void GraphDataLoad(string currentCode)
+        {
+            MainGraph.Visibility = Visibility.Visible;
+
+            double m1 = 0;
+            double m2 = 0;
+            double m3 = 0;
+            double m4 = 0;
+            double m5 = 0;
+            double m6 = 0;
+            double m7 = 0;
+            double m8 = 0;
+            double m9 = 0;
+            double m10 = 0;
+            double m11 = 0;
+            double m12 = 0;
+
+            System.Data.DataTable HistoryTable = new System.Data.DataTable();
+            //String CodeTest = "PUK/MACHINE/004PCW";
+
+            using (SqlConnection _con = new SqlConnection(connectionstring))
+            {
+                var queryStatement = DataAccess.GlabalSQLQueries.ItemHistoryQuery;
+                _con.Open();
+
+                using (SqlCommand _cmd = new SqlCommand(queryStatement, _con))
+                {
+                    SqlDataAdapter _dap = new SqlDataAdapter(_cmd);
+                    _cmd.Parameters.AddWithValue("@Code", currentCode);
+                    _dap.Fill(HistoryTable);
+                }
+            }
+            HistoryTable.Columns.Add("Month");
+            HistoryTable.Columns.Add("Year");
+            HistoryTable.AcceptChanges();
+
+            List<string> YearList = new List<string>();
+
+            foreach (DataRow row in HistoryTable.Rows)
+            {
+                DateTime LineTime = new DateTime();
+                LineTime = DateTime.Parse(row["TransactionDate"].ToString());
+                var ExtractedMonth = LineTime.Month;
+                var ExtractedYear = LineTime.Year;
+                row["Month"] = ExtractedMonth;
+                row["Year"] = ExtractedYear;
+
+                if (!YearList.Contains(row["Year"].ToString()))
+                {
+                    YearList.Add(row["Year"].ToString());
+                }
+            }
+            int DividingNumber = YearList.Count;
+
+            foreach(DataRow row in HistoryTable.Rows)
+            {
+                int MonthNumber = Convert.ToInt32(row["Month"]);
+                switch (MonthNumber)
+                {
+                    case 1: 
+                        m1 += Convert.ToDouble(row["Quantity"]) / DividingNumber;
+                        break;
+                    case 2:
+                        m2 += Convert.ToDouble(row["Quantity"]) / DividingNumber;
+                        break;
+                    case 3:
+                        m3 += Convert.ToDouble(row["Quantity"]) / DividingNumber;
+                        break;
+                    case 4:
+                        m4 += Convert.ToDouble(row["Quantity"]) / DividingNumber;
+                        break;
+                    case 5:
+                        m5 += Convert.ToDouble(row["Quantity"]) / DividingNumber;
+                        break;
+                    case 6:
+                        m6 += Convert.ToDouble(row["Quantity"]) / DividingNumber;
+                        break;
+                    case 7:
+                        m7 += Convert.ToDouble(row["Quantity"]) / DividingNumber;
+                        break;
+                    case 8:
+                        m8 += Convert.ToDouble(row["Quantity"]) / DividingNumber;
+                        break;
+                    case 9:
+                        m9 += Convert.ToDouble(row["Quantity"]) / DividingNumber;
+                        break;
+                    case 10:
+                        m10 += Convert.ToDouble(row["Quantity"]) / DividingNumber;
+                        break;
+                    case 11:
+                        m11 += Convert.ToDouble(row["Quantity"]) / DividingNumber;
+                        break;
+                    case 12:
+                        m12 += Convert.ToDouble(row["Quantity"]) / DividingNumber;
+                        break;
+                }
+            }
+
+
+            MySeries = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = "Sold",
+                    Values = new ChartValues<double> { m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12 },
+                    LineSmoothness = 0.00
+
+                }
+            };
+            BarLabels = new[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Oct", "Sep", "Nov", "Dec", };
+            // Bind the data context to this instance
+            DataContext = this;
+        }
+
     }
 }

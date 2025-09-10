@@ -161,10 +161,11 @@ namespace PolyUKApp.SQL
                 "WHERE STKStockItemView.Code = @Code";
 
             public static String ItemHistoryQuery = "SELECT " +
-                "TransactionHistory.TransactionDate, TransactionHistory.Quantity " +
+                "TransactionHistory.TransactionDate, TransactionHistory.Quantity, " +
+                "StockItem.Code " +
                 "FROM TransactionHistory " +
-                "LEFT JOIN STKStockItemView ON TransactionHistory.ItemID=STKStockItemView.StockItemID " +
-                "WHERE STKStockItemView.Code = @Code";
+                "LEFT JOIN StockItem ON TransactionHistory.ItemID=StockItem.ItemID " +
+                "WHERE TransactionHistory.TransactionTypeID = '15' AND StockItem.Code = @Code";
 
             public static String OrderCIQuery = "SELECT " +
                 "SOPOrderReturnLine.ItemCode, SOPOrderReturnLine.LineQuantity, SOPOrderReturnLine.UnitSellingPrice, SOPOrderReturnLine.SellingUnitDescription, SOPOrderReturnLine.ItemDescription, " +

@@ -409,9 +409,9 @@ namespace PolyUKApp
                 "- Added fuzzy string matching algorithm for finding company on sage from van calendar (details below)\n" +
                 "- Added Levenshtein distance computation, this is an edit distance metric that algebraically computes the minimum number of changes needed to get from one string to another to help work out misspelled terms etc " +
                 "\r" + "" + "\r" +
-                "v1.3.0.1b - updated server links to use new server" +
-                "v1.3.0.1b - Refined Stock check to balance cost and qty on admin sheet and sage" +
-                "v1.3.0.1b - Start of dynamic screen for Stock Analysis Window (WIP)");
+                "v1.3.0.1b - updated server links to use new server\n" +
+                "v1.3.0.1b - Refined Stock check to balance cost and qty on admin sheet and sage\n" +
+                "v1.3.0.1b - Start of dynamic screen for Stock Analysis Window (WIP)\n");
         }
 
         private void BtnCommInvoice_Click(object sender, RoutedEventArgs e)
@@ -583,10 +583,32 @@ namespace PolyUKApp
             this.Show();
         }
 
+
+
         private void BtnStockAnalysis_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
             TextBlockInfo.Document.Blocks.Clear();
             TextBlockInfo.AppendText("Gives information relating to specific stock codes");
+        }
+
+        private void BtnCompanyStats_Click(object sender, RoutedEventArgs e)
+        {
+            var CompanyStatWindow = new CompanyStatWindow();
+            CompanyStatWindow.Closed += childFormCompanyStatClosed;
+            CompanyStatWindow.Show();
+            this.Hide();
+        }
+
+        void childFormCompanyStatClosed(object sender, EventArgs e)
+        {
+            ((CompanyStatWindow)sender).Closed -= childFormCompanyStatClosed;
+            this.Show();
+        }
+
+        private void BtnCompanyStats_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            TextBlockInfo.Document.Blocks.Clear();
+            TextBlockInfo.AppendText("General company performance info for sales meetings etc");
         }
     }
 }

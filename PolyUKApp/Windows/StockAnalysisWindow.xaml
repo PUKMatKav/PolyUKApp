@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PolyUKApp.Windows"
-        xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
         Title="StockAnalysisWindow" 
         Height="800" Width="1400" MinHeight="800" MinWidth="1200"
@@ -15,10 +15,7 @@
         ResizeMode="CanResizeWithGrip"
         Icon="Images/PUKIco.ico">
 
-    <Window.DataContext>
-        <local:ViewModel/>
-    </Window.DataContext>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
@@ -76,7 +73,17 @@
                 Style="{DynamicResource GeneralButtonTheme}"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                        Margin="20,0,0,0"/>
+                        Margin="20,0,0,0"
+                        Visibility="Visible"/>
+                <Button x:Name="BtnSearchReset"
+                Content="Reset"
+                Click="BtnSearchReset_Click"
+                Width="80"
+                Style="{DynamicResource GeneralButtonTheme}"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                        Margin="20,0,0,0"
+                        Visibility="Collapsed"/>
                 <Button x:Name="BtnCheckALLPrice"
                     Content="Check All Batch Prices"
                     Click="BtnCheckALLPrice_Click"
@@ -107,14 +114,13 @@
                    HorizontalAlignment="Left"
                    Margin="55"
                    Height="25"/>
-        
+
         <StackPanel x:Name="MainContainer"
                     Margin="55,150,55,55"
-                    Grid.Row="2"
-                    Orientation="Horizontal">
+                    Orientation="Horizontal"
+                    Grid.Row="2">
         <StackPanel x:Name="MainInfoPanel"
-                    Margin="0"
-                    Grid.Row="2"
+                    Margin="0,0,0,0"
                     Width="300"
                     HorizontalAlignment="Left">
             <TextBlock x:Name="ItemDescBlock"
@@ -329,7 +335,7 @@
                       MinHeight="50"/>
             <TextBlock x:Name="ItemSalesBlock"
                    Grid.Row="2"
-                   Text="Sales History"
+                   Text="Sales History (Average Monthy Sales)"
                    Foreground="{DynamicResource Accent}"
                    FontFamily="Aptos"
                    FontSize="16"
@@ -337,12 +343,18 @@
                    HorizontalAlignment="Left"
                    Margin="0,5,0,0"
                    Height="25"/>
-            <lvc:CartesianChart Series="{Binding Series}"
+                <lvc:CartesianChart x:Name="MainGraph"
+                                Series="{Binding MySeries}"
                                 Height="200"
                                 MinWidth="100"
                                 HorizontalAlignment="Stretch"
                                 Margin="0,5"
-                                Visibility="Collapsed"/>
+                                Visibility="Collapsed">
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis Title="Month"
+                                  Labels="{Binding BarLabels}"/>
+                    </lvc:CartesianChart.AxisX>
+                </lvc:CartesianChart>
         </StackPanel>
         <Rectangle x:Name="horizontalsep2"
                    Width="1"
@@ -355,7 +367,8 @@
         <Grid x:Name="CostComparePanel"
                     Margin="20,0,0,0"
                     Grid.Row="2"
-                    HorizontalAlignment="Left">
+                    HorizontalAlignment="Left"
+              Visibility="Visible">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
@@ -391,6 +404,7 @@
 
         </Grid>
         </StackPanel>
+
 
         <Border x:Name="BotBar0"
             Background="{DynamicResource BackgroundMid}"
