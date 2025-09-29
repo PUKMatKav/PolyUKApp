@@ -333,6 +333,24 @@
       <dsig:DigestValue>5CUnilYk8mcySwpuzOkOUzV557S25fHocGYWHGKLBvs=</dsig:DigestValue>
     </hash>
   </file>
+  <file name="LiveCharts.dll" size="152064">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>n8+Jg3tg9pwcUB5M+k0oYIh6/QuPMlgDNn55Wk47yco=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="LiveCharts.Wpf.dll" size="217600">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>G9uxtcGlBlPlwmFh6bfAPtxRhyGm4Q6hgKhASdlnEGs=</dsig:DigestValue>
+    </hash>
+  </file>
   <file name="LiveChartsCore.dll" size="653824">
     <hash>
       <dsig:Transforms>
@@ -612,22 +630,22 @@
       <dsig:DigestValue>bFRxnWmCJKoy2POG7fJ88hNxgNl22+BavCDLdXKuSx4=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="PolyUKApp.deps.json" size="65241">
+  <file name="PolyUKApp.deps.json" size="66503">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>K++YftsriP9kILeqlOxOd7Hhzj+Vc33T+HQRX0wLELY=</dsig:DigestValue>
+      <dsig:DigestValue>0unRiI2Z4IPKo/0bPdKcPhg3yUXFq3/fNYfHnj6MDyg=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="PolyUKApp.dll" size="573952">
+  <file name="PolyUKApp.dll" size="582144">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>aw/FK88h75jBmPGfc3fvOxSz5B0Vij6Z6yLbq4wnU5U=</dsig:DigestValue>
+      <dsig:DigestValue>MiQqEIxVZRGcbOCMkBRnwu3TYYVl6kN32aLBWrz9hRA=</dsig:DigestValue>
     </hash>
   </file>
   <file name="PolyUKApp.dll.config" size="787">
@@ -639,13 +657,13 @@
       <dsig:DigestValue>L7Z5Zapuzne/9xt+Tg3TR8v3WHaiksgwMdSvCD5k26g=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="PolyUKApp.exe" size="156160">
+  <file name="PolyUKApp.exe" size="157696">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>NDmxoE6cTywP+EiD8rHADLLF9B+H7btwIJ95J4JJ+pM=</dsig:DigestValue>
+      <dsig:DigestValue>SBl94xg6DeoE4g2LFoKoaXHqOsL1yqGpPxoeP/Lv11M=</dsig:DigestValue>
     </hash>
   </file>
   <file name="PolyUKApp.runtimeconfig.json" size="515">
