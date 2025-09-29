@@ -41,8 +41,8 @@ namespace PolyUKApp.Windows
         {
             InitializeComponent();
             LoadTheme();
-            //ParseJsonToDataTable(fileToParseDaily);
-            //ParseJsonToDataTableWeekly(fileToParseWeekly);
+            ParseJsonToDataTable(fileToParseDaily);
+            ParseJsonToDataTableWeekly(fileToParseWeekly);
             string currentTime = DateTime.Now.ToString();
             DateTimeText.Text = currentTime;
         }
