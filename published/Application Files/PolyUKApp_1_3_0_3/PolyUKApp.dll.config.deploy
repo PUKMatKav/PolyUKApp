@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<connectionStrings>
+		<add name="polysql01" connectionString="server=poly-sql; database=PolytheneUK_Sage200; Integrated Security=true; encrypt=false" providerName="System.Data.SqlClient"/>
+		<add name="polysql01TEST" connectionString="server=poly-sql; database=PolytheneUK_Sage200_Sicon_Training; Integrated Security=true; encrypt=false" providerName="System.Data.SqlClient"/>
+		<add name="MySQLVan" connectionString="server=PC120.poly.local; uid=MattKavanagh; pwd=,syyHullcity1; database=van" providerName="MySql.Data.MySqlClient"/>
+		<add name="CRM" connectionString="server=poly-sql; database=CRM; Integrated Security=true; encrypt=false" providerName="System.Data.SqlClient"/>
+	</connectionStrings>
+</configuration>
