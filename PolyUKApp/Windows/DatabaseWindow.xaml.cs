@@ -415,5 +415,53 @@ namespace PolyUKApp.Windows
             DataGrid1.ItemsSource = null;
             SqlCRMProspectsNoComms();
         }
+
+        private void BtnCRMDupeAccounts_Click(object sender, RoutedEventArgs e)
+        {
+            DataGrid1.ItemsSource = null;
+            SqlCRMShowDuplicateAccounts();
+        }
+
+        private void SqlCRMShowDuplicateAccounts()
+        {
+            string connectionString = DataAccess.GlobalSQL.ConnectionCRM;
+            DataTable CompanyTable = new DataTable();
+            DataTable DupeTable = new DataTable();
+            DupeTable.Columns.Add("Comp_CompanyId");
+            DupeTable.Columns.Add("Comp_Name");
+            DupeTable.Columns.Add("comp_sc_salesperson");
+
+            using (SqlConnection _con  = new SqlConnection(connectionString))
+            {
+                string queryStatement = DataAccess.GlabalSQLQueries.CRMCompaniesALL;
+
+                using (SqlCommand _cmd = new SqlCommand(queryStatement, _con))
+                {
+                    SqlDataAdapter _dap = new SqlDataAdapter(_cmd);
+
+                    _con.Open();
+                    _dap.Fill(CompanyTable);
+                    _con.Close();
+                }
+            }
+
+            List<string> CompanyList = new List<string>();
+
+            for (int i = 0; i < CompanyTable.Rows.Count; i++)
+            {
+                DataRow row = CompanyTable.Rows[i];
+                String CompName = row["Comp_Name"].ToString().ToUpper().Trim();
+                if (CompanyList.Contains(CompName))
+                {
+                    DupeTable.Rows.Add(row.ItemArray);
+                }
+                else
+                {
+                    CompanyList.Add(CompName);
+                }
+            }
+            System.Windows.MessageBox.Show("Done");
+
+        }
     }
 }

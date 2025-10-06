@@ -178,30 +178,41 @@ namespace PolyUKApp.Windows
             var rawjsonPath = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Matt K Stuff\\" + fileName + ".json";
             string json = File.ReadAllText(rawjsonPath);
 
+
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
             Root root = System.Text.Json.JsonSerializer.Deserialize<Root>(json, options);
 
             // Convert to DataTable
-            DataTable jsontable = ConvertToDataTable(root.Body.Rows);
-            jsontable.Columns["1506"].ColumnName = "Extension";
-            jsontable.Columns["1550"].ColumnName = "Name";
-            jsontable.Columns["1"].ColumnName = "In";
-            jsontable.Columns["2"].ColumnName = "In Ans";
-            jsontable.Columns["9"].ColumnName = "Adv";
-            jsontable.Columns["3"].ColumnName = "In Abnd";
-            jsontable.Columns["4"].ColumnName = "Out";
-            jsontable.Columns["5"].ColumnName = "Out Ans";
-            jsontable.Columns["6"].ColumnName = "Out Fail";
-            jsontable.Columns["31"].ColumnName = "Total Talk (Out)";
-            jsontable.Columns["33"].ColumnName = "Avg Talk (Out)";
-            jsontable.Columns["30"].ColumnName = "Total Talk (In)";
-            jsontable.Columns["32"].ColumnName = "Avg Talk (In)";
-            jsontable.Columns["16"].ColumnName = "Total Talk";
-            jsontable.Columns["17"].ColumnName = "Avg Talk";
-            jsontable.AcceptChanges();
+            try
+            {
+                DataTable jsontable = ConvertToDataTable(root.Body.Rows);
+                jsontable.Columns["1506"].ColumnName = "Extension";
+                jsontable.Columns["1550"].ColumnName = "Name";
+                jsontable.Columns["1"].ColumnName = "In";
+                jsontable.Columns["2"].ColumnName = "In Ans";
+                jsontable.Columns["9"].ColumnName = "Adv";
+                jsontable.Columns["3"].ColumnName = "In Abnd";
+                jsontable.Columns["4"].ColumnName = "Out";
+                jsontable.Columns["5"].ColumnName = "Out Ans";
+                jsontable.Columns["6"].ColumnName = "Out Fail";
+                jsontable.Columns["31"].ColumnName = "Total Talk (Out)";
+                jsontable.Columns["33"].ColumnName = "Avg Talk (Out)";
+                jsontable.Columns["30"].ColumnName = "Total Talk (In)";
+                jsontable.Columns["32"].ColumnName = "Avg Talk (In)";
+                jsontable.Columns["16"].ColumnName = "Total Talk";
+                jsontable.Columns["17"].ColumnName = "Avg Talk";
+                jsontable.AcceptChanges();
 
-            DataGrid1.ItemsSource = null;
-            DataGrid1.ItemsSource = jsontable.DefaultView;
+                DataGrid1.ItemsSource = null;
+                DataGrid1.ItemsSource = jsontable.DefaultView;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error in data:\r\r" + e.ToString());
+                return;
+            }
+
+
 
         }
         public void ParseJsonToDataTableWeekly(string fileName)
@@ -214,26 +225,35 @@ namespace PolyUKApp.Windows
             Root root = System.Text.Json.JsonSerializer.Deserialize<Root>(json, options);
 
             // Convert to DataTable
-            DataTable jsontable = ConvertToDataTable(root.Body.Rows);
-            jsontable.Columns["1506"].ColumnName = "Extension";
-            jsontable.Columns["1550"].ColumnName = "Name";
-            jsontable.Columns["1"].ColumnName = "In";
-            jsontable.Columns["2"].ColumnName = "In Ans";
-            jsontable.Columns["9"].ColumnName = "Adv";
-            jsontable.Columns["3"].ColumnName = "In Abnd";
-            jsontable.Columns["4"].ColumnName = "Out";
-            jsontable.Columns["5"].ColumnName = "Out Ans";
-            jsontable.Columns["6"].ColumnName = "Out Fail";
-            jsontable.Columns["31"].ColumnName = "Total Talk (Out)";
-            jsontable.Columns["33"].ColumnName = "Avg Talk (Out)";
-            jsontable.Columns["30"].ColumnName = "Total Talk (In)";
-            jsontable.Columns["32"].ColumnName = "Avg Talk (In)";
-            jsontable.Columns["16"].ColumnName = "Total Talk";
-            jsontable.Columns["17"].ColumnName = "Avg Talk";
-            jsontable.AcceptChanges();
 
-            DataGrid2.ItemsSource = null;
-            DataGrid2.ItemsSource = jsontable.DefaultView;
+            try
+            {
+                DataTable jsontable = ConvertToDataTable(root.Body.Rows);
+                jsontable.Columns["1506"].ColumnName = "Extension";
+                jsontable.Columns["1550"].ColumnName = "Name";
+                jsontable.Columns["1"].ColumnName = "In";
+                jsontable.Columns["2"].ColumnName = "In Ans";
+                jsontable.Columns["9"].ColumnName = "Adv";
+                jsontable.Columns["3"].ColumnName = "In Abnd";
+                jsontable.Columns["4"].ColumnName = "Out";
+                jsontable.Columns["5"].ColumnName = "Out Ans";
+                jsontable.Columns["6"].ColumnName = "Out Fail";
+                jsontable.Columns["31"].ColumnName = "Total Talk (Out)";
+                jsontable.Columns["33"].ColumnName = "Avg Talk (Out)";
+                jsontable.Columns["30"].ColumnName = "Total Talk (In)";
+                jsontable.Columns["32"].ColumnName = "Avg Talk (In)";
+                jsontable.Columns["16"].ColumnName = "Total Talk";
+                jsontable.Columns["17"].ColumnName = "Avg Talk";
+                jsontable.AcceptChanges();
+
+                DataGrid2.ItemsSource = null;
+                DataGrid2.ItemsSource = jsontable.DefaultView;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error in data:\r\r" + e.ToString());
+                return;
+            }
 
         }
 

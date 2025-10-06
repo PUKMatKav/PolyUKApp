@@ -129,6 +129,12 @@
                                Foreground="{DynamicResource Accent}"
                                VerticalAlignment="Center"
                                FontSize="20"/>
+                    <Button x:Name="BtnCRMDupeAccounts"
+                            Content="Duplicate Accounts"
+                            Margin="0,0,20,0"
+                            Width="130"
+                            Click="BtnCRMDupeAccounts_Click"
+                            Style="{DynamicResource GeneralButtonTheme}"/>
                     <Button x:Name="BtnCRMProspectNoComms"
                             Content="Prospect No Comms"
                             Margin="0,0,20,0"

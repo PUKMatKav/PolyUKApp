@@ -280,6 +280,10 @@ namespace PolyUKApp.SQL
                 "LEFT JOIN Company ON Comm_Link.CmLi_Comm_CompanyId=Company.Comp_CompanyId " +
                 "WHERE Communication.Comm_Status != 'Complete' AND Communication.Comm_Status != 'Cancelled'";
 
+            public static String CRMCompaniesALL = "SELECT Company.Comp_CompanyId, Company.Comp_Name, Company.comp_sc_salesperson " +
+                "From Company " +
+                "WHERE Company.Comp_Status = 'Active'";
+
             public static String CRMCompanies = "SELECT Company.Comp_CompanyId, Company.Comp_Name, Company.comp_sc_salesperson " +
                 "From Company " +
                 "WHERE Company.Comp_Type = 'Customer' AND Company.Comp_Status = 'Active'";
