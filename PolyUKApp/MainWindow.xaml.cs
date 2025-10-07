@@ -413,7 +413,9 @@ namespace PolyUKApp
                 "v1.3.0.1b - Refined Stock check to balance cost and qty on admin sheet and sage\n" +
                 "v1.3.0.1b - Start of dynamic screen for Stock Analysis Window (WIP)\n" +
                 "\r" + "" + "\r" +
-                "v1.3.0.4 - Error Handler added for loading JSON data, gives error on screen and should avoid loading");
+                "v1.3.0.4 - Error Handler added for loading JSON data, gives error on screen and should avoid loading" +
+                "\r" + "" + "\r" +
+                "v1.3.0.5 - Reconfigured server connection for migrated can calendar database");
         }
 
         private void BtnCommInvoice_Click(object sender, RoutedEventArgs e)
