@@ -43,7 +43,7 @@
             BorderThickness="1">
             <Grid>
                 <TextBlock x:Name="TextBlockStock"
-               Text="POD System"
+               Text="POD / CoC System"
                HorizontalAlignment="Left"
                VerticalAlignment="Top"
                FontSize="18"
@@ -51,7 +51,8 @@
                Foreground="{DynamicResource Accent}"
                FontFamily="Aptos"
                FontWeight="Bold"/>
-                <TextBlock Text="Select Year"
+                <TextBlock x:Name="TxtSelectYr"
+                    Text="Select Year"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Margin="27,70,0,0"
@@ -71,7 +72,18 @@
                   Foreground="{DynamicResource Text}"
                   SelectionChanged="ComboBoxYear_SelectionChanged">
                 </ComboBox>
-                
+
+                <Button x:Name="DataSearchBtn"
+                  Width="160"
+                  Height="30"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  Margin="20,100,0,0"
+                        Style="{DynamicResource GeneralButtonTheme}"
+                        Content="Check Active BRC Codes"
+                        Visibility="Collapsed"
+                        Click="DataSearchBtn_Click"/>
+
                 <TextBlock Name="TextBlockMonth"
                     Text="Select Month"
             HorizontalAlignment="Left"
@@ -138,35 +150,6 @@
                 </DataGrid>
 
 
-                <TextBlock Width="100"
-                     Height="100"
-                     x:Name="TestBlock"
-                     VerticalAlignment="Top"
-                       HorizontalAlignment="Right"
-                         Margin="105, 5"
-                       Foreground="{DynamicResource Text}">
-
-                </TextBlock>
-                <TextBlock x:Name="TextBlockComboError"
-               Text="Please Select Catagory!!"
-               Margin="230,108,0,0"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Top"
-               FontFamily="Aptos"
-               FontSize="14"
-               Foreground="Red"
-               Visibility="Hidden"
-               IsHitTestVisible="False"/>
-                <TextBlock x:Name="TextBlockCopied"
-               Text="Copied"
-               Margin="20"
-               HorizontalAlignment="Right"
-               VerticalAlignment="Top"
-               FontFamily="Aptos"
-               FontSize="14"
-               Foreground="{DynamicResource Accent}"
-               Visibility="Hidden"
-               IsHitTestVisible="False"/>
             </Grid>
         </Border>
 
@@ -220,14 +203,28 @@
         Margin="10 0 0 0"/>
         <StackPanel x:Name="ReturnTabPanel"
                 Grid.Row="1"
+                    Orientation="Horizontal"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 Margin="375,0,25,0">
+            <Button x:Name="PODBtn"
+        Style="{DynamicResource GeneralButtonTheme}"
+        Width="120"
+        Margin="20,0"
+        Content="Check PODs / CoCs"
+                    Click="PODBtn_Click"/>
+            <Button x:Name="DataBtn"
+        Style="{DynamicResource GeneralButtonTheme}"
+        Width="120"
+        Margin="0,0,20,0"
+        Content="Check Data Sheets"
+                    Click="DataBtn_Click"/>
             <Button x:Name="BtnMainMenu"
                 Content="Main Menu"
                 Click="BtnMainMenu_Click"
                 Width="80"
                 Style="{DynamicResource GeneralButtonTheme}"/>
+
         </StackPanel>
 
 

@@ -34,6 +34,8 @@ namespace PolyUKApp.Windows
         String MonthSelected = "";
         String YearSelected = "";
         DataTable SupplierTable = new DataTable();
+        DataTable DataSheetTable = new DataTable();
+        DataTable DataSheetSavedTable = new DataTable();
 
         public PODWindow()
         {
@@ -448,6 +450,107 @@ namespace PolyUKApp.Windows
             }
             var psi = new ProcessStartInfo(filePath) { UseShellExecute = true };
             Process.Start(psi);
+        }
+
+        private void PODBtn_Click(object sender, RoutedEventArgs e)
+        {
+            TextBlockStock.Text = "POD / CoC System";
+            TxtSelectYr.Visibility = Visibility.Visible;
+            ComboBoxYear.Visibility = Visibility.Visible;
+            DataSearchBtn.Visibility = Visibility.Collapsed;
+            PODBtn.Opacity = 0.5;
+            DataBtn.Opacity = 1;
+        }
+
+        private void DataBtn_Click(object sender, RoutedEventArgs e)
+        {
+            TextBlockStock.Text = "Data Sheet System";
+            TxtSelectYr.Visibility = Visibility.Collapsed;
+            ComboBoxYear.Visibility = Visibility.Collapsed;
+            ComboBoxYear.Text = " ";
+            TextBlockMonth.Visibility = Visibility.Collapsed;
+            ComboBoxMonth.Visibility = Visibility.Collapsed;
+            ComboBoxMonth.Text = " ";
+            TextBlockSupplier.Visibility = Visibility.Collapsed;
+            ComboBoxSupplier.Visibility = Visibility.Collapsed;
+            ComboBoxSupplier.Text = " ";
+            DataSearchBtn.Visibility = Visibility.Visible;
+            DataGrid1.ItemsSource = null;
+            PODBtn.Opacity = 1;
+            DataBtn.Opacity = 0.5;
+        }
+
+        private void DataSearchBtn_Click(object sender, RoutedEventArgs e)
+        {
+            DataSheetTable.Dispose();
+            DataSheetTable.Clear();
+            DataGrid1.ItemsSource = null;
+            var connectionString = DataAccess.GlobalSQL.Connection;
+
+            using (SqlConnection _con = new SqlConnection(connectionString))
+            {
+                var queryStatement = DataAccess.GlabalSQLQueries.BRCDataSheetCheck;
+                _con.Open();
+
+                using (SqlCommand _cmd = new SqlCommand(queryStatement, _con))
+                {
+                    SqlDataAdapter _dap = new SqlDataAdapter(_cmd);
+
+                    _dap.Fill(DataSheetTable);
+
+                }
+            }
+            //filter down to newest order only
+
+            List<string> CodeList = new List<string>();
+
+            foreach (DataRow row in DataSheetTable.Rows)
+            {
+                if (!CodeList.Contains(row[0].ToString()))
+                {
+                    CodeList.Add(row[0].ToString());
+                }
+                else
+                {
+                    row.Delete();
+                }
+            }
+            DataSheetTable.AcceptChanges();
+
+            //pull Data Sheets from folders for comparison
+
+
+            DataSheetSavedTable.Columns.Add("Sup");
+            DataSheetSavedTable.Columns.Add("Item");
+            List<string> DataSheetList = new List<string>();
+            var CurrentUser = Environment.UserName;
+            var filePathDataSheets = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\BRC &  ISO 2020\\BRCGS\\Coc & Data Sheets\\BRC SUPPLIER  DATA SHEETS";
+            DataSheetList = Directory.GetFiles(filePathDataSheets, "*.*", SearchOption.AllDirectories).ToList<string>();
+
+            for (int i = 0; i < DataSheetList.Count; i++)
+            {
+                var Line = DataSheetList[i].Substring(131);
+                if(Line.Contains("1. PUK"))
+                {
+                    if (!Line.ToUpper().Contains("ARCHIVED"))
+                    {
+                        DataSheetSavedTable.Rows.Add(Line.Substring(14).Split('\\'));
+                    }
+                }
+                else
+                {
+                    if (!Line.ToUpper().Contains("ARCHIVED"))
+                    {
+                        DataSheetSavedTable.Rows.Add(Line.Split('\\'));
+                    }
+                }
+            }
+
+
+
+            //String DataSheetFiles = String.Concat(DataSheetArray);
+
+            System.Windows.MessageBox.Show("Done");
         }
     }
 }
