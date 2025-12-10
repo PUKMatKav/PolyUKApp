@@ -118,6 +118,25 @@
                             Style="{DynamicResource SearchButtonTheme}"
                             Click="BtnResetData_Click"/>
                 </StackPanel>
+
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            Margin="500,110,20,0"
+                            VerticalAlignment="Top"
+                            Height="35">
+                    <TextBlock x:Name="ReportsTxt"
+                               Text="Reports:"
+                               Margin="0,0,20,0"
+                               Foreground="{DynamicResource Accent}"
+                               VerticalAlignment="Center"
+                               FontSize="20"/>
+                    <Button x:Name="BtnReportDebtors"
+                            Content="Debtor Reports"
+                            Margin="0,0,0,0"
+                            Width="130"
+                            Click="BtnReportDebtors_Click"
+                            Style="{DynamicResource GeneralButtonTheme}"/>
+                </StackPanel>
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Right"
                             Margin="500,150,20,0"
@@ -129,6 +148,12 @@
                                Foreground="{DynamicResource Accent}"
                                VerticalAlignment="Center"
                                FontSize="20"/>
+                    <Button x:Name="BtnCRMCommLink"
+                            Content="Comms Linked"
+                            Margin="0,0,20,0"
+                            Width="130"
+                            Click="BtnCRMCommLink_Click"
+                            Style="{DynamicResource GeneralButtonTheme}"/>
                     <Button x:Name="BtnCRMDupeAccounts"
                             Content="Duplicate Accounts"
                             Margin="0,0,20,0"
@@ -261,10 +286,17 @@
             VerticalAlignment="Center"
             Margin="10 0 0 0"/>
         <StackPanel x:Name="ReturnTabPanel"
+                    Orientation="Horizontal"
                     Grid.Row="1"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Margin="375,0,25,0">
+            <Button x:Name="BtnExport"
+                    Content="Export CSV"
+                    Click="BtnExport_Click"
+                    Width="80"
+                    Style="{DynamicResource GeneralButtonTheme}"
+                    Margin="20,0"/>
             <Button x:Name="BtnMainMenu"
                     Content="Main Menu"
                     Click="BtnMainMenu_Click"

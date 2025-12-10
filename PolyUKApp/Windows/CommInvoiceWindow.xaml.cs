@@ -960,7 +960,7 @@ namespace PolyUKApp.Windows
                             OrderDataSQL();
                             DetailsSQL();
                             ReadWriteCINumber();
-                            InvFromText.AppendText("XI903824828000" + "\r" + "Polythene UK Ltd" + "\r" + "4 Witan Park" + "\r" + "Avenue Twp" + "\r" + "Witney" + "\r" + "OX28 4FH" + "\r" + "0845 643 1601");
+                            InvFromText.AppendText("XI903824828000" + "\r" + "Polythene UK Ltd" + "\r" + "4 Witan Park" + "\r" + "Avenue Two" + "\r" + "Witney" + "\r" + "OX28 4FH" + "\r" + "0845 643 1601");
                             InvDate.Text = currentdate;
 
                             MessageBox.Show("Please check all information is correct and filled in");
@@ -991,7 +991,7 @@ namespace PolyUKApp.Windows
 
                 var currentdate = (DateTime.Now).ToString().Substring(0, 10);
 
-                InvFromText.AppendText("XI903824828000" + "\r" + "Polythene UK Ltd" + "\r" + "4 Witan Park" + "\r" + "Avenue Twp" + "\r" + "Witney" + "\r" + "OX28 4FH" + "\r" + "0845 643 1601");
+                InvFromText.AppendText("XI903824828000" + "\r" + "Polythene UK Ltd" + "\r" + "4 Witan Park" + "\r" + "Avenue Two" + "\r" + "Witney" + "\r" + "OX28 4FH" + "\r" + "0845 643 1601");
                 OriginLOC.Text = "UK";
                 InvDate.Text = currentdate;
 

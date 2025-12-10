@@ -412,10 +412,13 @@ namespace PolyUKApp
                 "v1.3.0.1b - updated server links to use new server\n" +
                 "v1.3.0.1b - Refined Stock check to balance cost and qty on admin sheet and sage\n" +
                 "v1.3.0.1b - Start of dynamic screen for Stock Analysis Window (WIP)\n" +
-                "\r" + "" + "\r" +
                 "v1.3.0.4 - Error Handler added for loading JSON data, gives error on screen and should avoid loading" +
-                "\r" + "" + "\r" +
-                "v1.3.0.5 - Reconfigured server connection for migrated can calendar database");
+                "v1.3.0.5 - Reconfigured server connection for migrated can calendar database" +
+                "\r" + "" + "\r" + "\r " +
+                "v1.3.1.6" +
+                "\r" + "" + "\r" + 
+                "- Refactored the code relating to akixi API, tidied it up for small perfomance boost\n" +
+                "- Corrected API target for new web address/host for Akixi");
         }
 
         private void BtnCommInvoice_Click(object sender, RoutedEventArgs e)

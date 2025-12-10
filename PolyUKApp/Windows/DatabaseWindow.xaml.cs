@@ -1,13 +1,16 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Bibliography;
+using Microsoft.Data.SqlClient;
 using Microsoft.VisualBasic.ApplicationServices;
+using MySql.Data.MySqlClient;
 using PolyUKApp.SQL;
 using PolyUKApp.SQL.Models;
-using MySql.Data.MySqlClient;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -203,6 +206,60 @@ namespace PolyUKApp.Windows
             noCommsTable.AcceptChanges();
             DataGrid1.ItemsSource = noCommsTable.DefaultView;
         }
+
+        public void SqlCRMProspectsNoCommsJS()
+        {
+            string connectionString = DataAccess.GlobalSQL.ConnectionCRM;
+            DataTable noCommsTable = new DataTable("NoCommsList");
+            DataTable CommsTable = new DataTable("CommsList");
+
+
+            using (SqlConnection _con = new SqlConnection(connectionString))
+            {
+                string queryStatement = DataAccess.GlabalSQLQueries.CRMProspectsJS;
+                string queryStatement2 = DataAccess.GlabalSQLQueries.CRMWithCommsJS;
+
+                using (SqlCommand _cmd = new SqlCommand(queryStatement, _con))
+                {
+
+                    SqlDataAdapter _dap = new SqlDataAdapter(_cmd);
+
+                    _con.Open();
+                    _dap.Fill(noCommsTable);
+                    _con.Close();
+
+                }
+                using (SqlCommand _cmd2 = new SqlCommand(queryStatement2, _con))
+                {
+                    SqlDataAdapter _dap2 = new SqlDataAdapter(_cmd2);
+                    _con.Open();
+                    _dap2.Fill(CommsTable);
+                    _con.Close();
+                    //CommsTable = CommsTable.DefaultView.ToTable(true);
+                }
+            }
+            List<string> IDList = new List<string>();
+            List<DataRow> toDelete = new List<DataRow>();
+            foreach (DataRow row in CommsTable.Rows)
+            {
+                IDList.Add(row[3].ToString());
+            }
+
+            foreach (DataRow noCommRow in noCommsTable.Rows)
+            {
+                if (IDList.Contains(noCommRow[0].ToString()))
+                {
+                    toDelete.Add(noCommRow);
+                }
+            }
+            foreach (DataRow dr in toDelete)
+            {
+                noCommsTable.Rows.Remove(dr);
+            }
+            noCommsTable.AcceptChanges();
+            DataGrid1.ItemsSource = noCommsTable.DefaultView;
+        }
+
 
         public void SqlConnectIntakeSheet()
         {
@@ -413,7 +470,7 @@ namespace PolyUKApp.Windows
         private void BtnCRMProspectNoComms_Click(object sender, RoutedEventArgs e)
         {
             DataGrid1.ItemsSource = null;
-            SqlCRMProspectsNoComms();
+            SqlCRMProspectsNoCommsJS();
         }
 
         private void BtnCRMDupeAccounts_Click(object sender, RoutedEventArgs e)
@@ -462,6 +519,206 @@ namespace PolyUKApp.Windows
             }
             System.Windows.MessageBox.Show("Done");
 
+        }
+
+        private void SqlCRMJamesandJames()
+        {
+            string connectionString = DataAccess.GlobalSQL.ConnectionCRM;
+            DataTable CRMTable = new DataTable();
+
+            using (SqlConnection _con = new SqlConnection(connectionString))
+            {
+                string queryStatement = DataAccess.GlabalSQLQueries.CommsJamesWandS;
+
+                using (SqlCommand _cmd = new SqlCommand(queryStatement, _con))
+                {
+                    SqlDataAdapter _dap = new SqlDataAdapter(_cmd);
+
+                    _con.Open();
+                    _dap.Fill(CRMTable);
+                    _con.Close();
+                }
+            }
+        }
+
+        private void BtnCRMCommLink_Click(object sender, RoutedEventArgs e)
+        {
+            SqlCRMJamesandJames();
+        }
+
+        private void SqlReportDebtorsList()
+        {
+            string connectionString = DataAccess.GlobalSQL.Connection;
+            DataTable DebtorTable = new DataTable();
+
+            using (SqlConnection _con = new SqlConnection(connectionString))
+            {
+                string queryStatement = DataAccess.GlabalSQLQueries.ReportDebtors;
+
+                using (SqlCommand _cmd = new SqlCommand(queryStatement, _con))
+                {
+                    SqlDataAdapter _dap = new SqlDataAdapter(_cmd);
+
+                    _con.Open();
+                    _dap.Fill(DebtorTable);
+                    _con.Close();
+                }
+            }
+            DebtorTable.Columns.Add("4+ Months");
+            DebtorTable.Columns.Add("3 Months");
+            DebtorTable.Columns.Add("2 Months");
+            DebtorTable.Columns.Add("1 Months");
+            DebtorTable.Columns.Add("Current");
+            DebtorTable.Columns.Add("Outstanding");
+            DebtorTable.AcceptChanges();
+
+            int CurrentMonthDate = DateTime.Now.Month;
+            int CurrentYRDate = DateTime.Now.Year;
+
+            //filling in Months owed
+            foreach (DataRow row in DebtorTable.Rows)
+            {
+                int YearNumber = Convert.ToInt32(row["Transaction Date"].ToString().Substring(0, 4));
+                int MonthNumber = Convert.ToInt32(row["Transaction Date"].ToString().Substring(5, 2));
+                row["Outstanding"] = Convert.ToDouble(row["GoodsValueInAccountCurrency"]) - Convert.ToDouble(row["AllocatedValue"]);
+
+                if (YearNumber != CurrentYRDate)
+                {
+                    row["4+ Months"] = row["GoodsValueInAccountCurrency"];
+                }
+
+                else if (MonthNumber == CurrentMonthDate && YearNumber == CurrentYRDate)
+                {
+                    row["Current"] = row["GoodsValueInAccountCurrency"];
+                }
+
+                else if ((MonthNumber - CurrentMonthDate) == -1 && YearNumber == CurrentYRDate)
+                {
+                    row["1 Months"] = row["GoodsValueInAccountCurrency"];
+                }
+
+                else if ((MonthNumber - CurrentMonthDate) == -2 && YearNumber == CurrentYRDate)
+                {
+                    row["2 Months"] = row["GoodsValueInAccountCurrency"];
+                }
+
+                else if ((MonthNumber - CurrentMonthDate) == -3 && YearNumber == CurrentYRDate)
+                {
+                    row["3 Months"] = row["GoodsValueInAccountCurrency"];
+                }
+
+                else if ((MonthNumber - CurrentMonthDate) <= -4 && YearNumber == CurrentYRDate)
+                {
+                    row["4+ Months"] = row["GoodsValueInAccountCurrency"];
+                }
+            }
+
+            List<string> InterestingAccounts = new List<string>();
+            DebtorTable.Columns.Add("Test");
+            DebtorTable.AcceptChanges();
+            foreach (DataRow row in DebtorTable.Rows)
+            {
+
+                if (row["4+ Months"].ToString() is not "" || row["3 Months"].ToString() is not "")
+                {
+                    row["Test"] = "Yes";
+                    InterestingAccounts.Add(row["CustomerAccountNumber"].ToString());
+                }
+
+                if (row["2 Months"].ToString() is not "")
+                {
+                    double TwoMnthNumber = double.Parse((string)row["2 Months"]);
+                    if (TwoMnthNumber < 0.00)
+                    {
+                        row["Test"] = "Yes Minus";
+                        InterestingAccounts.Add(row["CustomerAccountNumber"].ToString());
+                    }
+
+                }
+
+                if (row["1 Months"].ToString() is not "")
+                {
+                    double OneMnthNumber = double.Parse((string)row["1 Months"]);
+                    if (OneMnthNumber < 0.00)
+                    {
+                        row["Test"] = "Yes Minus";
+                        InterestingAccounts.Add(row["CustomerAccountNumber"].ToString());
+                    }
+
+                }
+
+                if (row["Current"].ToString() is not "")
+                {
+                    double CurMnthNumber = double.Parse((string)row["Current"]);
+                    if (CurMnthNumber < 0.00)
+                    {
+                        row["Test"] = "Yes Minus";
+                        InterestingAccounts.Add(row["CustomerAccountNumber"].ToString());
+                    }
+
+                }
+            }
+
+            foreach (DataRow row in DebtorTable.Rows)
+            {
+                if (!InterestingAccounts.Contains(row["CustomerAccountNumber"].ToString()))
+                {
+                    row.Delete();
+                }
+            }
+            DebtorTable.AcceptChanges();
+            DataGrid1.ItemsSource = DebtorTable.DefaultView;
+        }
+
+        private void BtnReportDebtors_Click(object sender, RoutedEventArgs e)
+        {
+            SqlReportDebtorsList();
+        }
+
+        public void GetCSV()
+        {
+            var CurrentUser = Environment.UserName;
+            string filepath = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Matt K Stuff\\Exports\\Debtors.xlsx";
+            XLWorkbook wb = new XLWorkbook();
+
+            DataView dv = (DataView)DataGrid1.ItemsSource;
+            DataTable dt = dv.Table.Clone();
+            foreach (DataRowView dataRowView in dv)
+            {
+                dt.ImportRow(dataRowView.Row);
+            }
+            var dataTableFromDataGrid = dt;
+
+            DataTable exportDebtorList = new DataTable();
+
+            //foreach(DataColumn col in dt.Columns)
+            //{
+            //    exportDebtorList.Columns.Add(col.ColumnName.ToString());
+            //}
+            //foreach(DataRow row in dt.Rows)
+            //{
+
+            //}
+
+
+            //foreach(DataGridColumn col in DataGrid1.Columns)
+            //{
+            //    exportDebtorList.Columns.Add(col.Header.ToString());
+            //}
+            //foreach(DataRowView row in DataGrid1.ItemsSource)
+            //{
+            //    exportDebtorList.Rows.Add(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11], row[12], row[13]);
+            //}
+
+            wb.Worksheets.Add(dataTableFromDataGrid, "Jobs");
+            wb.SaveAs(filepath);
+
+
+        }
+
+        private void BtnExport_Click(object sender, RoutedEventArgs e)
+        {
+            GetCSV();
         }
     }
 }

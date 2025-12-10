@@ -401,7 +401,7 @@ namespace PolyUKApp.Windows
 
         public void AkixiPuller()
         {
-            string url = "https://horizon.akixi.com/CCS/API/v1";
+            string url = "https://cxreporting.akixi.com/CCS/API/v1";
             bool sessionAuth = false;
             string b64 = "bWF0dGhld2thdmFuYWdoQHBvbHl0aGVuZXVrLmNvLnVrOlAwbHlNSzEh";
             string ReportID = "612d239751dd5a85:-5362eb36:18b5c897a7f:10e5";
@@ -444,7 +444,7 @@ namespace PolyUKApp.Windows
             {
                 string CurrentUser = Globals.Username;
                 String filepath = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Matt K Stuff\\";
-                string urlGR = "https://horizon.akixi.com/CCS/API/v1";
+                string urlGR = "https://cxreporting.akixi.com/CCS/API/v1";
                 var tenantIdGR = urlGR;
                 var sessionClientGR = new RestClient(urlGR);
                 var getReportRequest = new RestRequest();

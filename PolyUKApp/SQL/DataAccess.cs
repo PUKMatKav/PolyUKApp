@@ -303,6 +303,31 @@ namespace PolyUKApp.SQL
             public static String CompanyList = "SELECT CustomerAccountName, DateOfLastTransaction " +
                 "FROM SLCustomerAccount";
 
+            public static String CommsJamesWandS = "SELECT Company.comp_sc_salesperson, Company.Comp_Name, Company.Comp_CompanyId, " +
+                "Comm_Link.CmLi_Comm_CompanyId, Comm_Link.CmLi_Comm_CommunicationId, CmLi_Comm_UserId, " +
+                "Communication.Comm_CommunicationID, Communication.Comm_UpdatedBy " +
+                "FROM Company " +
+                "LEFT JOIN Comm_Link ON Comm_Link.CmLi_Comm_CompanyId=Company.Comp_CompanyId " +
+                "LEFT JOIN Communication ON Communication.Comm_CommunicationID=Comm_Link.CmLi_Comm_CommunicationId " +
+                "WHERE Company.comp_sc_salesperson = 'James_Scurr' AND CmLi_Comm_UserId = 35 ";
+
+            public static String ReportDebtors = "SELECT FORMAT(SLPostedCustomerTran.TransactionDate, 'yyyy/MM/dd') as 'Transaction Date', SLPostedCustomerTran.TransactionReference, SLPostedCustomerTran.SecondReference, SLPostedCustomerTran.GoodsValueInAccountCurrency, SLPostedCustomerTran.AllocatedValue, " +
+                "SLCustomerAccount.CustomerAccountNumber, SLCustomerAccount.CustomerAccountName " +
+                "FROM SLPostedCustomerTran " +
+                "LEFT JOIN SLCustomerAccount ON SLCustomerAccount.SLCustomerAccountID=SLPostedCustomerTran.SLCustomerAccountID " +
+                "WHERE (SLPostedCustomerTran.GoodsValueInAccountCurrency - SLPostedCustomerTran.AllocatedValue) <> 0 " +
+                "ORDER by SLCustomerAccount.CustomerAccountNumber ASC";
+
+            public static String CRMWithCommsJS = "SELECT Communication.Comm_CommunicationId, Communication.Comm_Status, Comm_Link.CmLi_Comm_CommunicationId, Comm_Link.CmLi_Comm_CompanyId, Company.Comp_Name " +
+                "FROM Communication " +
+                "LEFT JOIN Comm_Link ON Communication.Comm_CommunicationId=Comm_Link.CmLi_Comm_CommunicationId " +
+                "LEFT JOIN Company ON Comm_Link.CmLi_Comm_CompanyId=Company.Comp_CompanyId " +
+                "WHERE Communication.Comm_Status != 'Complete' AND Communication.Comm_Status != 'Cancelled'";
+
+            public static String CRMProspectsJS = "SELECT Company.Comp_CompanyId, Company.Comp_Name, Company.comp_sc_salesperson " +
+                "From Company " +
+                "WHERE Company.Comp_Status = 'Active' AND Company.comp_sc_salesperson = 'James_Scurr' AND Company.comp_sc_salesperson != 'In_Administration'";
+
         }
         public static class GlobalSQLNonQueries
         {
