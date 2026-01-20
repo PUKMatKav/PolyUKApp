@@ -91,6 +91,13 @@
             BorderThickness="0,0,0,1">
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Right">
+                <Button x:Name="BtnWasteNote"
+                    Width="40" Height="35"
+                    Content="WTN"
+                    Style="{DynamicResource ControlButtonTheme}"
+                HorizontalAlignment="Right"
+                Margin="0,0,10,0"
+                    Click="BtnWasteNote_Click"/>
                 <Button x:Name="BtnAppoint"
                     Width="40" Height="35"
                     Content="✉"

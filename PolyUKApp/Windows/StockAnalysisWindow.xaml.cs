@@ -725,8 +725,8 @@ namespace PolyUKApp.Windows
                     "SELECT Batch, [Product Code], [PO Cost], [Quantity], [Warehouse] FROM [SUPPLIER STOCK$] " +
                     "WHERE Batch IS NOT NULL AND [Warehouse] IS NOT NULL " +
                     "UNION ALL " +
-                    "SELECT Batch, [Product Code], [PO Cost], [Quantity], [Warehouse] FROM [OFFICE$] " +
-                    "WHERE Batch IS NOT NULL AND [Warehouse] IS NOT NULL";
+                    "SELECT Batch, [Product Code], [PO Cost], [Quantity], [Location] FROM [OFFICE$] " +
+                    "WHERE Batch IS NOT NULL AND [Location] IS NOT NULL";
 
                 using (OleDbDataAdapter _dap = new OleDbDataAdapter())
                 {
@@ -750,6 +750,7 @@ namespace PolyUKApp.Windows
                     row["ID"] = row["Product Code"].ToString().Trim().ToUpper() + row["Batch"].ToString() + "Office - Witney";
                     row["Warehouse"] = "Office - Witney";
                 }
+
                 else if (row["Warehouse"].ToString().Trim() == "Polystar")
                 {
                     row["ID"] = row["Product Code"].ToString().Trim().ToUpper() + row["Batch"].ToString() + "Polystar Plastics";
@@ -762,7 +763,28 @@ namespace PolyUKApp.Windows
                 }
                 else
                 {
-                    row["ID"] = row["Product Code"].ToString().Trim().ToUpper() + row["Batch"].ToString().Trim() + row["Warehouse"].ToString().Trim();
+                    if (row["Warehouse"].ToString().Trim().Count() >= 3)
+                    {
+                        if (row["Warehouse"].ToString().ToUpper().Trim().Substring(0, 3) == "RAK")
+                        {
+                            row["ID"] = row["Product Code"].ToString().Trim().ToUpper() + row["Batch"].ToString() + "Office - Witney";
+                            row["Warehouse"] = "Office - Witney";
+                        }
+                        else if (row["Warehouse"].ToString().ToUpper().Trim().Substring(0, 4) == "MEZZ")
+                        {
+                            row["ID"] = row["Product Code"].ToString().Trim().ToUpper() + row["Batch"].ToString() + "Office - Witney";
+                            row["Warehouse"] = "Office - Witney";
+                        }
+                        else
+                        {
+                            row["ID"] = row["Product Code"].ToString().Trim().ToUpper() + row["Batch"].ToString().Trim() + row["Warehouse"].ToString().Trim();
+                        }
+                    }
+                    else
+                    {
+                        row["ID"] = row["Product Code"].ToString().Trim().ToUpper() + row["Batch"].ToString().Trim() + row["Warehouse"].ToString().Trim();
+                    }
+
                 }
 
             }
@@ -960,8 +982,45 @@ namespace PolyUKApp.Windows
                     }
                 }
             }
-
             AdminSheetTable.AcceptChanges();
+
+            //compare values to give easy-ish summary of issues
+            AdminSheetTable.Columns.Add("Please Check");
+            foreach (DataRow row in AdminSheetTable.Rows)
+            {
+                if (row["Warehouse"].ToString() != row["Sage Location"].ToString())
+                {
+                    row["Please Check"] = "Location";
+                    if (row["Quantity"].ToString() != row["Sage Qty"].ToString())
+                    {
+                        row["Please Check"] = "Location / Qty";
+                        if (row["PO Cost"].ToString() != row["SagePrice"].ToString())
+                        {
+                            row["Please Check"] = "Location / Qty / Price";
+                        }
+                    }
+                    else if (row["PO Cost"].ToString() != row["SagePrice"].ToString())
+                    {
+                        row["Please Check"] = "Location / Price";
+                    }
+                }
+
+                else if (row["Quantity"].ToString() != row["Sage Qty"].ToString())
+                {
+                    row["Please Check"] = "Qty";
+                    if (row["PO Cost"].ToString() != row["SagePrice"].ToString())
+                    {
+                        row["Please Check"] = "Qty / Price";
+                    }
+                }
+
+                else if (row["PO Cost"].ToString() != row["SagePrice"].ToString())
+                {
+                    row["Please Check"] = "Price";
+                }
+            }
+            AdminSheetTable.AcceptChanges();
+
             CostPriceBatchGrid.ItemsSource = AdminSheetTable.DefaultView;
             CostPriceBatchGrid.Columns[5].Visibility = Visibility.Collapsed;
             CostPriceBatchGrid.Columns[6].Visibility = Visibility.Collapsed;
@@ -969,6 +1028,7 @@ namespace PolyUKApp.Windows
             CostPriceBatchGrid.Columns[2].Header = "Sheet Cost   ";
             CostPriceBatchGrid.Columns[3].Header = "Sheet Qty   ";
             CostPriceBatchGrid.Columns[4].Header = "Sheet Location   ";
+            CostPriceBatchGrid.Columns[9].Header = "Sage Price   ";
 
             //Old merge below
             //SageTable.PrimaryKey = new DataColumn[] { SageTable.Columns["ID"] };

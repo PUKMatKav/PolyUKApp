@@ -418,7 +418,9 @@ namespace PolyUKApp
                 "v1.3.1.6" +
                 "\r" + "" + "\r" + 
                 "- Refactored the code relating to akixi API, tidied it up for small perfomance boost\n" +
-                "- Corrected API target for new web address/host for Akixi");
+                "- Corrected API target for new web address/host for Akixi" +
+                "\r" + "" + "\r" + "\r " +
+                "v1.3.1.7 - Redesigned batch checker to account for changes to stock sheet");
         }
 
         private void BtnCommInvoice_Click(object sender, RoutedEventArgs e)

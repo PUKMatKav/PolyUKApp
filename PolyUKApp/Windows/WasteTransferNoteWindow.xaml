@@ -1,0 +1,603 @@
+﻿<Window x:Class="PolyUKApp.Windows.WasteTransferNoteWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PolyUKApp.Windows"
+        mc:Ignorable="d"
+        x:Name="WTNWindow"
+        Title="WasteTransferNoteWindow" Height="1020" Width="840"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResizeWithGrip">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="800"/>
+
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Border x:Name="TopBar1"
+                Background="{DynamicResource Accent}"
+                Grid.Column="0"
+                Grid.Row="0"
+                CornerRadius="5,5,0,0"
+                BorderBrush="{DynamicResource AccentBorder}"
+                BorderThickness="1"
+                MouseDown="TopBar1_MouseDown">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                <Button x:Name="BtnPrint"
+                        Width="40" Height="35"
+                        Content="🖶"
+                        FontWeight="Bold"
+                        Style="{DynamicResource ControlButtonTheme}"
+                        Click="BtnPrint_Click"/>
+                <Button x:Name="BtnClose"
+                        Width="40" Height="35"
+                        Content="X"
+                        Style="{DynamicResource ControlButtonTheme}"
+                        HorizontalAlignment="Right"
+                        Margin="0,0,10,0"
+                        Click="BtnClose_Click"/>
+            </StackPanel>
+        </Border>
+
+
+        <Border x:Name="TitleBorder1"
+                Background="{DynamicResource BackgroundBase}"
+                Grid.Column="0"
+                Grid.Row="1"
+                CornerRadius="0,0,0,0"
+                BorderBrush="{DynamicResource Border}"
+                BorderThickness="1"
+                VerticalAlignment="Stretch"/>
+
+
+        <Border x:Name="WTNBackground1"
+                Background="{DynamicResource BackgroundBase}"
+                Grid.Column="0"
+                Grid.Row="2"
+                CornerRadius="0,0,5,5"
+                VerticalAlignment="Stretch"/>
+
+        <ScrollViewer Grid.Row="2">
+            <StackPanel Grid.Row="2" Margin="10,0,0,0">
+
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock x:Name="MainFormTitle" Text="Duty of Care: Waste Transfer Note" VerticalAlignment="Center" FontWeight="Bold" FontSize="18" Margin="10,0,50,0" Foreground="{DynamicResource Text}"/>
+                        <TextBlock x:Name="MainFormSubTitle" Text="(Keep this page and copy for future use. Please write as clearly as possible." VerticalAlignment="Center" FontSize="12" Margin="10,0,50,0" Foreground="{DynamicResource Text}"/>
+                        <TextBlock x:Name="MainFormSub1Title" Text="From 01/01/2025 – 31/12/2025)" VerticalAlignment="Center" FontSize="12" Margin="10,0,50,0" Foreground="{DynamicResource Text}"/>
+                    </StackPanel>
+                    <Image Source="/Windows/Images/Polythene_UK_Logo_2022_RGB_LR.png" Width="256" HorizontalAlignment="Right" Margin="75,10,20,0"/>
+                </StackPanel>
+
+
+                <TextBlock x:Name="SectionATitleTXT" Text="Section A - Description of Waste"
+                       FontSize="16" FontWeight="Bold" Margin="10,10,10,20" Foreground="{DynamicResource Text}"/>
+
+                <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                    <Border BorderThickness="1" BorderBrush="Black">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal" Width="420">
+                                <TextBlock x:Name="WasteDESCTitle" Text="A1 Description of Waste being trasnferred:"
+                           Margin="10,0,0,0" Width="auto" Padding="0,10"/>
+                                <RichTextBox x:Name="WasteDESC" Background="Transparent" BorderThickness="0" Margin="10,0,0,0" MinWidth="100" Padding="0,10">
+                                    <FlowDocument>
+                                        <Paragraph>LDPE Packaging</Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                    <StackPanel Margin="0,0,0,0" Width="360">
+                        <Border BorderThickness="0,1,1,1" BorderBrush="Black">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock x:Name="WasteContainTitle" Text="A2 How is the waste contained:"
+                                   Margin="10,0,0,0" Width="auto" Padding="0,10"/>
+                                <RichTextBox x:Name="WasteContain" Background="Transparent" BorderThickness="0" Margin="10,0,0,0" MinWidth="100" Padding="0,10">
+                                    <FlowDocument>
+                                        <Paragraph>Loose</Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                    <Border BorderThickness="1,0,1,1" BorderBrush="Black">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal" Width="420">
+                                <TextBlock x:Name="WasteAmountTitle" Text="A3 How much waste? (eg. number rolls, bails or weight):"
+                                   Margin="10,0,0,0" Width="auto" Padding="0,10"/>
+                                <RichTextBox x:Name="WasteAmount" Background="Transparent" BorderThickness="0" Margin="10,0,0,0" MinWidth="100" Padding="0,10">
+                                    <FlowDocument>
+                                        <Paragraph>Some</Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <StackPanel Margin="0,0,0,0">
+                        <Border BorderThickness="0,0,1,1" BorderBrush="Black">
+                            <StackPanel Orientation="Horizontal" Width="359">
+                                <TextBlock x:Name="WasteContainTitle1" Text="Waste Regulation Codes(s): 15-01-02"
+                       Margin="10,0,0,0" Width="auto" Padding="0,10"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                </StackPanel>
+
+                <TextBlock x:Name="SectionBTitleTXT" Text="Section B - Description of Waste"
+                           FontSize="16" FontWeight="Bold" Margin="10,20,10,20" Foreground="{DynamicResource Text}"/>
+
+                <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                    <Border BorderThickness="1" BorderBrush="Black">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal" Width="420">
+                                <TextBlock x:Name="ContactNameTitle" Text="B1 Contact Name:"
+                                       Margin="10,0,0,0" Width="auto" Padding="0,10"/>
+                                <RichTextBox x:Name="ContactNameTXT" Background="Transparent" BorderThickness="0" Margin="10,0,0,0" MinWidth="120" Padding="0,10" Width="300">
+                                    <FlowDocument>
+                                        <Paragraph>ContactNameTXT</Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <StackPanel Margin="0,0,0,0">
+                        <Border BorderThickness="0,1,1,1" BorderBrush="Black">
+                            <StackPanel Orientation="Horizontal" Width="359">
+                                <TextBlock x:Name="ProducerTitle" Text="B2 Are you the Producer/Importer/Authority:"
+                                       Margin="10,0,0,0" Width="auto" Padding="0,10"/>
+                                <RichTextBox x:Name="ProducerTXT" Background="Transparent" BorderThickness="0" MinWidth="99" Padding="0,10">
+                                    <FlowDocument>
+                                        <Paragraph>Local Authority</Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                    <Border BorderThickness="1,0,1,1" BorderBrush="Black">
+                        <StackPanel Orientation="Vertical" Width="420">
+                            <TextBlock x:Name="ContactNameTitle1" Text="B3 Company Name and Address:"
+                                       Margin="10,0,0,0" Width="auto" Padding="0,10"/>
+                            <RichTextBox x:Name="CompanyTXT" Background="Transparent" BorderThickness="0" Margin="5,0,0,0" MinWidth="120" Padding="0,10" Width="300" HorizontalAlignment="Left">
+                                <FlowDocument>
+                                    <Paragraph>CompanyTXTfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff</Paragraph>
+                                </FlowDocument>
+                            </RichTextBox>
+                        </StackPanel>
+                    </Border>
+
+                    <StackPanel Margin="0,0,0,0" Width="360">
+                        <Border BorderThickness="0,0,1,1" BorderBrush="Black">
+                            <StackPanel Orientation="Horizontal" Width="360" Height="40">
+                                <TextBlock x:Name="EnvPermitTXT" Text="B4 Do you hold an environmental permit:"
+                                       Margin="10,0,0,0" Width="auto" Padding="0,10" VerticalAlignment="Center"/>
+                                <RichTextBox x:Name="EnvPermitYN" Background="Transparent" BorderThickness="0" Margin="10,0,0,0" MinWidth="100" Padding="0,10" VerticalAlignment="Center">
+                                    <FlowDocument>
+                                        <Paragraph>Yes/No</Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </StackPanel>
+                        </Border>
+                        <StackPanel Orientation="Vertical">
+                            <Border BorderThickness="0,0,1,1" BorderBrush="Black">
+                                <StackPanel Orientation="Horizontal" Height="40">
+                                    <TextBlock x:Name="EnvNoTitle" Text="Permit Number:" Margin="10,0,0,0" Width="auto" Padding="0,10" VerticalAlignment="Center"/>
+                                    <RichTextBox x:Name="EnvNo" Background="Transparent" BorderThickness="0" Margin="10,0,0,0" MinWidth="100" Padding="0,10" VerticalAlignment="Center">
+                                        <FlowDocument>
+                                            <Paragraph>ENVNUMBER</Paragraph>
+                                        </FlowDocument>
+                                    </RichTextBox>
+                                </StackPanel>
+                            </Border>
+                            <Border BorderBrush="Black" BorderThickness="0,0,1,1" Height="40">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock x:Name="EnvIssueTitle" Text="Issued By:" Margin="10,0,0,0" Width="auto" Padding="0,10" VerticalAlignment="Center"/>
+                                    <RichTextBox x:Name="EnvIssue" Background="Transparent" BorderThickness="0" Margin="10,0,0,0" MinWidth="100" Padding="0,10" VerticalAlignment="Center">
+                                        <FlowDocument>
+                                            <Paragraph>Local Authority</Paragraph>
+                                        </FlowDocument>
+                                    </RichTextBox>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                    <Border BorderThickness="1,0,1,1" BorderBrush="Black">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal" Width="420">
+                                <TextBlock x:Name="PCTitle" Text="Postcode:"
+                                           Margin="10,0,0,0" Width="auto" Padding="0,10"/>
+                                <RichTextBox x:Name="PCTXT" Background="Transparent" BorderThickness="0" Margin="10,0,0,0" MinWidth="120" Padding="0,10" Width="300">
+                                    <FlowDocument>
+                                        <Paragraph>PostcodeTXT</Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <StackPanel Margin="0,0,0,0">
+                        <Border BorderThickness="0,0,1,1" BorderBrush="Black">
+                            <StackPanel Orientation="Horizontal" Width="359">
+                                <TextBlock x:Name="SICTitle" Text="SIC Code (2007):"
+                                           Margin="10,0,0,0" Width="auto" Padding="0,10"/>
+                                <RichTextBox x:Name="SICTXT" Background="Transparent" BorderThickness="0" Margin="10,0,0,0" MinWidth="99" Padding="0,10">
+                                    <FlowDocument>
+                                        <Paragraph>SICTXT</Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                    <Border BorderThickness="1,0,1,1" BorderBrush="Black">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal" Width="420">
+                                <TextBlock x:Name="CouncilTitle" Text="B5 Unitary Authority or Council:"
+                                           Margin="10,0,0,0" Width="auto" Padding="0,10"/>
+                                <RichTextBox x:Name="CouncilTXT" Background="Transparent" BorderThickness="0" Margin="10,0,0,0" MinWidth="120" Padding="0,10" Width="240">
+                                    <FlowDocument>
+                                        <Paragraph>CouncilName</Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <StackPanel Margin="0,0,0,0">
+                        <Border BorderThickness="0,0,1,1" BorderBrush="Black">
+                            <StackPanel Orientation="Horizontal" Width="359">
+                                <TextBlock x:Name="ExempTitle" Text="B6 Registered Waste Exemption:"
+                                           Margin="10,0,0,0" Width="auto" Padding="0,10"/>
+                                <RichTextBox x:Name="ExempTXT" Background="Transparent" BorderThickness="0" Margin="10,0,0,0" MinWidth="99" Padding="0,10">
+                                    <FlowDocument>
+                                        <Paragraph>No</Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+
+                <TextBlock x:Name="SectionCTitleTXT" Text="Section C – Collector of the waste (Our Details – The Transferee)"
+                           FontSize="16" FontWeight="Bold" Margin="10,20,10,20" Foreground="{DynamicResource Text}"/>
+
+                <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                    <Border BorderThickness="1,1,1,1" BorderBrush="Black">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal" Width="420">
+                                <TextBlock x:Name="PUKContactTitle" Text="C1 Contact Name: "
+                                           Margin="10,0,0,0" Width="auto" Padding="0,10"/>
+                                <RichTextBox x:Name="PUKContactTXT" Background="Transparent" BorderThickness="0" Margin="10,0,0,0" MinWidth="120" Padding="0,10" Width="240">
+                                    <FlowDocument>
+                                        <Paragraph>Jake Bassi</Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <StackPanel Margin="0,0,0,0">
+                        <Border BorderThickness="0,1,1,1" BorderBrush="Black">
+                            <StackPanel Orientation="Horizontal" Width="359">
+                                <TextBlock x:Name="PUKPermTitle" Text="C2 Do you hold an Environmental permit: "
+                                           Margin="10,0,0,0" Width="auto" Padding="0,10"/>
+                                <RichTextBox x:Name="PUKPermTXT" Background="Transparent" BorderThickness="0" Margin="10,0,0,0" MinWidth="99" Padding="0,10">
+                                    <FlowDocument>
+                                        <Paragraph>No</Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                    <Border BorderThickness="1,0,1,1" BorderBrush="Black">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Vertical" Width="420">
+                                <TextBlock x:Name="PUKAddressTitle" Text="C3 Company Name and Address:"
+                                           Margin="10,0,0,0" Width="auto" Padding="0,10"/>
+                                <RichTextBox x:Name="PUKAddressTXT" Background="Transparent" BorderThickness="0" Margin="5,0,0,0" MinWidth="120" Padding="0,10" Width="300" HorizontalAlignment="Left">
+                                    <FlowDocument>
+                                        <Paragraph>PUKNAMETXT --------------------------------------------------------------------------------------------------------------------------------------------------------------------</Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <StackPanel Margin="0,0,0,0">
+                        <Border BorderThickness="0,0,1,1" BorderBrush="Black">
+                            <StackPanel Orientation="Vertical" Width="359">
+                                <TextBlock x:Name="PUKWasteDetailsTitle" Text="C4 Waste Carrier registration details:"
+                                           Margin="10,0,0,0" Width="auto" Padding="0,10"/>
+                                <RichTextBox x:Name="PUKWasteDetailsTXT" Background="Transparent" BorderThickness="0" Margin="5,0,0,0" MinWidth="99" Padding="0,10" Height="84">
+                                    <FlowDocument>
+                                        <Paragraph>Reg No: CBDU57729</Paragraph>
+                                        <Paragraph>Exp: 16/01/2028</Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                    <Border BorderThickness="1,0,1,1" BorderBrush="Black">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal" Width="420">
+                                <TextBlock x:Name="PUKPostcodeTitle" Text="Postocde:"
+                                           Margin="10,0,0,0" Width="auto" Padding="0,10"/>
+                                <RichTextBox x:Name="PUKPostcodeTXT" Background="Transparent" BorderThickness="0" Margin="10,0,0,0" MinWidth="120" Padding="0,10" Width="240">
+                                    <FlowDocument>
+                                        <Paragraph>OX28 4FH</Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <StackPanel Margin="0,0,0,0">
+                        <Border BorderThickness="0,0,1,1" BorderBrush="Black">
+                            <StackPanel Orientation="Horizontal" Width="359">
+                                <TextBlock x:Name="PUKRegTitle" Text="Registration Details:"
+                                           Margin="10,0,0,0" Width="auto" Padding="0,10"/>
+                                <RichTextBox x:Name="PUKRegTXT" Background="Transparent" BorderThickness="0" Margin="10,0,0,0" MinWidth="200" Padding="0,10">
+                                    <FlowDocument>
+                                        <Paragraph>Carrier, Broker, Dealer – Upper Tier</Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+
+
+
+                <TextBlock x:Name="SectionDTitleTXT" Text="Section D – The transfer"
+                           FontSize="16" FontWeight="Bold" Margin="10,20,10,20" Foreground="{DynamicResource Text}"/>
+
+                <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                    <Border BorderThickness="1,1,1,1" BorderBrush="Black">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Vertical" Width="420">
+                                <TextBlock x:Name="CollectAddTitle" Text="D1 Address of transfer or collection point (if different to company address):"
+                                           Margin="10,0,0,0" Width="auto" Padding="0,10"/>
+                                <RichTextBox x:Name="CollectAddTXT" Background="Transparent" BorderThickness="0" Margin="5,0,0,0" MinWidth="120" Padding="0,10" Width="300" HorizontalAlignment="Left">
+                                    <FlowDocument>
+                                        <Paragraph>N/A -----------------------------------------------------------------------------------------------------------------------------------------------</Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <StackPanel Margin="0,0,0,0">
+                        <Border BorderThickness="0,1,1,1" BorderBrush="Black">
+                            <StackPanel Orientation="Vertical" Width="359">
+                                <TextBlock x:Name="BrokerTitle" Text="D2 Broker or dealer who arranged this transfer (if applicable):"
+                                           Margin="10,0,0,0" Width="auto" Padding="0,10"/>
+                                <RichTextBox x:Name="BrokerTXT" Background="Transparent" BorderThickness="0" Margin="5,0,0,0" MinWidth="99" Padding="0,10">
+                                    <FlowDocument>
+                                        <Paragraph>N/A --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                    <Border BorderThickness="1,0,1,1" BorderBrush="Black">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal" Width="420">
+                                <TextBlock x:Name="CollectPostcodeTitle" Text="Postcode:"
+                                           Margin="10,0,0,0" Width="auto" Padding="0,10"/>
+                                <RichTextBox x:Name="CollectPostcodeTXT" Background="Transparent" BorderThickness="0" Margin="10,0,0,0" MinWidth="120" Padding="0,10" Width="240">
+                                    <FlowDocument>
+                                        <Paragraph>N/A</Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <StackPanel Margin="0,0,0,0">
+                        <Border BorderThickness="0,0,1,1" BorderBrush="Black">
+                            <StackPanel Orientation="Horizontal" Width="359">
+                                <TextBlock x:Name="BrokerPostcodeTitle" Text="Postcode:"
+                                           Margin="10,0,0,0" Width="auto" Padding="0,10"/>
+                                <RichTextBox x:Name="BrokerPostcodeTXT" Background="Transparent" BorderThickness="0" Margin="10,0,0,0" MinWidth="200" Padding="0,10">
+                                    <FlowDocument>
+                                        <Paragraph>N/A</Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                    <Border BorderThickness="1,0,1,1" BorderBrush="Black">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal" Width="420">
+                                <TextBlock x:Name="CusSigTitle" Text="D3 Transferors Signature:"
+                                           Margin="10,0,0,0" Width="auto" Padding="0,10"/>
+                                <RichTextBox x:Name="CusSigTXT" Background="Transparent" BorderThickness="0" Margin="10,0,0,0" MinWidth="120" Padding="0,10" Width="240">
+                                    <FlowDocument>
+                                        <Paragraph FontFamily="Lucida Handwriting" FontStyle="Italic">CusSigTXT</Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <StackPanel Margin="0,0,0,0">
+                        <Border BorderThickness="0,0,1,1" BorderBrush="Black">
+                            <StackPanel Orientation="Horizontal" Width="359">
+                                <TextBlock x:Name="PUKSigTitle" Text="D4 Transferees Signature:"
+                                           Margin="10,0,0,0" Width="auto" Padding="0,10"/>
+                                <RichTextBox x:Name="PUKSigTXT" Background="Transparent" BorderThickness="0" Margin="10,0,0,0" MinWidth="200" Padding="0,10">
+                                    <FlowDocument>
+                                        <Paragraph FontFamily="Lucida Handwriting" FontStyle="Italic">Jake Bassi</Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                    <Border BorderThickness="1,0,1,1" BorderBrush="Black">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal" Width="420">
+                                <TextBlock x:Name="CusNameTitle" Text="Name:"
+                                           Margin="10,0,0,0" Width="auto" Padding="0,10"/>
+                                <RichTextBox x:Name="CusNameTXT" Background="Transparent" BorderThickness="0" Margin="10,0,0,0" MinWidth="120" Padding="0,10" Width="240">
+                                    <FlowDocument>
+                                        <Paragraph>CusNameTXT</Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <StackPanel Margin="0,0,0,0">
+                        <Border BorderThickness="0,0,1,1" BorderBrush="Black">
+                            <StackPanel Orientation="Horizontal" Width="359">
+                                <TextBlock x:Name="PUKNameTitle" Text="Name:"
+                                           Margin="10,0,0,0" Width="auto" Padding="0,10"/>
+                                <RichTextBox x:Name="PUKNameTXT" Background="Transparent" BorderThickness="0" Margin="10,0,0,0" MinWidth="200" Padding="0,10">
+                                    <FlowDocument>
+                                        <Paragraph>Jake Bassi</Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                    <Border BorderThickness="1,0,1,1" BorderBrush="Black">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal" Width="420">
+                                <TextBlock x:Name="CusCompNameTitle" Text="On Behalf Of:"
+                                           Margin="10,0,0,0" Width="auto" Padding="0,10"/>
+                                <RichTextBox x:Name="CusCompNameTXT" Background="Transparent" BorderThickness="0" Margin="10,0,0,0" MinWidth="120" Padding="0,10" Width="240">
+                                    <FlowDocument>
+                                        <Paragraph>CusCompNameTXT</Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <StackPanel Margin="0,0,0,0">
+                        <Border BorderThickness="0,0,1,1" BorderBrush="Black">
+                            <StackPanel Orientation="Horizontal" Width="359">
+                                <TextBlock x:Name="PUKCompTitle" Text="On Behalf Of:"
+                                           Margin="10,0,0,0" Width="auto" Padding="0,10"/>
+                                <RichTextBox x:Name="PUKCompTXT" Background="Transparent" BorderThickness="0" Margin="10,0,0,0" MinWidth="200" Padding="0,10">
+                                    <FlowDocument>
+                                        <Paragraph>Polythene UK Ltd</Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+
+                <RichTextBox x:Name="DeclartationTXT" Background="Transparent" BorderThickness="0" Margin="10,20,10,10" MinWidth="200" Padding="0,10">
+                    <FlowDocument>
+                        <Paragraph Foreground="{DynamicResource Text}" FontSize="14" FontStyle="Italic">By signing the above, I declare and confirm that the plastic materials identified above which have been collected by Polythene UK Ltd are:</Paragraph>
+                        <Paragraph Foreground="{DynamicResource Text}" FontSize="14" FontStyle="Italic">1. Packaging materials, we note that non packaging materials include production residue that have not been converted into finished packaging.</Paragraph>
+                    </FlowDocument>
+                </RichTextBox>
+
+                <TextBlock x:Name="Seperator" Text="-------------------------------------------------------------------------------------------------------------------------"
+                           FontSize="16" FontWeight="Bold" Margin="10,10,10,20" Foreground="{DynamicResource Text}"/>
+
+                <TextBlock x:Name="SectionETitleTXT" Text="Section E – Post Collection information"
+                           FontSize="16" FontWeight="Bold" Margin="10,10,10,20" Foreground="{DynamicResource Text}"/>
+
+                <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                    <Border BorderThickness="1,1,1,1" BorderBrush="Black">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal" Width="420">
+                                <TextBlock x:Name="DateTitle" Text="E1 Date of Collection:"
+                                           Margin="10,0,0,0" Width="auto" Padding="0,10"/>
+                                <RichTextBox x:Name="DateTXT" Background="Transparent" BorderThickness="0" Margin="10,0,0,0" MinWidth="120" Padding="0,10" Width="240">
+                                    <FlowDocument>
+                                        <Paragraph>DateTXT</Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <StackPanel Margin="0,0,0,0">
+                        <Border BorderThickness="0,1,1,1" BorderBrush="Black">
+                            <StackPanel Orientation="Horizontal" Width="359">
+                                <TextBlock x:Name="WeightTitle" Text="E2 Weight of waste collected (kg):"
+                                           Margin="10,0,0,0" Width="auto" Padding="0,10"/>
+                                <RichTextBox x:Name="WeightTXT" Background="Transparent" BorderThickness="0" Margin="10,0,0,0" MinWidth="99" Padding="0,10">
+                                    <FlowDocument>
+                                        <Paragraph>WeightTXT</Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                    <Border BorderThickness="1,0,1,1" BorderBrush="Black">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal" Width="780">
+                                <TextBlock x:Name="VisitIDTitle" Text="Visit ID:"
+                                           Margin="10,0,0,0" Width="auto" Padding="0,10"/>
+                                <RichTextBox x:Name="VisitIDTXT" Background="Transparent" BorderThickness="0" Margin="10,0,0,0" MinWidth="120" Padding="0,10" Width="700">
+                                    <FlowDocument>
+                                        <Paragraph>VisitIDTXT</Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+                <RichTextBox x:Name="Declartation2TXT" Background="Transparent" BorderThickness="0" Margin="10,20,10,10" MinWidth="200" Padding="0,10">
+                    <FlowDocument>
+                        <Paragraph Foreground="{DynamicResource Text}" FontSize="14" FontStyle="Italic">Polythene UK confirm that the above weight of polythene waste was collected on the above date from the company listed in Section B (from the site in Section D if applicable).</Paragraph>
+                        <Paragraph Foreground="{DynamicResource Text}" FontSize="14" FontStyle="Italic">The waste has been returned to Polythene UK and will be recycled (or disposed of if not recyclable) in line with the requirements set out for registered waste carriers in the United Kingdom.</Paragraph>
+                    </FlowDocument>
+                </RichTextBox>
+                <TextBlock Grid.Row="2" HorizontalAlignment="Center" Text="P106 - Polythene UK Ltd - 4 Witan Park, Avenue Two, OX28 4FH, Witney" VerticalAlignment="Bottom" Foreground="{DynamicResource Text}" Margin="10" Opacity="0.5"/>
+            </StackPanel>
+        </ScrollViewer>
+
+    </Grid>
+</Window>

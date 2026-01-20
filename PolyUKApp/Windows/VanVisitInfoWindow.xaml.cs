@@ -1117,5 +1117,66 @@ namespace PolyUKApp.Windows
             }
         }
 
+        private void BtnWasteNote_Click(object sender, RoutedEventArgs e)
+        {
+            InfoSendToAppData();
+            var CompanyStatWindow = new WasteTransferNoteWindow();
+            CompanyStatWindow.Closed += childFormWTNClosed;
+            CompanyStatWindow.Show();
+        }
+        void childFormWTNClosed(object sender, EventArgs e)
+        {
+            ((WasteTransferNoteWindow)sender).Closed -= childFormWTNClosed;
+        }
+        void InfoSendToAppData()
+        {
+            AppDataWTN.CompanyName = VisitTextBox.Text;
+            var AddressRange = new TextRange(RichTextCusAddInfo.Document.ContentStart, RichTextCusAddInfo.Document.ContentEnd);
+            AppDataWTN.Address1 = AddressRange.Text.Replace("\r", "").Replace("\n", "");
+            var PostcodeRange = new TextRange(RichTextPostcode.Document.ContentStart, RichTextPostcode.Document.ContentEnd);
+            AppDataWTN.Postcode = PostcodeRange.Text.Replace("\r", "").Replace("\n", "");
+            var TownRange = new TextRange(RichTextTown.Document.ContentStart, RichTextTown.Document.ContentEnd);
+            AppDataWTN.Town = TownRange.Text.Replace("\r", "").Replace("\n", "");
+
+            var NameRange = new TextRange(RichTextContactName.Document.ContentStart, RichTextContactName.Document.ContentEnd);
+            AppDataWTN.ContactName = NameRange.Text.Replace("\r", "").Replace("\n", "");
+            var NumberRange = new TextRange(RichTextContactNum.Document.ContentStart, RichTextContactNum.Document.ContentEnd);
+            AppDataWTN.ContactNumber = NumberRange.Text.Replace("\r", "").Replace("\n", "");
+            var EmailRange = new TextRange(RichTextContactEmail.Document.ContentStart, RichTextContactEmail.Document.ContentEnd);
+            AppDataWTN.ContactEmail = EmailRange.Text.Replace("\r", "").Replace("\n", "");
+
+            var DateRange = new TextRange(RichTextPromDate.Document.ContentStart, RichTextPromDate.Document.ContentEnd);
+            AppDataWTN.JobDate = DateRange.Text.Replace("\r", "").Replace("\n", "");
+
+            var IDRANGE = new TextRange(RichTextVisitID.Document.ContentStart, RichTextVisitID.Document.ContentEnd);
+            AppDataWTN.JobID = IDRANGE.Text.ToString().Replace("\r", "").Replace("\n", "");
+
+            var WeightRange = new TextRange(RichTextWeight.Document.ContentStart, RichTextWeight.Document.ContentEnd);
+            AppDataWTN.JobWeight = WeightRange.Text.Replace("\r", "").Replace("\n", "");
+
+            //var DescRange = new TextRange(RichTextVisitDesc.Document.ContentStart, RichTextVisitDesc.Document.ContentEnd);
+            //String DescText = DescRange.Text.Replace("\r", "").Replace("\n", "");
+            //var NoteRange = new TextRange(RichTextVisitNotes.Document.ContentStart, RichTextVisitNotes.Document.ContentEnd);
+            //String NoteText = NoteRange.Text.Replace("\r", "").Replace("\n", "");
+
+
+
+            //String SalesText = ComboSalesStaff.Text.ToString();
+            //String StaffText = ComboAdminStaff.Text.ToString();
+            //String VisitText = ComboType.Text.ToString();
+            //var WeightRange = new TextRange(RichTextWeight.Document.ContentStart, RichTextWeight.Document.ContentEnd);
+            //int WeightText = Convert.ToInt32(WeightRange.Text.Replace("\r", "").Replace("\n", ""));
+
+            //var WasteTypeText = ComboCollectedType.Text.ToString();
+            //var CreditCheckedText = ComboCreditChecked.Text.ToString();
+            //var PlannedStartText = ComboPromTime.Text.ToString();
+            //var JobTimeText = ComboJobTime.Text.ToString();
+            //var TurnoverRange = new TextRange(RichTextTurnover.Document.ContentStart, RichTextTurnover.Document.ContentEnd);
+            //String TurnoverText = TurnoverRange.Text.Replace("\r", "").Replace("\n", "");
+            //var CompanyRegRange = new TextRange(RichTextRegNo.Document.ContentStart, RichTextRegNo.Document.ContentEnd);
+            //String CompanyRegText = CompanyRegRange.Text.Replace("\r", "").Replace("\n", "");
+            //var CompanyType = ComboCompanyType.Text.ToString();
+        }
+
     }
 }
