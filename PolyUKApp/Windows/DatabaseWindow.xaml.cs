@@ -216,8 +216,8 @@ namespace PolyUKApp.Windows
 
             using (SqlConnection _con = new SqlConnection(connectionString))
             {
-                string queryStatement = DataAccess.GlabalSQLQueries.CRMProspectsJS;
-                string queryStatement2 = DataAccess.GlabalSQLQueries.CRMWithCommsJS;
+                string queryStatement = DataAccess.GlabalSQLQueries.CRMProspects;
+                string queryStatement2 = DataAccess.GlabalSQLQueries.CRMWithComms;
 
                 using (SqlCommand _cmd = new SqlCommand(queryStatement, _con))
                 {
@@ -543,7 +543,22 @@ namespace PolyUKApp.Windows
 
         private void BtnCRMCommLink_Click(object sender, RoutedEventArgs e)
         {
-            SqlCRMJamesandJames();
+            string connectionString = DataAccess.GlobalSQL.ConnectionCRM;
+            DataTable CRMTable = new DataTable();
+
+            using (SqlConnection _con = new SqlConnection(connectionString))
+            {
+                string queryStatement = DataAccess.GlabalSQLQueries.CRMNoUserComms;
+
+                using (SqlCommand _cmd = new SqlCommand(queryStatement, _con))
+                {
+                    SqlDataAdapter _dap = new SqlDataAdapter(_cmd);
+
+                    _con.Open();
+                    _dap.Fill(CRMTable);
+                    _con.Close();
+                }
+            }
         }
 
         private void SqlReportDebtorsList()

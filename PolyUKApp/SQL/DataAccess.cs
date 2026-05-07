@@ -180,7 +180,7 @@ namespace PolyUKApp.SQL
                 "SOPOrderReturn.DocumentNo, SOPOrderReturn.UseInvoiceAddress, SOPOrderReturn.CustomerDocumentNo, SOPOrderReturn.SubtotalGoodsValue, SOPOrderReturn.TotalTaxValue, SOPOrderReturn.TotalGrossValue, " +
                 "SLCustomerAccount.CustomerAccountName, SLCustomerAccount.TradingTerms,  SLCustomerAccount.MainTelephoneAreaCode, SLCustomerAccount.MainTelephoneSubscriberNumber, SLCustomerAccount.TaxRegistrationNumber, " +
                 "SLCustomerLocation.AddressLine1, SLCustomerLocation.AddressLine2, SLCustomerLocation.AddressLine3, SLCustomerLocation.AddressLine4, SLCustomerLocation.PostCode AS InvPostCode, " +
-                "SLCustomerContactDefaultsVw.DefaultEmail, " +
+                "SLCustomerContactDefaultsVw.DefaultEmail, SLCustomerContactDefaultsVw.DefaultTelephone, " +
                 "SYSCurrency.Symbol, SYSCurrency.Name, " +
                 "SYSCountryCode.Code, " +
                 "SOPDocDelAddress.PostalName, SOPDocDelAddress.AddressLine1 AS DelAdd1, SOPDocDelAddress.AddressLine2 AS DelAdd2, SOPDocDelAddress.AddressLine3 AS DelAdd3, SOPDocDelAddress.PostCode AS DelPostcode, SOPDocDelAddress.City AS DelCity " +
@@ -326,7 +326,13 @@ namespace PolyUKApp.SQL
 
             public static String CRMProspectsJS = "SELECT Company.Comp_CompanyId, Company.Comp_Name, Company.comp_sc_salesperson " +
                 "From Company " +
-                "WHERE Company.Comp_Status = 'Active' AND Company.comp_sc_salesperson = 'James_Scurr' AND Company.comp_sc_salesperson != 'In_Administration'";
+                "WHERE Company.Comp_Status = 'Active' AND Company.comp_sc_salesperson != 'In_Administration'";
+
+            public static String CRMNoUserComms = "SELECT Communication.Comm_CommunicationId, Communication.Comm_Status, Comm_Link.CmLi_Comm_CommunicationId, Comm_Link.CmLi_Comm_CompanyId, Company.Comp_Name " +
+                "FROM Communication " +
+                "LEFT JOIN Comm_Link ON Communication.Comm_CommunicationId=Comm_Link.CmLi_Comm_CommunicationId " +
+                "LEFT JOIN Company ON Comm_Link.CmLi_Comm_CompanyId=Company.Comp_CompanyId " +
+                "WHERE CmLi_Comm_UserId IS NULL AND Communication.Comm_Status != 'Complete' ";
 
         }
         public static class GlobalSQLNonQueries

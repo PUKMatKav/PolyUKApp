@@ -392,6 +392,30 @@
                 Foreground="{DynamicResource Accent}"
                 FontWeight="Bold"
                 FontFamily="Aptos"/>
+            <RichTextBox x:Name="ContactTelTextBlock"
+                Background="Transparent"
+                BorderThickness="0"
+                Width="250"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="140,355,0,0"
+                FontSize="12"
+                Foreground="{DynamicResource Text}"
+                FontFamily="Aptos">
+                <FlowDocument>
+                    <Paragraph>
+                        ContactTelTextBlock
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+            <TextBlock Text="Contact Tel: "
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="25,355,0,0"
+                FontSize="12"
+                Foreground="{DynamicResource Accent}"
+                FontWeight="Bold"
+                FontFamily="Aptos"/>
             <RichTextBox x:Name="ContactEmailTextBlock"
                 Background="Transparent"
                 BorderThickness="0"
@@ -412,7 +436,7 @@
             <TextBlock Text="Pallet Quantity: "
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Margin="25,355,0,0"
+                Margin="25,375,0,0"
                 FontSize="12"
                 Foreground="{DynamicResource Accent}"
                 FontWeight="Bold"
@@ -423,7 +447,7 @@
                 BorderThickness="0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Margin="140,355,0,0"
+                Margin="140,375,0,0"
                 FontSize="12"
                 Foreground="{DynamicResource Text}"
                 FontFamily="Aptos">

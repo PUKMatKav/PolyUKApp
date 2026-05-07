@@ -52,7 +52,7 @@
         <Border x:Name="LogoBar1"
          Background="{DynamicResource BackgroundBase}"
          Grid.Row="1"
-HorizontalAlignment="Stretch"
+            HorizontalAlignment="Stretch"
                 Margin="200,0,0,0"
                 BorderBrush="{DynamicResource Border}"
                 BorderThickness="0,0,1,0"
@@ -265,18 +265,13 @@ HorizontalAlignment="Stretch"
 
 
 
-
-        <StackPanel Grid.Row="2"
+        <StackPanel x:Name="BasePanel" Grid.Row="2" HorizontalAlignment="Left" Orientation="Horizontal" Width="200">
+            <StackPanel x:Name="MenuPanel1"
                     HorizontalAlignment="Left" 
                     Width="200"
                     Margin="0 20 0 20">
 
-            <Button x:Name="BtnCallTime"
-                    Content="Call Time"
-                    Style="{DynamicResource MenuButtonTheme}" 
-                    Click="BtnCallTime_Click"
-                    MouseEnter="BtnCallTime_MouseEnter">
-            </Button>
+
             <Separator Margin="30,2,120,2"
                        Background="{DynamicResource Border}"
                        Opacity="1"/>
@@ -296,42 +291,29 @@ HorizontalAlignment="Stretch"
             <Separator Margin="30,2,120,2"
                        Background="{DynamicResource Border}"
                        Opacity="1"/>
-            <Button x:Name="BtnDatabaseViewer"
-                    Content="Database Viewer"
-                    Style="{DynamicResource MenuButtonTheme}"
-                    Click="BtnDatabaseViewer_Click"
-                    MouseEnter="BtnDatabaseViewer_MouseEnter">
-            </Button>
-            <Button x:Name="BtnStockViewer"
-                    Content="Stock Item Viewer"
-                    Style="{DynamicResource MenuButtonTheme}"
-                    Click="BtnStockViewer_Click"
-                    MouseEnter="BtnStockViewer_MouseEnter">
-            </Button>
-            <Button x:Name="BtnStockOrdering"
-                    Content="Stock Order Monitor"
-                    Visibility="Collapsed"
-                    Style="{DynamicResource MenuButtonTheme}"
-                    Click="BtnStockOrdering_Click"
-                    MouseEnter="BtnStockOrdering_MouseEnter"/>
-            <Button x:Name="BtnStockAnalysis"
-                    Content="Stock Item Analysis"
-                    Visibility="Visible"
-                    Style="{DynamicResource MenuButtonTheme}"
-                    Click="BtnStockAnalysis_Click"
-                    MouseEnter="BtnStockAnalysis_MouseEnter"/>
-            <Button x:Name="BtnCommInvoice"
+            
+                <Button x:Name="BtnCommInvoice"
                     Content="Commercial Invoices"
                     Style="{DynamicResource MenuButtonTheme}"
                     Click="BtnCommInvoice_Click"
                     MouseEnter="BtnCommInvoice_MouseEnter"/>
-            <Button x:Name="BtnPODs"
-                    Content="PODs"
+                <Button x:Name="BtnSalesToolsMenu"
+                    Content="Sales Tools >"
                     Style="{DynamicResource MenuButtonTheme}"
-                    Click="BtnPODs_Click"
-                    MouseEnter="BtnPODs_MouseEnter"
+                    Click="BtnSalesToolsMenu_Click"
+                    MouseEnter="BtnSalesToolsMenu_MouseEnter"/>
+                <Button x:Name="BtnStockMenu"
+                    Content="Stock Menu >"
+                    Style="{DynamicResource MenuButtonTheme}"
+                    Click="BtnStockMenu_Click"
+                    MouseEnter="BtnStockMenu_MouseEnter"/>
+                <Button x:Name="BtnSysMenu"
+                    Content="Systems Menu >"
+                    Style="{DynamicResource MenuButtonTheme}"
+                    Click="BtnSys_Click"
+                    MouseEnter="BtnSys_MouseEnter"
                     Visibility="Visible"/>
-            <Separator Margin="30,2,120,2"
+                <Separator Margin="30,2,120,2"
                        Background="{DynamicResource Border}"
                        Opacity="1"/>
             <Button x:Name="BtnCompanyInfo"
@@ -355,6 +337,85 @@ HorizontalAlignment="Stretch"
                     Click="BtnExit_Click"
                     MouseEnter="BtnExit_MouseEnter">
             </Button>
+            </StackPanel>
+            <StackPanel x:Name="SalesSubMenuPanel"
+                        Width="200"
+                        HorizontalAlignment="Left"
+                        Margin=" 0 20 0 20"
+                        Visibility="Collapsed">
+                <Button x:Name="SalesBtnBack"
+                        Content="&lt;"
+                        Style="{DynamicResource MenuButtonTheme}"
+                        Click="SalesBtnBack_Click"/>
+                <Separator Margin="30,2,120,2"
+                       Background="{DynamicResource Border}"
+                       Opacity="1"/>
+                <Button x:Name="BtnCallTime"
+                    Content="Call Time"
+                    Style="{DynamicResource MenuButtonTheme}" 
+                    Click="BtnCallTime_Click"
+                    MouseEnter="BtnCallTime_MouseEnter"/>
+                <Button x:Name="BtnWeightCalc"
+                        Content="Weight Calculator"
+                        Style="{DynamicResource MenuButtonTheme}"
+                        Click="BtnWeightCalc_Click"
+                        MouseEnter="BtnWeightCalc_MouseEnter"/>
+            </StackPanel>
+            <StackPanel x:Name="SystemsSubMenuPanel"
+                        Width="200"
+                        HorizontalAlignment="Left"
+                        Margin=" 0 20 0 20"
+                        Visibility="Collapsed">
+                <Button x:Name="SysBtnBack"
+                        Content="&lt;"
+                        Style="{DynamicResource MenuButtonTheme}"
+                        Click="SysBtnBack_Click"/>
+                <Separator Margin="30,2,120,2"
+                       Background="{DynamicResource Border}"
+                       Opacity="1"/>
+                <Button x:Name="BtnDatabaseViewer"
+                        Content="Database Viewer"
+                        Style="{DynamicResource MenuButtonTheme}"
+                        Click="BtnDatabaseViewer_Click"
+                        MouseEnter="BtnDatabaseViewer_MouseEnter"/>
+                <Button x:Name="BtnPODs"
+                        Content="PODs"
+                        Style="{DynamicResource MenuButtonTheme}"
+                        Click="BtnPODs_Click"
+                        MouseEnter="BtnPODs_MouseEnter"
+                        Visibility="Visible"/>
+
+            </StackPanel>
+            <StackPanel x:Name="StockSubMenuPanel"
+                        Width="200"
+                        HorizontalAlignment="Left"
+                        Margin=" 0 20 0 20"
+                        Visibility="Collapsed">
+                <Button x:Name="StockBtnBack"
+                        Content="&lt;"
+                        Style="{DynamicResource MenuButtonTheme}"
+                        Click="StockBtnBack_Click"/>
+                <Separator Margin="30,2,120,2"
+                       Background="{DynamicResource Border}"
+                       Opacity="1"/>
+                <Button x:Name="BtnStockAnalysis"
+                        Content="Stock Item Analysis"
+                        Visibility="Visible"
+                        Style="{DynamicResource MenuButtonTheme}"
+                        Click="BtnStockAnalysis_Click"
+                        MouseEnter="BtnStockAnalysis_MouseEnter"/>
+                <Button x:Name="BtnStockViewer"
+                        Content="Stock Item Viewer"
+                        Style="{DynamicResource MenuButtonTheme}"
+                        Click="BtnStockViewer_Click"
+                        MouseEnter="BtnStockViewer_MouseEnter"/>
+                <Button x:Name="BtnStockOrdering"
+                        Content="Stock Order Monitor"
+                        Visibility="Collapsed"
+                        Style="{DynamicResource MenuButtonTheme}"
+                        Click="BtnStockOrdering_Click"
+                        MouseEnter="BtnStockOrdering_MouseEnter"/>
+            </StackPanel>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal"
@@ -399,7 +460,7 @@ HorizontalAlignment="Stretch"
                HorizontalAlignment="Left"/>
 
         <TextBlock x:Name="versionbox"
-                   Text="v1.3.1.7"
+                   Text="v1.4.0.0"
                    Grid.Row="3"
                    FontFamily="Aptos"
                    Foreground="Gray"

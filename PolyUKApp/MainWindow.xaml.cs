@@ -3,6 +3,7 @@ using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Drawing.Geometries;
 using Microsoft.Exchange.WebServices.Data;
 using PolyUKApp.Windows;
+using System.Data;
 using System.IO;
 using System.Text;
 using System.Windows;
@@ -14,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using Application = System.Windows.Application;
 
 namespace PolyUKApp
@@ -23,6 +25,14 @@ namespace PolyUKApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        DispatcherTimer timerSYS = new DispatcherTimer();
+        DispatcherTimer timerSTOCK = new DispatcherTimer();
+        DispatcherTimer timerSALES = new DispatcherTimer();
+        bool SubButtonOpened = false;
+        bool SubButtonClosed = true;
+
+        private readonly List<Window> _childWindows = new List<Window>();
+
         public MainWindow()
         {
 
@@ -31,6 +41,44 @@ namespace PolyUKApp
             CurrentDateDisplay();
             PODButtonView();
 
+        }
+        private void MainWindow_StateChanged(object sender, EventArgs e)
+        {
+            if (this.WindowState == WindowState.Normal || this.WindowState == WindowState.Maximized)
+            {
+                this.Activate();
+
+                // Restore in open-order; last one ends up on top
+                _childWindows.RemoveAll(w => !w.IsLoaded);
+                foreach (var win in _childWindows)
+                {
+                    win.WindowState = this.WindowState;
+                    win.Activate();
+                }
+            }
+        }
+        private void OpenChildWindow(Window newWindow)
+        {
+            newWindow.Owner = this;
+
+            this.IsHitTestVisible = false;
+
+            // When child closes, return focus to main window
+            newWindow.Closed += (s, e) =>
+            {
+                _childWindows.Remove(newWindow);
+                _childWindows.RemoveAll(w => !w.IsLoaded);
+
+                // Only re-enable if all child windows are closed
+                if (!_childWindows.Any())
+                    this.IsHitTestVisible = true;
+
+                this.Activate();
+            };
+
+            _childWindows.RemoveAll(w => !w.IsLoaded);
+            _childWindows.Add(newWindow);
+            newWindow.Show();
         }
         private void MainWindow_SizeChanged()
         {
@@ -44,14 +92,14 @@ namespace PolyUKApp
 
         private void BtnCallTime_Click(object sender, RoutedEventArgs e)
         {
-            var CallTimerWindow = new CallTimeWindow();
-            CallTimerWindow.Closed += childFormClosed;
-            CallTimerWindow.Show();
+            var CallDataWindow = new CallDataWindow();
+            CallDataWindow.Closed += childFormClosed;
+            CallDataWindow.Show();
             this.Hide();
         }
         void childFormClosed(object sender, EventArgs e)
         {
-            ((CallTimeWindow)sender).Closed -= childFormClosed;
+            ((CallDataWindow)sender).Closed -= childFormClosed;
             this.Show();
         }
 
@@ -109,25 +157,26 @@ namespace PolyUKApp
 
         private void BtnCompanyInfo_Click(object sender, RoutedEventArgs e)
         {
-            double WindowLeft = System.Windows.Application.Current.MainWindow.Left;
-            double WindowTop = System.Windows.Application.Current.MainWindow.Top;
-            double WindowHeight = System.Windows.Application.Current.MainWindow.Height;
-            double WindowWidth = System.Windows.Application.Current.MainWindow.Width;
+            // Prevent duplicates - bring to focus if already open
+            var existing = _childWindows.OfType<CompanyInfoWindow>().FirstOrDefault(w => w.IsLoaded);
+            if (existing != null) { existing.Activate(); return; }
+
             var thisWindow = Application.Current.MainWindow;
+            var CompanyInfoBox = new CompanyInfoWindow
+            {
+                Left = thisWindow.Left,
+                Top = thisWindow.Top,
+                Height = thisWindow.Height,
+                Width = thisWindow.Width
+            };
+
             if (thisWindow.WindowState == WindowState.Maximized)
-            {
-                var CompanyInfoBox = new CompanyInfoWindow();
                 CompanyInfoBox.WindowState = WindowState.Maximized;
-                CompanyInfoBox.Show();
-            }
-            else
-            {
-                var CompanyInfoBox = new CompanyInfoWindow { Left = WindowLeft, Top = WindowTop, Height = WindowHeight, Width = WindowWidth };
-                CompanyInfoBox.Show();
-            }
 
-
+            OpenChildWindow(CompanyInfoBox);
         }
+
+
 
         private void BtnExit_Click(object sender, RoutedEventArgs e)
         {
@@ -394,33 +443,47 @@ namespace PolyUKApp
                 "- Argument added to load method for daily calls" +
                 "\r" + "" + "\r" +
                 "v1.2.3.1 - Refactored the CI tabel (again), correctly updates HS Code number")*/
-            
-            System.Windows.MessageBox.Show("v1.3.0.0" +
+
+            //System.Windows.MessageBox.Show("v1.3.0.0" +
+            //    "\r" + "" + "\r" +
+            //    "- Introduced Stock analysis screen\n" +
+            //    "- Shows Item details for any item code\n" +
+            //    "- Includes average buying price and current trend of price based on last purchase\n" +
+            //    "- (WIP) Shows sales history for item\n" +
+            //    "- Checks variance between sage and stock sheet for batches\n" +
+            //    "- Also allows for checking of all batches on stock sheet against sage rather than just a specific code\n" +
+            //    "- Edit of database CRM function to show customers with no comms (backend)\n" +
+            //    "- Added update logging for backend debugging work and error fixing\n" +
+            //    "- Added date of most recent transaction to van calendar for customers\n" +
+            //    "- Added fuzzy string matching algorithm for finding company on sage from van calendar (details below)\n" +
+            //    "- Added Levenshtein distance computation, this is an edit distance metric that algebraically computes the minimum number of changes needed to get from one string to another to help work out misspelled terms etc " +
+            //    "\r" + "" + "\r" +
+            //    "v1.3.0.1b - updated server links to use new server\n" +
+            //    "v1.3.0.1b - Refined Stock check to balance cost and qty on admin sheet and sage\n" +
+            //    "v1.3.0.1b - Start of dynamic screen for Stock Analysis Window (WIP)\n" +
+            //    "v1.3.0.4 - Error Handler added for loading JSON data, gives error on screen and should avoid loading" +
+            //    "v1.3.0.5 - Reconfigured server connection for migrated can calendar database" +
+            //    "\r" + "" + "\r" + "\r " +
+            //    "v1.3.1.6" +
+            //    "\r" + "" + "\r" +
+            //    "- Refactored the code relating to akixi API, tidied it up for small perfomance boost\n" +
+            //    "- Corrected API target for new web address/host for Akixi" +
+            //    "\r" + "" + "\r" + "\r " +
+            //    "v1.3.1.7 - Redesigned batch checker to account for changes to stock sheet");
+
+            System.Windows.MessageBox.Show("v1.4.0.0" +
                 "\r" + "" + "\r" +
-                "- Introduced Stock analysis screen\n" +
-                "- Shows Item details for any item code\n" +
-                "- Includes average buying price and current trend of price based on last purchase\n" +
-                "- (WIP) Shows sales history for item\n" +
-                "- Checks variance between sage and stock sheet for batches\n" +
-                "- Also allows for checking of all batches on stock sheet against sage rather than just a specific code\n" +
-                "- Edit of database CRM function to show customers with no comms (backend)\n" +
-                "- Added update logging for backend debugging work and error fixing\n" +
-                "- Added date of most recent transaction to van calendar for customers\n" +
-                "- Added fuzzy string matching algorithm for finding company on sage from van calendar (details below)\n" +
-                "- Added Levenshtein distance computation, this is an edit distance metric that algebraically computes the minimum number of changes needed to get from one string to another to help work out misspelled terms etc " +
-                "\r" + "" + "\r" +
-                "v1.3.0.1b - updated server links to use new server\n" +
-                "v1.3.0.1b - Refined Stock check to balance cost and qty on admin sheet and sage\n" +
-                "v1.3.0.1b - Start of dynamic screen for Stock Analysis Window (WIP)\n" +
-                "v1.3.0.4 - Error Handler added for loading JSON data, gives error on screen and should avoid loading" +
-                "v1.3.0.5 - Reconfigured server connection for migrated can calendar database" +
-                "\r" + "" + "\r" + "\r " +
-                "v1.3.1.6" +
-                "\r" + "" + "\r" + 
-                "- Refactored the code relating to akixi API, tidied it up for small perfomance boost\n" +
-                "- Corrected API target for new web address/host for Akixi" +
-                "\r" + "" + "\r" + "\r " +
-                "v1.3.1.7 - Redesigned batch checker to account for changes to stock sheet");
+                "- Redesigned menu to have nested menus (not super smooth but still)\n" +
+                "- Commercial Invoice logic updated to account for editing drafts while retaining information\n" +
+                "- Call times screen now shows current and last week's times along with target\n" +
+                "- Call times will vary target based on days worked dynamically\n" +
+                "- Weekly call time total graph added\n" +
+                "- Hourly heatmap added for number of calls\n" +
+                "- Weight calculator added to sales tools\n" +
+                "- Linear meter calculator added as part of weight calculator\n" +
+                "- Reworked logic for company info window and weight calc window to lock background windows\n" +
+                "- Reworked logic for all sub-windows in van calendar screen to show top-most window at all times when refocused\n" +
+                "- CALL TIME NOW INSIDE SALES TOOLS MENU");
         }
 
         private void BtnCommInvoice_Click(object sender, RoutedEventArgs e)
@@ -437,8 +500,6 @@ namespace PolyUKApp
             ((CommInvoiceWindow)sender).Closed -= childFormCommInvoiceClosed;
             this.Show();
         }
-
-
 
         private void BtnCommInvoice_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
@@ -495,8 +556,6 @@ namespace PolyUKApp
         {
             BtnCompanyInfo_MouseEnter(sender, e);
         }
-
-
 
         private void BtnLight_Click(object sender, RoutedEventArgs e)
         {
@@ -592,8 +651,6 @@ namespace PolyUKApp
             this.Show();
         }
 
-
-
         private void BtnStockAnalysis_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
             TextBlockInfo.Document.Blocks.Clear();
@@ -619,5 +676,228 @@ namespace PolyUKApp
             TextBlockInfo.Document.Blocks.Clear();
             TextBlockInfo.AppendText("General company performance info for sales meetings etc");
         }
+
+
+
+        private void MenuCollapse_Tick_SysMenu(object sender, EventArgs e)
+        {
+            if (SubButtonClosed)
+            {
+                SystemsSubMenuPanel.Visibility = Visibility.Visible;
+                StockSubMenuPanel.Visibility = Visibility.Collapsed;
+                SalesSubMenuPanel.Visibility = Visibility.Collapsed;
+                if (MenuPanel1.Width > 0)
+                {
+                    MenuPanel1.Width -= 2;
+
+                }
+                else
+                {
+                    MenuPanel1.Visibility = Visibility.Collapsed;
+                    SubButtonOpened = true;
+                    SubButtonClosed = false;
+                    timerSYS.Stop();
+                }
+            }
+        }
+
+        private void MenuExpand_Tick_SysMenu(object sender, EventArgs e)
+        {
+            if (SubButtonOpened)
+            {
+                MenuPanel1.Visibility = Visibility.Visible;
+                if (MenuPanel1.Width < 200)
+                {
+                    MenuPanel1.Width += 2;
+                }
+                else
+                {
+                    SystemsSubMenuPanel.Visibility = Visibility.Collapsed;
+                    SubButtonOpened = false;
+                    SubButtonClosed = true;
+                    timerSYS.Stop();
+                }
+            }
+        }
+
+        private void MenuCollapse_Tick_StockMenu(object sender, EventArgs e)
+        {
+            if (SubButtonClosed)
+            {
+                StockSubMenuPanel.Visibility = Visibility.Visible;
+                SystemsSubMenuPanel.Visibility = Visibility.Collapsed;
+                SalesSubMenuPanel.Visibility = Visibility.Collapsed;
+                if (MenuPanel1.Width > 0)
+                {
+                    MenuPanel1.Width -= 2;
+
+                }
+                else
+                {
+                    MenuPanel1.Visibility = Visibility.Collapsed;
+                    SubButtonOpened = true;
+                    SubButtonClosed = false;
+                    timerSTOCK.Stop();
+                }
+            }
+        }
+
+        private void MenuExpand_Tick_StockMenu(object sender, EventArgs e)
+        {
+            if (SubButtonOpened)
+            {
+                MenuPanel1.Visibility = Visibility.Visible;
+                if (MenuPanel1.Width < 200)
+                {
+                    MenuPanel1.Width += 2;
+                }
+                else
+                {
+                    StockSubMenuPanel.Visibility = Visibility.Collapsed;
+                    SubButtonOpened = false;
+                    SubButtonClosed = true;
+                    timerSTOCK.Stop();
+                }
+            }
+        }
+
+        private void MenuCollapse_Tick_SalesMenu(object sender, EventArgs e)
+        {
+            if (SubButtonClosed)
+            {
+                SalesSubMenuPanel.Visibility = Visibility.Visible;
+                StockSubMenuPanel.Visibility = Visibility.Collapsed;
+                SystemsSubMenuPanel.Visibility = Visibility.Collapsed;
+                if (MenuPanel1.Width > 0)
+                {
+                    MenuPanel1.Width -= 2;
+
+                }
+                else
+                {
+                    MenuPanel1.Visibility = Visibility.Collapsed;
+                    SubButtonOpened = true;
+                    SubButtonClosed = false;
+                    timerSALES.Stop();
+                }
+            }
+        }
+
+        private void MenuExpand_Tick_SalesMenu(object sender, EventArgs e)
+        {
+            if (SubButtonOpened)
+            {
+                MenuPanel1.Visibility = Visibility.Visible;
+                if (MenuPanel1.Width < 200)
+                {
+                    MenuPanel1.Width += 2;
+                }
+                else
+                {
+                    SalesSubMenuPanel.Visibility = Visibility.Collapsed;
+                    SubButtonOpened = false;
+                    SubButtonClosed = true;
+                    timerSALES.Stop();
+                }
+            }
+        }
+
+
+
+        private void SysBtnBack_Click(object sender, RoutedEventArgs e)
+        {
+            timerSYS.Tick += new EventHandler(MenuExpand_Tick_SysMenu);
+            timerSYS.Interval = TimeSpan.FromMicroseconds(750);
+            timerSYS.Start();
+            
+        }
+
+        private void BtnSys_Click(object sender, RoutedEventArgs e)
+        {
+            timerSYS.Tick += new EventHandler(MenuCollapse_Tick_SysMenu);
+            timerSYS.Interval = TimeSpan.FromMicroseconds(750);
+            timerSYS.Start();
+        }
+
+        private void BtnSys_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            TextBlockInfo.Document.Blocks.Clear();
+            TextBlockInfo.AppendText("Find options relating to Sage databases and systems in here");
+        }
+
+
+
+        private void BtnStockMenu_Click(object sender, RoutedEventArgs e)
+        {
+            timerSTOCK.Tick += new EventHandler(MenuCollapse_Tick_StockMenu);
+            timerSTOCK.Interval = TimeSpan.FromMicroseconds(750);
+            timerSTOCK.Start();
+        }
+
+        private void StockBtnBack_Click(object sender, RoutedEventArgs e)
+        {
+            timerSTOCK.Tick += new EventHandler(MenuExpand_Tick_StockMenu);
+            timerSTOCK.Interval = TimeSpan.FromMicroseconds(750);
+            timerSTOCK.Start();
+        }
+
+        private void BtnStockMenu_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            TextBlockInfo.Document.Blocks.Clear();
+            TextBlockInfo.AppendText("Find stock related menus in here");
+        }
+
+
+
+        private void BtnSalesToolsMenu_Click(object sender, RoutedEventArgs e)
+        {
+            timerSALES.Tick += new EventHandler(MenuCollapse_Tick_SalesMenu);
+            timerSALES.Interval = TimeSpan.FromMicroseconds(750);
+            timerSALES.Start();
+        }
+        private void SalesBtnBack_Click(object sender, RoutedEventArgs e)
+        {
+            timerSALES.Tick += new EventHandler(MenuExpand_Tick_SalesMenu);
+            timerSALES.Interval = TimeSpan.FromMicroseconds(750);
+            timerSALES.Start();
+        }
+        private void BtnSalesToolsMenu_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            TextBlockInfo.Document.Blocks.Clear();
+            TextBlockInfo.AppendText("Call timer is in here now!! Also tools to help with item weights and linear meters on a roll");
+        }
+
+
+
+        private void BtnWeightCalc_Click(object sender, RoutedEventArgs e)
+        {
+            var existing = _childWindows.OfType<WeightCalcWindow>().FirstOrDefault(w => w.IsLoaded);
+            if (existing != null) { existing.Activate(); return; }
+
+            var thisWindow = Application.Current.MainWindow;
+            var WeightCalcBox = new WeightCalcWindow
+            {
+                Left = thisWindow.Left,
+                Top = thisWindow.Top,
+                Height = thisWindow.Height,
+                Width = thisWindow.Width
+            };
+
+            OpenChildWindow(WeightCalcBox);
+
+        }
+
+        void childFormWeightClosed(object sender, EventArgs e)
+        {
+            ((WeightCalcWindow)sender).Closed -= childFormWeightClosed;
+            this.Show();
+        }
+
+        private void BtnWeightCalc_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+
+        }
+
+
     }
 }

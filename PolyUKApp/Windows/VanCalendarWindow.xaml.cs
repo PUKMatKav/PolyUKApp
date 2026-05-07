@@ -1,11 +1,22 @@
-﻿using PolyUKApp.MVVM.View;
+﻿using ClosedXML;
+using ClosedXML.Excel;
+using LiveCharts;
+using MySql.Data.MySqlClient;
+using Mysqlx.Resultset;
+using PolyUKApp.MVVM.View;
 using PolyUKApp.SQL;
+using PolyUKApp.SQL.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.OleDb;
+using System.ComponentModel;
 using System.Data;
+using System.Data.OleDb;
+using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,18 +27,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using static PolyUKApp.Windows.CallTimeWindow;
 using static PolyUKApp.MVVM.View.VanCalendarPanel;
-using System.IO;
-using MySql.Data.MySqlClient;
-using System.ComponentModel;
-using System.Reflection;
-using PolyUKApp.SQL.Models;
-using Mysqlx.Resultset;
-using System.Runtime.CompilerServices;
-using System.Diagnostics;
-using ClosedXML;
-using ClosedXML.Excel;
+using static PolyUKApp.Windows.CallTimeWindow;
 
 namespace PolyUKApp.Windows
 {
@@ -43,6 +44,8 @@ namespace PolyUKApp.Windows
         //statics to pass to UC Calendar panel
         public static int static_month, static_year;
 
+        private readonly List<Window> _childWindows = new List<Window>();
+
         public VanCalendarWindow()
         {
             InitializeComponent();
@@ -51,6 +54,47 @@ namespace PolyUKApp.Windows
             UserButtonChecker();
             NotificationLight();
         }
+
+        private void VanCalendarWindow_StateChanged(object sender, EventArgs e)
+        {
+            if (this.WindowState == WindowState.Normal || this.WindowState == WindowState.Maximized)
+            {
+                this.Activate();
+
+                // Restore in open-order; last one ends up on top
+                _childWindows.RemoveAll(w => !w.IsLoaded);
+                foreach (var win in _childWindows)
+                {
+                    win.WindowState = this.WindowState;
+                    win.Activate();
+                }
+            }
+        }
+
+        private void OpenChildWindow(Window newWindow)
+        {
+            newWindow.Owner = this;
+
+            this.IsHitTestVisible = false;
+
+            // When child closes, return focus to main window
+            newWindow.Closed += (s, e) =>
+            {
+                _childWindows.Remove(newWindow);
+                _childWindows.RemoveAll(w => !w.IsLoaded);
+
+                // Only re-enable if all child windows are closed
+                if (!_childWindows.Any())
+                    this.IsHitTestVisible = true;
+
+                this.Activate();
+            };
+
+            _childWindows.RemoveAll(w => !w.IsLoaded);
+            _childWindows.Add(newWindow);
+            newWindow.Show();
+        }
+
         public void CalendarDays()
         {
 
@@ -211,52 +255,46 @@ namespace PolyUKApp.Windows
             System.Windows.Clipboard.Clear();
             System.Windows.Clipboard.SetDataObject(IDName.ToString());
 
-            var ThisWindow = Window.GetWindow(this);
+            var thisWindow = Window.GetWindow(this);
 
-            double WindowLeft = ThisWindow.Left;
-            double WindowTop = ThisWindow.Top;
-            double WindowHeight = ThisWindow.Height;
-            double WindowWidth = ThisWindow.Width;
-
-            if (ThisWindow.WindowState == WindowState.Maximized)
+            // Prevent duplicates - bring to focus if already open
+            var existing = _childWindows.OfType<CompanyInfoWindow>().FirstOrDefault(w => w.IsLoaded);
+            if (existing != null) { existing.Activate(); return; }
+            var VisitInfoBox = new VanVisitInfoWindow
             {
-                var VisitInfoBox = new VanVisitInfoWindow();
+                Left = thisWindow.Left,
+                Top = thisWindow.Top,
+                Height = thisWindow.Height,
+                Width = thisWindow.Width
+            };
+
+            if (thisWindow.WindowState == WindowState.Maximized)
                 VisitInfoBox.WindowState = WindowState.Maximized;
-                VisitInfoBox.Closed += childFormEditVisitClosed;
-                VisitInfoBox.Show();
-            }
-            else
-            {
-                var VisitInfoBox = new VanVisitInfoWindow { Left = WindowLeft, Top = WindowTop, Width = WindowWidth, Height = WindowHeight };
-                VisitInfoBox.Closed += childFormEditVisitClosed;
-                VisitInfoBox.Show();
-            }
+
+            OpenChildWindow(VisitInfoBox);
 
 
         }
 
         private void BtnAddVisit_Click(object sender, RoutedEventArgs e)
         {
-            var ThisWindow = Window.GetWindow(this);
+            var thisWindow = Window.GetWindow(this);
 
-            double WindowLeft = ThisWindow.Left;
-            double WindowTop = ThisWindow.Top;
-            double WindowHeight = ThisWindow.Height;
-            double WindowWidth = ThisWindow.Width;
-
-            if (ThisWindow.WindowState == WindowState.Maximized)
+            // Prevent duplicates - bring to focus if already open
+            var existing = _childWindows.OfType<CompanyInfoWindow>().FirstOrDefault(w => w.IsLoaded);
+            if (existing != null) { existing.Activate(); return; }
+            var VisitAddBox = new VanVisitAddWindow
             {
-                var VisitAddBox = new VanVisitAddWindow();
+                Left = thisWindow.Left,
+                Top = thisWindow.Top,
+                Height = thisWindow.Height,
+                Width = thisWindow.Width
+            };
+
+            if (thisWindow.WindowState == WindowState.Maximized)
                 VisitAddBox.WindowState = WindowState.Maximized;
-                VisitAddBox.Closed += childFormAddVisitClosed;
-                VisitAddBox.Show();
-            }
-            else
-            {
-                var VisitAddBox = new VanVisitAddWindow { Left = WindowLeft, Top = WindowTop, Width = WindowWidth, Height = WindowHeight };
-                VisitAddBox.Closed += childFormAddVisitClosed;
-                VisitAddBox.Show();
-            }
+
+            OpenChildWindow(VisitAddBox);
         }
 
         private void BtnEditVisit_Click(object sender, RoutedEventArgs e)
@@ -266,28 +304,24 @@ namespace PolyUKApp.Windows
             System.Windows.Clipboard.Clear();
             System.Windows.Clipboard.SetDataObject(IDName.ToString());
 
-            var ThisWindow = Window.GetWindow(this);
+            var thisWindow = Window.GetWindow(this);
 
-            double WindowLeft = ThisWindow.Left;
-            double WindowTop = ThisWindow.Top;
-            double WindowHeight = ThisWindow.Height;
-            double WindowWidth = ThisWindow.Width;
-
-            if (ThisWindow.WindowState == WindowState.Maximized)
+            // Prevent duplicates - bring to focus if already open
+            var existing = _childWindows.OfType<CompanyInfoWindow>().FirstOrDefault(w => w.IsLoaded);
+            if (existing != null) { existing.Activate(); return; }
+            var VisitInfoBox = new VanVisitInfoWindow
             {
-                var VisitInfoBox = new VanVisitInfoWindow();
+                Left = thisWindow.Left,
+                Top = thisWindow.Top,
+                Height = thisWindow.Height,
+                Width = thisWindow.Width
+            };
+
+            if (thisWindow.WindowState == WindowState.Maximized)
                 VisitInfoBox.WindowState = WindowState.Maximized;
-                VisitInfoBox.Closed += childFormEditVisitClosed;
-                VisitInfoBox.Show();
 
-            }
-            else
-            {
-                var VisitInfoBox = new VanVisitInfoWindow { Left = WindowLeft, Top = WindowTop, Width = WindowWidth, Height = WindowHeight };
-                VisitInfoBox.Closed += childFormEditVisitClosed;
-                VisitInfoBox.Show();
+            OpenChildWindow(VisitInfoBox);
 
-            }
             BtnEditVisit.Visibility = Visibility.Hidden;
             BtnDeleteVisit.Visibility = Visibility.Hidden;
             BtnCOmpleteVisit.Visibility = Visibility.Hidden;
@@ -379,26 +413,42 @@ namespace PolyUKApp.Windows
 
         private void BtnviewlOldJobs_Click(object sender, RoutedEventArgs e)
         {
-            var ThisWindow = Window.GetWindow(this);
+            var thisWindow = Window.GetWindow(this);
 
-            double WindowLeft = ThisWindow.Left;
-            double WindowTop = ThisWindow.Top;
-            double WindowHeight = ThisWindow.Height;
-            double WindowWidth = ThisWindow.Width;
-
-            if (ThisWindow.WindowState == WindowState.Maximized)
+            // Prevent duplicates - bring to focus if already open
+            var existing = _childWindows.OfType<CompanyInfoWindow>().FirstOrDefault(w => w.IsLoaded);
+            if (existing != null) { existing.Activate(); return; }
+            var OldJobsBox = new VanVisitListWindow
             {
-                var OldJobsBox = new VanVisitListWindow();
+                Left = thisWindow.Left,
+                Top = thisWindow.Top,
+                Height = thisWindow.Height,
+                Width = thisWindow.Width
+            };
+
+            if (thisWindow.WindowState == WindowState.Maximized)
                 OldJobsBox.WindowState = WindowState.Maximized;
-                OldJobsBox.Closed += childFormVisitListClosed;
-                OldJobsBox.Show();
-            }
-            else
-            {
-                var OldJobsBox = new VanVisitListWindow { Left = WindowLeft, Top = WindowTop, Width = WindowWidth, Height = WindowHeight };
-                OldJobsBox.Closed += childFormVisitListClosed;
-                OldJobsBox.Show();
-            }
+
+            OpenChildWindow(OldJobsBox);
+
+            //double WindowLeft = ThisWindow.Left;
+            //double WindowTop = ThisWindow.Top;
+            //double WindowHeight = ThisWindow.Height;
+            //double WindowWidth = ThisWindow.Width;
+
+            //if (ThisWindow.WindowState == WindowState.Maximized)
+            //{
+            //    var OldJobsBox = new VanVisitListWindow();
+            //    OldJobsBox.WindowState = WindowState.Maximized;
+            //    OldJobsBox.Closed += childFormVisitListClosed;
+            //    OldJobsBox.Show();
+            //}
+            //else
+            //{
+            //    var OldJobsBox = new VanVisitListWindow { Left = WindowLeft, Top = WindowTop, Width = WindowWidth, Height = WindowHeight };
+            //    OldJobsBox.Closed += childFormVisitListClosed;
+            //    OldJobsBox.Show();
+            //}
         }
         void childFormVisitListClosed(object sender, EventArgs e)
         {
@@ -497,26 +547,24 @@ namespace PolyUKApp.Windows
             System.Windows.Clipboard.Clear();
             System.Windows.Clipboard.SetDataObject(IDName.ToString());
 
-            var ThisWindow = Window.GetWindow(this);
+            var thisWindow = Window.GetWindow(this);
 
-            double WindowLeft = ThisWindow.Left;
-            double WindowTop = ThisWindow.Top;
-            double WindowHeight = ThisWindow.Height;
-            double WindowWidth = ThisWindow.Width;
-
-            if (ThisWindow.WindowState == WindowState.Maximized)
+            // Prevent duplicates - bring to focus if already open
+            var existing = _childWindows.OfType<CompanyInfoWindow>().FirstOrDefault(w => w.IsLoaded);
+            if (existing != null) { existing.Activate(); return; }
+            var VisitAddBox = new VanEditRequestVisit
             {
-                var VisitAddBox = new VanEditRequestVisit();
+                Left = thisWindow.Left,
+                Top = thisWindow.Top,
+                Height = thisWindow.Height,
+                Width = thisWindow.Width
+            };
+
+            if (thisWindow.WindowState == WindowState.Maximized)
                 VisitAddBox.WindowState = WindowState.Maximized;
-                VisitAddBox.Closed += childFormEditRequestVisitClosed;
-                VisitAddBox.Show();
-            }
-            else
-            {
-                var VisitAddBox = new VanEditRequestVisit { Left = WindowLeft, Top = WindowTop, Width = WindowWidth, Height = WindowHeight };
-                VisitAddBox.Closed += childFormEditRequestVisitClosed;
-                VisitAddBox.Show();
-            }
+
+            OpenChildWindow(VisitAddBox);
+
         }
 
         private void VanDataGridPending_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -572,26 +620,24 @@ namespace PolyUKApp.Windows
 
         private void BtnAddRequest_Click(object sender, RoutedEventArgs e)
         {
-            var ThisWindow = Window.GetWindow(this);
+            var thisWindow = Window.GetWindow(this);
 
-            double WindowLeft = ThisWindow.Left;
-            double WindowTop = ThisWindow.Top;
-            double WindowHeight = ThisWindow.Height;
-            double WindowWidth = ThisWindow.Width;
-
-            if (ThisWindow.WindowState == WindowState.Maximized)
+            // Prevent duplicates - bring to focus if already open
+            var existing = _childWindows.OfType<CompanyInfoWindow>().FirstOrDefault(w => w.IsLoaded);
+            if (existing != null) { existing.Activate(); return; }
+            var VisitAddBox = new VanRequestVisit
             {
-                var VisitAddBox = new VanRequestVisit();
+                Left = thisWindow.Left,
+                Top = thisWindow.Top,
+                Height = thisWindow.Height,
+                Width = thisWindow.Width
+            };
+
+            if (thisWindow.WindowState == WindowState.Maximized)
                 VisitAddBox.WindowState = WindowState.Maximized;
-                VisitAddBox.Closed += childFormRequestVisitClosed;
-                VisitAddBox.Show();
-            }
-            else
-            {
-                var VisitAddBox = new VanRequestVisit { Left = WindowLeft, Top = WindowTop, Width = WindowWidth, Height = WindowHeight };
-                VisitAddBox.Closed += childFormRequestVisitClosed;
-                VisitAddBox.Show();
-            }
+
+            OpenChildWindow(VisitAddBox);
+
         }
         void childFormRequestVisitClosed(object sender, EventArgs e)
         {
@@ -608,26 +654,23 @@ namespace PolyUKApp.Windows
             System.Windows.Clipboard.Clear();
             System.Windows.Clipboard.SetDataObject(IDName.ToString());
 
-            var ThisWindow = Window.GetWindow(this);
+            var thisWindow = Window.GetWindow(this);
 
-            double WindowLeft = ThisWindow.Left;
-            double WindowTop = ThisWindow.Top;
-            double WindowHeight = ThisWindow.Height;
-            double WindowWidth = ThisWindow.Width;
-
-            if (ThisWindow.WindowState == WindowState.Maximized)
+            // Prevent duplicates - bring to focus if already open
+            var existing = _childWindows.OfType<CompanyInfoWindow>().FirstOrDefault(w => w.IsLoaded);
+            if (existing != null) { existing.Activate(); return; }
+            var VisitAddBox = new VanEditRequestVisit
             {
-                var VisitAddBox = new VanEditRequestVisit();
+                Left = thisWindow.Left,
+                Top = thisWindow.Top,
+                Height = thisWindow.Height,
+                Width = thisWindow.Width
+            };
+
+            if (thisWindow.WindowState == WindowState.Maximized)
                 VisitAddBox.WindowState = WindowState.Maximized;
-                VisitAddBox.Closed += childFormEditRequestVisitClosed;
-                VisitAddBox.Show();
-            }
-            else
-            {
-                var VisitAddBox = new VanEditRequestVisit { Left = WindowLeft, Top = WindowTop, Width = WindowWidth, Height = WindowHeight };
-                VisitAddBox.Closed += childFormEditRequestVisitClosed;
-                VisitAddBox.Show();
-            }
+
+            OpenChildWindow(VisitAddBox);
         }
         void childFormEditRequestVisitClosed(object sender, EventArgs e)
         {

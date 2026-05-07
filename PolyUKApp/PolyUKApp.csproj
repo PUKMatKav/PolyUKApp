@@ -15,10 +15,34 @@
     <None Remove="Images\PUKIco.ico" />
     <None Remove="Images\PUK_Blue_Logo.png" />
     <None Remove="Images\PUK_Blue_Logo_512.png" />
+    <None Remove="Windows\Images\Bag.png" />
+    <None Remove="Windows\Images\BagW.png" />
+    <None Remove="Windows\Images\CFS.png" />
+    <None Remove="Windows\Images\CFSOpen.png" />
+    <None Remove="Windows\Images\CFSOpenDIMW.png" />
+    <None Remove="Windows\Images\CFSOpenDIMWW.png" />
+    <None Remove="Windows\Images\CFSOpenW.png" />
+    <None Remove="Windows\Images\LFT.png" />
+    <None Remove="Windows\Images\LFTW.png" />
+    <None Remove="Windows\Images\Perf Roll.png" />
     <None Remove="Windows\Images\Polythene_UK_Logo_2022_RGB_LR.png" />
     <None Remove="Windows\Images\PUKIco.ico" />
     <None Remove="Windows\Images\PUK_Blue_Logo.png" />
     <None Remove="Windows\Images\PUK_Blue_Logo_512.png" />
+    <None Remove="Windows\Images\Roll.png" />
+    <None Remove="Windows\Images\RollDIML.png" />
+    <None Remove="Windows\Images\RollDIMLW.png" />
+    <None Remove="Windows\Images\RollDIMS.png" />
+    <None Remove="Windows\Images\RollDIMW.png" />
+    <None Remove="Windows\Images\RollDIMWW.png" />
+    <None Remove="Windows\Images\RollW.png" />
+    <None Remove="Windows\Images\Sheet.png" />
+    <None Remove="Windows\Images\SheetDIML.png" />
+    <None Remove="Windows\Images\SheetDIMLW.png" />
+    <None Remove="Windows\Images\SheetDIMS.png" />
+    <None Remove="Windows\Images\SheetDIMW.png" />
+    <None Remove="Windows\Images\SheetDIMWW.png" />
+    <None Remove="Windows\Images\SheetW.png" />
     <None Remove="Windows\Images\SigMD.png" />
   </ItemGroup>
 
@@ -29,6 +53,7 @@
   <ItemGroup>
     <Folder Include="Core\" />
     <Folder Include="Fonts\" />
+    <Folder Include="Helper Classes\" />
     <Folder Include="MVVM\Model\" />
   </ItemGroup>
 
@@ -57,10 +82,34 @@
     <Resource Include="Images\PUKIco.ico" />
     <Resource Include="Images\PUK_Blue_Logo.png" />
     <Resource Include="Images\PUK_Blue_Logo_512.png" />
+    <Resource Include="Windows\Images\Bag.png" />
+    <Resource Include="Windows\Images\BagW.png" />
+    <Resource Include="Windows\Images\CFS.png" />
+    <Resource Include="Windows\Images\CFSOpen.png" />
+    <Resource Include="Windows\Images\CFSOpenDIMW.png" />
+    <Resource Include="Windows\Images\CFSOpenDIMWW.png" />
+    <Resource Include="Windows\Images\CFSOpenW.png" />
+    <Resource Include="Windows\Images\LFT.png" />
+    <Resource Include="Windows\Images\LFTW.png" />
+    <Resource Include="Windows\Images\Perf Roll.png" />
     <Resource Include="Windows\Images\Polythene_UK_Logo_2022_RGB_LR.png" />
     <Resource Include="Windows\Images\PUKIco.ico" />
     <Resource Include="Windows\Images\PUK_Blue_Logo.png" />
     <Resource Include="Windows\Images\PUK_Blue_Logo_512.png" />
+    <Resource Include="Windows\Images\Roll.png" />
+    <Resource Include="Windows\Images\RollDIML.png" />
+    <Resource Include="Windows\Images\RollDIMLW.png" />
+    <Resource Include="Windows\Images\RollDIMS.png" />
+    <Resource Include="Windows\Images\RollDIMW.png" />
+    <Resource Include="Windows\Images\RollDIMWW.png" />
+    <Resource Include="Windows\Images\RollW.png" />
+    <Resource Include="Windows\Images\Sheet.png" />
+    <Resource Include="Windows\Images\SheetDIML.png" />
+    <Resource Include="Windows\Images\SheetDIMLW.png" />
+    <Resource Include="Windows\Images\SheetDIMS.png" />
+    <Resource Include="Windows\Images\SheetDIMW.png" />
+    <Resource Include="Windows\Images\SheetDIMWW.png" />
+    <Resource Include="Windows\Images\SheetW.png" />
     <Resource Include="Windows\Images\SigMD.png" />
   </ItemGroup>
 

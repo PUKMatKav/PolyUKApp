@@ -32,12 +32,14 @@ namespace PolyUKApp.MVVM.View
     {
 
         public static string static_day;
-        
+
+
         public VanCalendarPanel()
         {
             InitializeComponent();
 
         }
+
         public void Days(int numdays)
         {
             LabelDays.Content = numdays++;

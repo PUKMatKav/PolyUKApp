@@ -22,10 +22,52 @@ namespace PolyUKApp.Windows
     /// </summary>
     public partial class VanVisitListWindow : Window
     {
+        private readonly List<Window> _childWindows = new List<Window>();
+
         public VanVisitListWindow()
         {
             InitializeComponent();
             VanOldList();
+        }
+
+        private void VanVisitListWindow_StateChanged(object sender, EventArgs e)
+        {
+            if (this.WindowState == WindowState.Normal || this.WindowState == WindowState.Maximized)
+            {
+                this.Activate();
+
+                // Restore in open-order; last one ends up on top
+                _childWindows.RemoveAll(w => !w.IsLoaded);
+                foreach (var win in _childWindows)
+                {
+                    win.WindowState = this.WindowState;
+                    win.Activate();
+                }
+            }
+        }
+
+        private void OpenChildWindow(Window newWindow)
+        {
+            newWindow.Owner = this;
+
+            this.IsHitTestVisible = false;
+
+            // When child closes, return focus to main window
+            newWindow.Closed += (s, e) =>
+            {
+                _childWindows.Remove(newWindow);
+                _childWindows.RemoveAll(w => !w.IsLoaded);
+
+                // Only re-enable if all child windows are closed
+                if (!_childWindows.Any())
+                    this.IsHitTestVisible = true;
+
+                this.Activate();
+            };
+
+            _childWindows.RemoveAll(w => !w.IsLoaded);
+            _childWindows.Add(newWindow);
+            newWindow.Show();
         }
 
         private void BtnValidate_Click(object sender, RoutedEventArgs e)
@@ -88,24 +130,42 @@ namespace PolyUKApp.Windows
             System.Windows.Clipboard.Clear();
             System.Windows.Clipboard.SetDataObject(IDName.ToString());
 
-            var ThisWindow = Window.GetWindow(this);
+            var thisWindow = Window.GetWindow(this);
 
-            double WindowLeft = ThisWindow.Left;
-            double WindowTop = ThisWindow.Top;
-            double WindowHeight = ThisWindow.Height;
-            double WindowWidth = ThisWindow.Width;
-
-            if (ThisWindow.WindowState == WindowState.Maximized)
+            // Prevent duplicates - bring to focus if already open
+            var existing = _childWindows.OfType<CompanyInfoWindow>().FirstOrDefault(w => w.IsLoaded);
+            if (existing != null) { existing.Activate(); return; }
+            var VisitInfoBox = new VanVisitInfoWindow
             {
-                var VisitInfoBox = new VanVisitInfoWindow();
+                Left = thisWindow.Left,
+                Top = thisWindow.Top,
+                Height = thisWindow.Height,
+                Width = thisWindow.Width
+            };
+
+            if (thisWindow.WindowState == WindowState.Maximized)
                 VisitInfoBox.WindowState = WindowState.Maximized;
-                VisitInfoBox.Show();
-            }
-            else
-            {
-                var VisitInfoBox = new VanVisitInfoWindow { Left = WindowLeft, Top = WindowTop, Width = WindowWidth, Height = WindowHeight };
-                VisitInfoBox.Show();
-            }
+
+            OpenChildWindow(VisitInfoBox);
+
+
+
+            //double WindowLeft = ThisWindow.Left;
+            //double WindowTop = ThisWindow.Top;
+            //double WindowHeight = ThisWindow.Height;
+            //double WindowWidth = ThisWindow.Width;
+
+            //if (ThisWindow.WindowState == WindowState.Maximized)
+            //{
+            //    var VisitInfoBox = new VanVisitInfoWindow();
+            //    VisitInfoBox.WindowState = WindowState.Maximized;
+            //    VisitInfoBox.Show();
+            //}
+            //else
+            //{
+            //    var VisitInfoBox = new VanVisitInfoWindow { Left = WindowLeft, Top = WindowTop, Width = WindowWidth, Height = WindowHeight };
+            //    VisitInfoBox.Show();
+            //}
         }
 
         private void BtnResetJobs_Click(object sender, RoutedEventArgs e)

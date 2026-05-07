@@ -1,0 +1,380 @@
+﻿<Window x:Class="PolyUKApp.Windows.WeightCalcWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PolyUKApp.Windows"
+        mc:Ignorable="d"
+        Title="WeightCalcWindow" Height="600" Width="850" MinHeight="500" MinWidth="400"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResizeWithGrip"
+        Icon="Images/PUKIco.ico">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+                <RowDefinition Height="20"/>
+            </Grid.RowDefinitions>
+
+        <Border x:Name="TopBar0"
+                Background="{DynamicResource Accent}"
+                CornerRadius="5,5,0,0"
+                BorderBrush="{DynamicResource AccentBorder}"
+                BorderThickness="1,1,1,0"
+                MouseDown="TopBar0_MouseDown"/>
+
+        <Border Background="{DynamicResource BackgroundBase}"
+                Grid.Row="2"
+                BorderBrush="{DynamicResource Border}"
+                BorderThickness="1,0"
+                RenderOptions.EdgeMode="Aliased"
+                Opacity="1"/>
+
+        <Border x:Name="LogoBar0"
+                Background="{DynamicResource BackgroundMid}"
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                BorderBrush="{DynamicResource Border}"
+                BorderThickness="1,0,1,1"
+                RenderOptions.EdgeMode="Aliased">
+            <StackPanel Orientation="Horizontal"
+                        Margin="10,0"
+                        VerticalAlignment="Center">
+                <Button x:Name="WeightBtn"
+                        Style="{DynamicResource GeneralButtonTheme}"
+                        RenderOptions.EdgeMode="Aliased"
+                        Width="100"
+                        Content="Weight"
+                        Margin="5,0,15,0"
+                        Click="WeightBtn_Click"/>
+                <Button x:Name="MeterBtn"
+                        Style="{DynamicResource GeneralButtonTheme}"
+                        RenderOptions.EdgeMode="Aliased"
+                        Width="100"
+                        Content="Meters"
+                        Click="MeterBtn_Click"/>
+            </StackPanel>
+            
+        </Border>
+
+        <Border x:Name="BotBar0"
+                Background="{DynamicResource BackgroundMid}"
+                Grid.Row="3"
+                CornerRadius="0,0,5,5"
+                BorderBrush="{DynamicResource Border}"
+                BorderThickness="1"/>
+
+
+        <Grid x:Name="DisplayGrid"
+              Grid.Row="2"
+              Margin="0,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="0.4*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="0.5*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border x:Name="CalBorder0"
+                    Grid.Row="0"
+                    CornerRadius="5,5,0,0"
+                    Background="{DynamicResource BackgroundLight}"
+                    BorderBrush="{StaticResource Border}"
+                    BorderThickness="1,1,1,0"
+                    Margin="10,20,10,0"
+                    RenderOptions.EdgeMode="Aliased">
+                <TextBlock Text="Weight Calculator"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Foreground="{DynamicResource Accent}"
+                           FontSize="18"
+                           FontFamily="Aptos"/>
+            </Border>
+
+            <Border x:Name="CalBorder1"
+                    Grid.Row="1"
+                    CornerRadius="0,0,0,0"
+                    Background="{DynamicResource BackgroundLight}"
+                    BorderBrush="{StaticResource Border}"
+                    BorderThickness="1,0,1,0"
+                    Margin="10,0,10,0"
+                    RenderOptions.EdgeMode="Aliased">
+                <StackPanel x:Name="CalcStackPanel"
+                            Margin="10,0">
+                    <TextBlock Text="Product Type"
+                               HorizontalAlignment="Center"
+                               Margin="0,5"
+                               Foreground="{DynamicResource Text}"
+                               FontFamily="Aptos"/>
+                    <ComboBox x:Name="TypeCombo"
+                              Style="{DynamicResource ComboBoxFlatStyle}"
+                              SelectionChanged="TypeCombo_SelectionChanged"
+                              Foreground="{DynamicResource Text}"/>
+                    <TextBlock     x:Name="LengthTextTitle"
+                                    Text="Length"                               
+                                   HorizontalAlignment="Center"
+                                   Foreground="{DynamicResource Text}"
+                                   FontFamily="Aptos"
+                                   Margin="0,5"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Border Background="{DynamicResource BackgroundMid}"
+                            Height="20"
+                            CornerRadius="10"
+                                Width="120">
+                            <TextBox x:Name="LengthTextBox"
+                                 Background="Transparent"
+                                 Foreground="{DynamicResource Text}"
+                                 BorderThickness="0"
+                                 Padding="5,2"
+                                 HorizontalContentAlignment="Center"
+                                 TextChanged="LengthTextBox_TextChanged"
+                                 local:TextBoxBehavior.NumericOnly="True"/>
+                        </Border>
+                        <ComboBox x:Name="LengthUnitCombo"
+                                    Style="{DynamicResource ComboBoxFlatStyle}"
+                                  Foreground="{DynamicResource Text}"
+                                    Width="80"
+                                    HorizontalAlignment="Right"
+                                  Margin="7,0,0,0"
+                                  SelectionChanged="LengthUnitCombo_SelectionChanged"/>
+                    </StackPanel>
+
+
+                    <TextBlock x:Name="TitleWidth"
+                               Text="Width"                               
+                               HorizontalAlignment="Center"
+                               Foreground="{DynamicResource Text}"
+                               FontFamily="Aptos"
+                               Margin="0,5"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Border Background="{DynamicResource BackgroundMid}"
+                            Height="20"
+                            CornerRadius="10"
+                                Width="120">
+                            <TextBox x:Name="WidthTextBox"
+                                 Background="Transparent"
+                                 Foreground="{DynamicResource Text}"
+                                 BorderThickness="0"
+                                 Padding="5,2"
+                                 HorizontalContentAlignment="Center"
+                                     TextChanged="WidthTextBox_TextChanged"
+                                     local:TextBoxBehavior.NumericOnly="True"/>
+                        </Border>
+                        <ComboBox x:Name="WidthUnitCombo"
+                                    Style="{DynamicResource ComboBoxFlatStyle}"
+                                  Foreground="{DynamicResource Text}"
+                                    Width="80"
+                                    HorizontalAlignment="Right"
+                                  Margin="7,0,0,0"
+                                  SelectionChanged="WidthUnitCombo_SelectionChanged"/>
+                    </StackPanel>
+
+                    <TextBlock Text="Thickness"                               
+                               HorizontalAlignment="Center"
+                               Foreground="{DynamicResource Text}"
+                               FontFamily="Aptos"
+                               Margin="0,5"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Border Background="{DynamicResource BackgroundMid}"
+                            Height="20"
+                            CornerRadius="10"
+                                Width="120">
+                            <TextBox x:Name="ThicknessTextBox"
+                                 Background="Transparent"
+                                 Foreground="{DynamicResource Text}"
+                                 BorderThickness="0"
+                                 Padding="5,2"
+                                 HorizontalContentAlignment="Center"
+                                     TextChanged="ThicknessTextBox_TextChanged"
+                                     local:TextBoxBehavior.NumericOnly="True"/>
+                        </Border>
+                        <ComboBox x:Name="ThicknessUnitCombo"
+                                    Style="{DynamicResource ComboBoxFlatStyle}"
+                                  Foreground="{DynamicResource Text}"
+                                    Width="80"
+                                    HorizontalAlignment="Right"
+                                  Margin="7,0,0,0"
+                                  SelectionChanged="ThicknessUnitCombo_SelectionChanged"/>
+                    </StackPanel>
+
+                    <TextBlock Text="Selling Unit"                               
+                               HorizontalAlignment="Center"
+                               Foreground="{DynamicResource Text}"
+                               FontFamily="Aptos"
+                               Margin="0,5"/>
+                    <ComboBox x:Name="SellingUnitCombo"
+                              Style="{DynamicResource ComboBoxFlatStyle}"
+                              Foreground="{DynamicResource Text}"
+                              SelectionChanged="SellingUnitCombo_SelectionChanged"/>
+
+                    <StackPanel x:Name="StackQuantityPanel"
+                                Orientation="Horizontal"
+                                Visibility="Visible"
+                                Margin="0,5,0,0">
+                        <Border Background="{DynamicResource BackgroundMid}"
+                                Height="20"
+                                CornerRadius="10"
+                                Width="120">
+                            <TextBox x:Name="QtyTextBox"
+                                     Background="Transparent"
+                                     Foreground="{DynamicResource Text}"
+                                     BorderThickness="0"
+                                     Padding="5,2"
+                                     HorizontalContentAlignment="Center"
+                                     TextChanged="QtyTextBox_TextChanged"
+                                     local:TextBoxBehavior.NumericOnly="True"/>
+                        </Border>
+                        <TextBlock x:Name="QtyPerText"
+                               Text="Roll Quantity"                               
+                               HorizontalAlignment="Center"
+                               Foreground="{DynamicResource Text}"
+                               FontFamily="Aptos"
+                               Margin="10,5"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,5"
+                                Orientation="Horizontal">
+                        <Border Background="{DynamicResource BackgroundMid}"
+                                Height="20"
+                                CornerRadius="10"
+                                Width="120"
+                                Margin="0,0,10,0">
+                            <TextBox x:Name="unitQtyBox"
+                                     Background="Transparent"
+                                     Foreground="{DynamicResource Text}"
+                                     BorderThickness="0"
+                                     Padding="5,2"
+                                     HorizontalContentAlignment="Center"
+                                     TextChanged="unitQtyBox_TextChanged"
+                                     local:TextBoxBehavior.NumericOnly="True"/>
+                        </Border>
+                        <TextBlock 
+                               Text="Unit Quantity"                               
+                               HorizontalAlignment="Center"
+                               Foreground="{DynamicResource Text}"
+                               FontFamily="Aptos"
+                               Margin="0,5"/>
+                    </StackPanel>
+
+                    <StackPanel x:Name="TotalWeightStack"
+                                Orientation="Horizontal"
+                                Margin="0,10"
+                                HorizontalAlignment="Center">
+                        <StackPanel>
+                            <TextBlock Text="Unit Weight"
+                                       Foreground="{DynamicResource Accent}"
+                                       Margin="20,0"/>
+                            <TextBlock x:Name="unitWeightAnswer"
+                                       Text="0.00kg"
+                                       Foreground="{DynamicResource Text}"
+                                       HorizontalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel>
+                            <TextBlock Text="Total Weight"
+                                       Foreground="{DynamicResource Accent}"
+                                       Margin="20,0"/>
+                            <TextBlock x:Name="totalWeightAnswer"
+                                       Text="0.00kg"
+                                       Foreground="{DynamicResource Text}"
+                                       HorizontalAlignment="Center"/>
+                        </StackPanel>
+
+                    </StackPanel>
+
+                </StackPanel>
+            </Border>
+
+            <Border x:Name="CalBorder2"
+                    Grid.Row="2"
+                    CornerRadius="0,0,5,5"
+                    Background="{DynamicResource BackgroundLight}"
+                    BorderBrush="{StaticResource Border}"
+                    BorderThickness="1,0,1,1"
+                    Margin="10,0,10,20"
+                    RenderOptions.EdgeMode="Aliased"/>
+
+            <StackPanel x:Name="MeterStackPanel"
+                        Grid.Row="2"
+                        HorizontalAlignment="Center"
+                        Margin="0,5,0,0">
+                <TextBlock x:Name="TotalMeterTitle"
+                            Text="Total Linear Meters"
+                            Foreground="{DynamicResource Accent}"
+                            Margin="20,0"
+                           VerticalAlignment="Center"/>
+                <TextBlock x:Name="TotalMeter"
+                            Text="0.00m"
+                            Foreground="{DynamicResource Text}"
+                            HorizontalAlignment="Center"/>
+            </StackPanel>
+
+
+         
+            <Image x:Name="SheetPic"
+                   Source="/Windows/Images/Sheet.png"
+                   Grid.Column="2"
+                   Grid.Row="1"/>
+            <Image x:Name="SheetDIMLPic"
+                   Source="/Windows/Images/SheetDIML.png"
+                   Grid.Column="2"
+                   Grid.Row="1"/>
+            <Image x:Name="SheetDIMWPic"
+                   Source="/Windows/Images/SheetDIMW.png"
+                   Grid.Column="2"
+                   Grid.Row="1"/>
+            <TextBlock x:Name="DIMLText"
+                       Grid.Column="2"
+                       Grid.Row="1"
+                       Text="Length"
+                       Margin="90,-120,0,0"
+                       Foreground="{DynamicResource Text}"
+                       VerticalAlignment="Center"/>
+            <TextBlock x:Name="DIMWText"
+                       Grid.Column="2"
+                       Grid.Row="1"
+                       Text="Width"
+                       Margin="40,180,0,0"
+                       Foreground="{DynamicResource Text}"
+                       VerticalAlignment="Center"/>
+        </Grid>
+
+
+        <TextBlock x:Name="FormulaExampleTxt"
+                       Grid.Column="2"
+                       Grid.Row="2"
+                       VerticalAlignment="Bottom"
+                   Margin="260,0,20,40"
+                   HorizontalAlignment="Center"
+                   Foreground="{DynamicResource Text}"/>
+
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Margin="0,0,10,0">
+            <Button x:Name="BtnMinimise"
+                        Width="40" Height="35"
+                        Content="_"
+                        Style="{DynamicResource ControlButtonTheme}"
+                        Click="BtnMinimise_Click"/>
+            <Button x:Name="BtnMaximise"
+                        Width="40" Height="35"
+                        Content="🗖"
+                        Style="{DynamicResource ControlButtonTheme}"
+                        Click="BtnMaximise_Click"/>
+            <Button x:Name="BtnClose"
+                        Width="40" Height="35"
+                        Content="X"
+                        Style="{DynamicResource ControlButtonTheme}"
+                        Click="BtnClose_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

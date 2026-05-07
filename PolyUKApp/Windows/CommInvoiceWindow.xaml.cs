@@ -37,6 +37,7 @@ namespace PolyUKApp.Windows
     /// </summary>
     public partial class CommInvoiceWindow : Window
     {
+        string[] linesaddress;
         static readonly int MyHotKeyId = 0x3000;
         static readonly int WM_HOTKEY = 0x312;
         double unitPrice1 = 0.00;
@@ -340,7 +341,7 @@ namespace PolyUKApp.Windows
             {
                 if (Row[3].ToString() == "1000")
                 {
-                    Row[31] = Convert.ToDouble(Row["Weight"]) / 1000;
+                    Row[32] = Convert.ToDouble(Row["Weight"]) / 1000;
                     Row[3] = "Each";
                     Row[2] = Convert.ToDouble(Row["UnitSellingPrice"]) / 1000;
                     Row[1] = Convert.ToDouble(Row["LineQuantity"]) * 1000;
@@ -495,6 +496,10 @@ namespace PolyUKApp.Windows
                     String ContactEmail = Row["DefaultEmail"].ToString();
                     ContactEmailTextBlock.Document.Blocks.Clear();
                     ContactEmailTextBlock.AppendText(ContactEmail);
+
+                    String ContactTel = Row["DefaultTelephone"].ToString();
+                    ContactTelTextBlock.Document.Blocks.Clear();
+                    ContactTelTextBlock.AppendText(ContactTel);
                 }
 
                 //Pulls just first line for address and delivery to avoid duplication
@@ -505,22 +510,27 @@ namespace PolyUKApp.Windows
 
                     String VATNum = Row["TaxRegistrationNumber"].ToString();
                     String CountryCode = Row["Code"].ToString();
-                    if (VATNum.Length < 1)
+                    String CombinedVAT = CountryCode + VATNum;
+                    if (CombinedVAT.Length < 1)
                     {
                         InvToText.AppendText("PLEASE ENTER VAT" + "\r");
                     }
-                    else if (CountryCode == "GB" && VATNum.Substring(0, 3) == "GB ")
+                    else if (CombinedVAT.Substring(0, 3) == "GB ")
                     {
-                        InvToText.AppendText("GB" + VATNum.Substring(3) + "000" + "\r");
+                        InvToText.AppendText("XI" + CombinedVAT.Substring(3) + "000" + "\r");
                     }
-                    else if (CountryCode == "GB" && VATNum.Substring(0, 2) == "GB")
+                    else if (CombinedVAT.Substring(0, 2) == "GB")
                     {
-                        InvToText.AppendText("GB" + VATNum.Substring(2) + "000" + "\r");
+                        InvToText.AppendText("XI" + CombinedVAT.Substring(2) + "000" + "\r");
                     }
-                    else if (CountryCode == "GB")
-                    {
-                        InvToText.AppendText("GB" + VATNum + "000" + "\r");
-                    }
+                    //else if (CountryCode == "GB" && VATNum.Substring(0, 2) == "GB")
+                    //{
+                    //    InvToText.AppendText("GB" + VATNum.Substring(2) + "000" + "\r");
+                    //}
+                    //else if (CountryCode == "GB")
+                    //{
+                    //    InvToText.AppendText("GB" + VATNum + "000" + "\r");
+                    //}
                     else
                     {
                         InvToText.AppendText(CountryCode + VATNum + "\r");
@@ -688,6 +698,12 @@ namespace PolyUKApp.Windows
             String INCOTERMSTOSAVE = INCOTERMSRange.Text.Replace("\r", "").Replace("\n", "");
             var ContactEmailRange = new TextRange(ContactEmailTextBlock.Document.ContentStart, ContactEmailTextBlock.Document.ContentEnd);
             String ContactEmailTOSAVE = ContactEmailRange.Text.Replace("\r", "").Replace("\n", "");
+            var ContactTelRange = new TextRange(ContactTelTextBlock.Document.ContentStart, ContactTelTextBlock.Document.ContentEnd);
+            String ContactTelTOSAVE = ContactTelRange.Text.Replace("\r", "").Replace("\n", "");
+            if (ContactTelTOSAVE == "")
+            {
+                ContactTelTOSAVE = "-";
+            }
             var PalletsRange = new TextRange(PalletsTextBlock.Document.ContentStart, PalletsTextBlock.Document.ContentEnd);
             String PalletsTOSAVE = PalletsRange.Text.Replace("\r", "").Replace("\n", "");
             String SubTotalTOSAVE = SubTotTextBlock.Text;
@@ -779,7 +795,7 @@ namespace PolyUKApp.Windows
             String ItemLineOne = CodeTOSAVE + "¬" + DescTOSAVE + "¬" + QtyTOSAVE + "¬" + UnitTOSAVE + "¬" + HSCodeTOSAVE + "¬" + WeightTOSave + "¬" + GrossKGTOSAVE + "¬" + PriceTOSAVE + "¬" + TotalItemTOSAVE;
 
             //Create string for each variable on each line
-            string[] lines = { InvNumberTOSAVE, OriginTOSAVE, OrderNumberTOSAVE, CusPOTOSAVE, TermsTOSAVE, INCOTERMSTOSAVE, ContactEmailTOSAVE, PalletsTOSAVE, SubTotalTOSAVE, VATTOSAVE, TotalTOSAVE, "---", ItemLineOne, "---", ItemLineTwo, "---", ItemLineThree, "---", ItemLineFour, InvAddressTOSAVE, "****", DelAddressTOSAVE, "****", CertTOSAVE, CurrencyTOSAVE };
+            string[] lines = { InvNumberTOSAVE, OriginTOSAVE, OrderNumberTOSAVE, CusPOTOSAVE, TermsTOSAVE, INCOTERMSTOSAVE, ContactEmailTOSAVE, PalletsTOSAVE, SubTotalTOSAVE, VATTOSAVE, TotalTOSAVE, "---", ItemLineOne, "---", ItemLineTwo, "---", ItemLineThree, "---", ItemLineFour, InvAddressTOSAVE, "****", DelAddressTOSAVE, "****", CertTOSAVE, CurrencyTOSAVE, ContactTelTOSAVE };
 
             string[] FilesStringArray = Directory.GetFiles(Filepath);
             foreach (string FileName in FilesStringArray)
@@ -838,10 +854,11 @@ namespace PolyUKApp.Windows
                             BtnGenCI.Visibility = Visibility.Hidden;
                             OrderNumText.Visibility = Visibility.Hidden;
 
+
                             var converter = new System.Windows.Media.BrushConverter();
                             var brush = (System.Windows.Media.Brush)converter.ConvertFromString("#FF0000");
 
-
+                            //Item code table info
                             DataTable RecallTable = new DataTable();
                             DataTable ItemTable = new DataTable();
                             ItemTable.Columns.Add("Code");
@@ -857,9 +874,9 @@ namespace PolyUKApp.Windows
 
                             string[] lines = File.ReadAllLines(SingleString);
                             var linecount = lines.Length;
-                            int LineDiff = 37 - linecount;
+                            int LineDiff = linecount - (linecount-1);
 
-                            string[] linesaddress = lines.Skip(19).ToArray();
+                            linesaddress = lines.Skip(19).ToArray();
                             int counter = 0;
 
                             RecallTable.Columns.Clear();
@@ -867,7 +884,7 @@ namespace PolyUKApp.Windows
                             for (int col = 0; col < linecount; col++)
                                 RecallTable.Columns.Add(new DataColumn("Column" + (col + 1).ToString()));
 
-                            RecallTable.Rows.Add(lines[0], lines[1], lines[2], lines[3], lines[4], lines[5], lines[6], lines[7], lines[8], lines[9], lines[10]);
+                            RecallTable.Rows.Add(lines[0], lines[1], lines[2], lines[3], lines[4], lines[5], lines[6], lines[7], lines[8], lines[9], lines[10], lines[linecount-1]);
 
                             string[] itemlines = { lines[12], lines[14], lines[16], lines[18] };
                             foreach (string itemline in itemlines)
@@ -880,9 +897,56 @@ namespace PolyUKApp.Windows
                             }
                             DataGridCI.ItemsSource = ItemTable.DefaultView;
 
+                            //populate variables for when table is edited
+                            int tableRowCount = ItemTable.Rows.Count;
+
+                            for (int rowNum = 0; rowNum < tableRowCount; rowNum++)
+                            {
+                                foreach(DataRow r in ItemTable.Rows)
+                                {
+                                    if (rowNum == 0)
+                                    {
+                                        unitPrice1 = Convert.ToDouble(r[7]);
+                                        unitQty1 = Convert.ToDouble(r[2]);
+                                        unitTot1 =  Convert.ToDouble(r[8]);
+                                        netkg1 = Convert.ToDouble(r[5]);
+                                        grosskg1 = Convert.ToDouble(r[6]);
+                                        HSCode1 = r[4].ToString();
+                                    }
+                                    else if (rowNum == 1)
+                                    {
+                                        unitPrice2 = Convert.ToDouble(r[7]);
+                                        unitQty2 = Convert.ToDouble(r[2]);
+                                        unitTot2 = Convert.ToDouble(r[8]);
+                                        netkg2 = Convert.ToDouble(r[5]);
+                                        grosskg2 = Convert.ToDouble(r[6]);
+                                        HSCode2 = r[4].ToString();
+                                    }
+                                    else if (rowNum == 2)
+                                    {
+                                        unitPrice3 = Convert.ToDouble(r[7]);
+                                        unitQty3 = Convert.ToDouble(r[2]);
+                                        unitTot3 = Convert.ToDouble(r[8]);
+                                        netkg3 = Convert.ToDouble(r[5]);
+                                        grosskg3 = Convert.ToDouble(r[6]);
+                                        HSCode3 = r[4].ToString();
+                                    }
+                                    else if (rowNum == 3)
+                                    {
+                                        unitPrice4 = Convert.ToDouble(r[7]);
+                                        unitQty4 = Convert.ToDouble(r[2]);
+                                        unitTot4 = Convert.ToDouble(r[8]);
+                                        netkg4 = Convert.ToDouble(r[5]);
+                                        grosskg4 = Convert.ToDouble(r[6]);
+                                        HSCode4 = r[4].ToString();
+                                    }
+                                }
+                            }
+
                             DataRow Row = RecallTable.Rows[0];
 
-                            InvFromText.AppendText("XI903824828000" + "\r" + "Polythene UK Ltd" + "\r" + "4 Witan Park" + "\r" + "Avenue Two" + "\r" + "Witney" + "\r" + "OX28 4FH" + "\r" + "0845 643 1601");
+                            //General CI details recall
+                            InvFromText.AppendText("GB903824828000" + "\r" + "Polythene UK Ltd" + "\r" + "4 Witan Park" + "\r" + "Avenue Two" + "\r" + "Witney" + "\r" + "OX28 4FH" + "\r" + "0845 643 1601");
 
                             InvNumber.Document.Blocks.Clear();
                             InvNumber.AppendText(Row["Column1"].ToString());
@@ -893,6 +957,8 @@ namespace PolyUKApp.Windows
                             TermsTextBlock.Text = Row["Column5"].ToString();
                             ContactEmailTextBlock.Document.Blocks.Clear();
                             ContactEmailTextBlock.AppendText(Row["Column7"].ToString());
+                            ContactTelTextBlock.Document.Blocks.Clear();
+                            ContactTelTextBlock.AppendText(Row["Column12"].ToString());
                             INCOTERMSTextBlock.Document.Blocks.Clear();
                             INCOTERMSTextBlock.AppendText(Row["Column6"].ToString());
                             PalletsTextBlock.Document.Blocks.Clear();
@@ -901,8 +967,8 @@ namespace PolyUKApp.Windows
                             VATTextBlock.Text = Row["Column10"].ToString();
                             TotTextBlock.Text = Row["Column11"].ToString();
 
-                            CertTextBlock.Text = lines[35 - LineDiff].ToString();
-                            CurrencyTextBlock.Text = lines[36 - LineDiff].ToString();
+                            CertTextBlock.Text = lines[linecount - 3].ToString();
+                            CurrencyTextBlock.Text = lines[linecount - 2].ToString();
 
 
                             InvToText.Document.Blocks.Clear();
@@ -915,26 +981,29 @@ namespace PolyUKApp.Windows
                                     counter++;
                                     InvToText.AppendText(linetest + "\r");
                                 }
+                                else if (linetest.Length == 0)
+                                {
+                                    counter++;
+                                }
                                 else if (linetest is "****")
                                 {
+                                    string[] lineaddresssplit = linesaddress.Skip(counter + 1).ToArray();
 
-                                    int FirstSplit = counter;
-                                    string[] linesaddresssplit = linesaddress.Skip(FirstSplit + 3).ToArray();
-
-                                    foreach (string lineaddresstest in linesaddresssplit)
+                                    foreach (string linetestsplit in lineaddresssplit)
                                     {
-                                        if (lineaddresstest.Length > 0 && lineaddresstest is not "****")
+                                        if (linetestsplit.Length > 0 && linetestsplit is not "****")
                                         {
-                                            DelToText.AppendText(lineaddresstest + "\r");
+                                            DelToText.AppendText(linetestsplit + "\r");
                                         }
-                                        else if (lineaddresstest is "****")
+                                        else if (linetestsplit == "****")
                                         {
-                                            MessageBox.Show("Loaded Successfully, please check all information is correct and filled in");
                                             return;
                                         }
                                     }
                                 }
                             }
+
+                            
 
                         }
 
@@ -950,6 +1019,7 @@ namespace PolyUKApp.Windows
                             TxtBxSearch.Visibility = Visibility.Hidden;
                             BtnGenCI.Visibility = Visibility.Hidden;
                             OrderNumText.Visibility = Visibility.Hidden;
+                            OriginLOC.Text = "UK";
 
                             var converter = new System.Windows.Media.BrushConverter();
                             var brush = (System.Windows.Media.Brush)converter.ConvertFromString("#FF0000");
@@ -960,7 +1030,7 @@ namespace PolyUKApp.Windows
                             OrderDataSQL();
                             DetailsSQL();
                             ReadWriteCINumber();
-                            InvFromText.AppendText("XI903824828000" + "\r" + "Polythene UK Ltd" + "\r" + "4 Witan Park" + "\r" + "Avenue Two" + "\r" + "Witney" + "\r" + "OX28 4FH" + "\r" + "0845 643 1601");
+                            InvFromText.AppendText("GB903824828000" + "\r" + "Polythene UK Ltd" + "\r" + "4 Witan Park" + "\r" + "Avenue Two" + "\r" + "Witney" + "\r" + "OX28 4FH" + "\r" + "0845 643 1601");
                             InvDate.Text = currentdate;
 
                             MessageBox.Show("Please check all information is correct and filled in");
@@ -991,7 +1061,7 @@ namespace PolyUKApp.Windows
 
                 var currentdate = (DateTime.Now).ToString().Substring(0, 10);
 
-                InvFromText.AppendText("XI903824828000" + "\r" + "Polythene UK Ltd" + "\r" + "4 Witan Park" + "\r" + "Avenue Two" + "\r" + "Witney" + "\r" + "OX28 4FH" + "\r" + "0845 643 1601");
+                InvFromText.AppendText("GB903824828000" + "\r" + "Polythene UK Ltd" + "\r" + "4 Witan Park" + "\r" + "Avenue Two" + "\r" + "Witney" + "\r" + "OX28 4FH" + "\r" + "0845 643 1601");
                 OriginLOC.Text = "UK";
                 InvDate.Text = currentdate;
 
