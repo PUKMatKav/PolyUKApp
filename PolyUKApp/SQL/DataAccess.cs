@@ -309,7 +309,7 @@ namespace PolyUKApp.SQL
                 "FROM Company " +
                 "LEFT JOIN Comm_Link ON Comm_Link.CmLi_Comm_CompanyId=Company.Comp_CompanyId " +
                 "LEFT JOIN Communication ON Communication.Comm_CommunicationID=Comm_Link.CmLi_Comm_CommunicationId " +
-                "WHERE Company.comp_sc_salesperson = 'James_Scurr' AND CmLi_Comm_UserId = 35 ";
+                "WHERE Company.comp_sc_salesperson = 'James_Woollard' AND CmLi_Comm_UserId = 46 ";
 
             public static String ReportDebtors = "SELECT FORMAT(SLPostedCustomerTran.TransactionDate, 'yyyy/MM/dd') as 'Transaction Date', SLPostedCustomerTran.TransactionReference, SLPostedCustomerTran.SecondReference, SLPostedCustomerTran.GoodsValueInAccountCurrency, SLPostedCustomerTran.AllocatedValue, " +
                 "SLCustomerAccount.CustomerAccountNumber, SLCustomerAccount.CustomerAccountName " +

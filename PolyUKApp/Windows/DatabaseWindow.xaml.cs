@@ -476,7 +476,7 @@ namespace PolyUKApp.Windows
         private void BtnCRMDupeAccounts_Click(object sender, RoutedEventArgs e)
         {
             DataGrid1.ItemsSource = null;
-            SqlCRMShowDuplicateAccounts();
+            SqlCRMJamesandJames();
         }
 
         private void SqlCRMShowDuplicateAccounts()

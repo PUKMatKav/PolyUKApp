@@ -36,6 +36,7 @@ namespace PolyUKApp.Windows
         String CurrentUser = Environment.UserName;
         DataTable ExcludeTable = new DataTable("ExcludeTable");
         DataTable DaysWorkedTable = new DataTable("DaysWorked");
+        DataTable filteredDays = new DataTable("FilteredDays");
         DataTable SirusDataTable = new DataTable("SirusData");
         DataTable WeeklyCallTable = new DataTable("WeeklyCallTable");
         int CurrentWeekNum = ISOWeek.GetWeekOfYear(DateTime.Now);
@@ -54,15 +55,15 @@ namespace PolyUKApp.Windows
             InitialiseCallGrid();
             CreateWeeklyCallTable();
             FillWeeklyTable();
-            LoadChart(SirusDataTable);
+            LoadChart(SirusDataTable, DaysWorkedTable);
             
         }
 
 
 
-        public void LoadChart(DataTable sirusDataTable)
+        public void LoadChart(DataTable sirusDataTable, DataTable daysWorkedTable)
         {
-            _viewModel.LoadData(sirusDataTable);
+            _viewModel.LoadData(sirusDataTable, daysWorkedTable);
         }
 
         string FormatDuration(double totalSeconds)
@@ -73,18 +74,20 @@ namespace PolyUKApp.Windows
 
         double GetDaysWorked(string owner)
         {
-            DataRow match = DaysWorkedTable.AsEnumerable()
+            DataRow match = filteredDays.AsEnumerable()
                 .FirstOrDefault(row => row.Field<string>("SalesPerson").Equals(owner, StringComparison.OrdinalIgnoreCase));
 
-            return match != null ? Convert.ToDouble(match["DaysWorkedThisWeek"]) : 5.0; // default to 5 if not found
+            return match != null ? Convert.ToDouble(match["DaysWorked"]) : 5.0; // default to 5 if not found
+
+
         }
 
         double GetDaysWorkedLastWeek(string owner)
         {
-            DataRow match = DaysWorkedTable.AsEnumerable()
+            DataRow match = filteredDays.AsEnumerable()
                 .FirstOrDefault(row => row.Field<string>("SalesPerson").Equals(owner, StringComparison.OrdinalIgnoreCase));
 
-            return match != null ? Convert.ToDouble(match["DaysWorkedLastWeek"]) : 5.0; // default to 5 if not found
+            return match != null ? Convert.ToDouble(match["DaysWorked"]) : 5.0; // default to 5 if not found
         }
 
         private void TopBar1_MouseDown(object sender, MouseButtonEventArgs e)
@@ -113,7 +116,7 @@ namespace PolyUKApp.Windows
             using (OleDbCommand _cmd = new OleDbCommand())
             {
                 _cmd.Connection = oleExcelConnection;
-                _cmd.CommandText = "SELECT SalesPerson, DaysWorkedThisWeek " +
+                _cmd.CommandText = "SELECT * " +
                     "FROM [Days$] ";
 
                 using (OleDbDataAdapter _dap = new OleDbDataAdapter())
@@ -122,29 +125,22 @@ namespace PolyUKApp.Windows
                     _dap.Fill(DaysWorkedTable);
                 }
             }
-        }
-        private void CreateDaysWorkedTableLastWeek()
-        {
-            String filepath = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Matt K Stuff\\data\\CallData\\DaysWorked.xlsx";
-            OleDbConnection oleExcelConnection = default(OleDbConnection);
 
-            var Connection = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + filepath + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=1\"";
-            oleExcelConnection = new OleDbConnection(Connection);
+            string weekCol = $"W{CurrentWeekNum}";
 
-            using (OleDbCommand _cmd = new OleDbCommand())
+
+            filteredDays.Columns.Add("SalesPerson", typeof(string));
+            filteredDays.Columns.Add("DaysWorked", typeof(double));
+
+            foreach (DataRow row in DaysWorkedTable.Rows)
             {
-                _cmd.Connection = oleExcelConnection;
-                _cmd.CommandText = "SELECT SalesPerson, DaysWorkedLastWeek " +
-                    "FROM [Days$] ";
-
-                using (OleDbDataAdapter _dap = new OleDbDataAdapter())
-                {
-                    _dap.SelectCommand = _cmd;
-                    _dap.Fill(DaysWorkedTable);
-                }
+                filteredDays.Rows.Add(
+                    row["SalesPerson"],
+                    Convert.ToDouble(row[weekCol])
+                );
             }
-        }
 
+        }
         private void CreateExcludeList()
         {
             String filepath = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\Matt K Stuff\\data\\CallData\\Excludes.xlsx";
@@ -321,7 +317,7 @@ namespace PolyUKApp.Windows
                     }
                     else
                     {
-                        double daysWorked = GetDaysWorkedLastWeek(ownerGroup.Key);
+                        double daysWorked = GetDaysWorked(ownerGroup.Key);
                         double adjustedTarget = fullWeekTarget * (daysWorked / 5.0);
                         newRow["Target"] = adjustedTarget;
                     }
@@ -385,6 +381,8 @@ namespace PolyUKApp.Windows
             CurrentWeekNum = ISOWeek.GetWeekOfYear(DateTime.Now);
 
             DaysWorkedTable.Clear();
+            filteredDays.Clear();
+            filteredDays.Columns.Clear();
             CreateDaysWorkedTable();
             CreateWeeklyCallTable();
             FillWeeklyTable();
@@ -395,7 +393,9 @@ namespace PolyUKApp.Windows
             CurrentWeekNum = ISOWeek.GetWeekOfYear(DateTime.Now) - 1;
 
             DaysWorkedTable.Clear();
-            CreateDaysWorkedTableLastWeek();
+            filteredDays.Clear();
+            filteredDays.Columns.Clear();
+            CreateDaysWorkedTable();
             CreateWeeklyCallTable();
             FillWeeklyTable();
         }
@@ -404,10 +404,12 @@ namespace PolyUKApp.Windows
         {
             if(TxtSalesPeople.Visibility == Visibility.Visible)
             {
-                TxtSalesPeople.Visibility = Visibility.Hidden;
+                NameStack.Visibility = Visibility.Collapsed;
+                TxtSalesPeople.Visibility = Visibility.Collapsed;
             }
             else
             {
+                NameStack.Visibility = Visibility.Visible;
                 TxtSalesPeople.Visibility= Visibility.Visible;
             }
         }

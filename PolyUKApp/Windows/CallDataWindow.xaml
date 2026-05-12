@@ -151,33 +151,20 @@
 
                 </DataGrid>
 
-                <Separator Margin="20"
+                <Separator Margin="10,10,10,10"
                            Foreground="{DynamicResource Border}"/>
-
-                <TextBlock Text="Weekly Call Time"
-                           Foreground="{DynamicResource Accent}"
-                           FontSize="16"
-                           Margin="5,0,0,10"/>
 
                 <Button x:Name="BtnCallTimeToggle"
                         Width="120"
                         Content="{Binding DurationByWeek.ToggleButtonText}"
                         Command="{Binding DurationByWeek.ToggleViewCommand}"
                         HorizontalAlignment="Left"
-                        Margin="8"
+                        Margin="5"
                         Padding="12,4"
                         Style="{DynamicResource GeneralButtonTheme}"
                         Click="BtnCallTimeToggle_Click"/>
 
-                <lvc:CartesianChart Height="400"
-                                    MinWidth="800"
-                                    HorizontalAlignment="Stretch"
-                    Series="{Binding DurationByWeek.Series}"
-                    XAxes="{Binding DurationByWeek.XAxes}"
-                    YAxes="{Binding DurationByWeek.YAxes}"
-                    LegendPosition="Hidden" ZoomMode="X" TooltipPosition="Right" FindingStrategy="ExactMatch" LegendTextSize="12" TooltipTextSize="12"/>
-                
-                <StackPanel Grid.Column="0" Margin="8" VerticalAlignment="Center" Orientation="Vertical">
+                <StackPanel x:Name="NameStack" Grid.Column="0" Margin="8" VerticalAlignment="Center" Orientation="Vertical">
                     <TextBlock x:Name="TxtSalesPeople" Text="Sales People" FontWeight="Bold" Margin="0,0,0,8" Foreground="{DynamicResource Text}"/>
                     <ItemsControl ItemsSource="{Binding DurationByWeek.OwnerFilters}">
                         <ItemsControl.ItemsPanel>
@@ -197,6 +184,37 @@
 
                     </ItemsControl>
                 </StackPanel>
+
+                <TextBlock Text="Weekly Call Time"
+                           Foreground="{DynamicResource Accent}"
+                           FontSize="16"
+                           Margin="5,5,0,10"/>
+
+                <lvc:CartesianChart Height="400"
+                                    MinWidth="800"
+                                    HorizontalAlignment="Stretch"
+                    Series="{Binding DurationByWeek.Series}"
+                    XAxes="{Binding DurationByWeek.XAxes}"
+                    YAxes="{Binding DurationByWeek.YAxes}"
+                    LegendPosition="Hidden" ZoomMode="X" TooltipPosition="Right" FindingStrategy="ExactMatch" LegendTextSize="12" TooltipTextSize="12"/>
+
+                <Separator Margin="20"
+                           Foreground="{DynamicResource Border}"/>
+
+                <TextBlock Text="Daily Average"
+                           Foreground="{DynamicResource Accent}"
+                           FontSize="16"
+                           Margin="5,10,0,10"/>
+
+                <lvc:CartesianChart Height="200"
+                                    MinWidth="800"
+                                    HorizontalAlignment="Stretch"
+                    Series="{Binding NormalisedDuration.Series}"
+                    XAxes="{Binding NormalisedDuration.XAxes}"
+                    YAxes="{Binding NormalisedDuration.YAxes}"
+                    LegendPosition="Hidden" ZoomMode="X" TooltipPosition="Right" FindingStrategy="ExactMatch" LegendTextSize="12" TooltipTextSize="12"/>
+
+
 
                 <Separator Margin="20"
                            Foreground="{DynamicResource Border}"/>

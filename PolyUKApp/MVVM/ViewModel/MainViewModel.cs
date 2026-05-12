@@ -18,12 +18,19 @@ namespace PolyUKApp.MVVM.ViewModel
 
         public DurationByWeekViewModel DurationByWeek { get; } = new();
         public CallHeatmapViewModel CallHeatmap { get; } = new();
+        public NormalisedDurationViewModel NormalisedDuration { get; } = new();
 
 
-        public void LoadData(DataTable sirusDataTable)
+        public void LoadData(DataTable sirusDataTable, DataTable daysWorkedTable)
         {
             DurationByWeek.LoadData(sirusDataTable);
             CallHeatmap.LoadData(sirusDataTable);
+            NormalisedDuration.LoadData(sirusDataTable, daysWorkedTable);
+
+            DurationByWeek.ViewToggled += (s, e) =>
+            {
+                NormalisedDuration.ToggleView();
+            };
 
             // Listen for toggle button changes
             DurationByWeek.PropertyChanged += (s, e) =>
@@ -33,18 +40,22 @@ namespace PolyUKApp.MVVM.ViewModel
                     if (DurationByWeek.ShowTotal)
                     {
                         CallHeatmap.Rebuild(null);
+                        NormalisedDuration.Rebuild(null); // <-- add
                     }
                     else
                     {
-                        // Re-subscribe to the newly rebuilt OwnerFilters
                         foreach (var filter in DurationByWeek.OwnerFilters)
                             filter.PropertyChanged += (fs, fe) =>
                             {
                                 if (fe.PropertyName == nameof(OwnerFilter.IsVisible))
+                                {
                                     CallHeatmap.Rebuild(DurationByWeek.OwnerFilters);
+                                    NormalisedDuration.Rebuild(DurationByWeek.OwnerFilters); // <-- add
+                                }
                             };
 
                         CallHeatmap.Rebuild(DurationByWeek.OwnerFilters);
+                        NormalisedDuration.Rebuild(DurationByWeek.OwnerFilters); // <-- add
                     }
                 }
             };
@@ -59,7 +70,10 @@ namespace PolyUKApp.MVVM.ViewModel
                 filter.PropertyChanged += (s, e) =>
                 {
                     if (e.PropertyName == nameof(OwnerFilter.IsVisible))
+                    {
                         CallHeatmap.Rebuild(DurationByWeek.OwnerFilters);
+                        NormalisedDuration.Rebuild(DurationByWeek.OwnerFilters); // <-- add
+                    }
                 };
         }
     }
