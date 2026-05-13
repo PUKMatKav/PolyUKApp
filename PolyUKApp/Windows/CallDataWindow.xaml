@@ -82,7 +82,8 @@
             CornerRadius="0,0,5,5"
             VerticalAlignment="Stretch"/>
 
-        <ScrollViewer Grid.Row="2">
+        <ScrollViewer x:Name="MainScrollViewer"
+                      Grid.Row="2">
             
             <StackPanel Grid.Row="2" Margin="10,20,10,0" x:Name="BaseStackPanel">
 
@@ -190,7 +191,8 @@
                            FontSize="16"
                            Margin="5,5,0,10"/>
 
-                <lvc:CartesianChart Height="400"
+                <lvc:CartesianChart x:Name="TimeChart"
+                                    Height="400"
                                     MinWidth="800"
                                     HorizontalAlignment="Stretch"
                     Series="{Binding DurationByWeek.Series}"

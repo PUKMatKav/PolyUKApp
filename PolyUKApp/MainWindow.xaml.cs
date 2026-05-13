@@ -256,7 +256,7 @@ namespace PolyUKApp
         private void BtnCallTime_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
             TextBlockInfo.Document.Blocks.Clear();
-            TextBlockInfo.AppendText("Display daily and weekly call time, now with the ability to download directly from Akixi's server (depending on the time!)");
+            TextBlockInfo.AppendText("Displays current call time for the week and last week as well as graphs showing the total call time over the year, heatmat with busiest call periods and a normalised call time graph showing average time per day");
         }
 
         private void BtnWorksOrders_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
@@ -483,7 +483,9 @@ namespace PolyUKApp
                 "- Linear meter calculator added as part of weight calculator\n" +
                 "- Reworked logic for company info window and weight calc window to lock background windows\n" +
                 "- Reworked logic for all sub-windows in van calendar screen to show top-most window at all times when refocused\n" +
-                "- CALL TIME NOW INSIDE SALES TOOLS MENU");
+                "- CALL TIME NOW INSIDE SALES TOOLS MENU\n" +
+                "\r" + "" + "\r" +
+                "v1.4.1.0 - added normalised call time graph to call data (showing daily time based on number of days worked)\n");
         }
 
         private void BtnCommInvoice_Click(object sender, RoutedEventArgs e)

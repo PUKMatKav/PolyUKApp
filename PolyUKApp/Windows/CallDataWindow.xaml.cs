@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace PolyUKApp.Windows
 {
@@ -56,10 +58,10 @@ namespace PolyUKApp.Windows
             CreateWeeklyCallTable();
             FillWeeklyTable();
             LoadChart(SirusDataTable, DaysWorkedTable);
-            
+
         }
 
-
+        private bool _isScrolling = false;
 
         public void LoadChart(DataTable sirusDataTable, DataTable daysWorkedTable)
         {
@@ -180,11 +182,11 @@ namespace PolyUKApp.Windows
             {
                 _cmd.Connection = oleExcelConnection;
                 _cmd.CommandText = "SELECT Extension, Owner, [Call Direction], [Call Time], Number, [Duration (s)] " +
-                    "FROM [uTMSAllItemised$] " +
+                    "FROM [TMS - Itemised Extract$] " +
                     "WHERE [Duration (s)] <> 0 AND ([Call Direction] = 'Outbound' OR [Call Direction] = 'Inbound') " +
                     "ORDER BY Owner";
 
-                using (OleDbDataAdapter _dap  = new OleDbDataAdapter())
+                using (OleDbDataAdapter _dap = new OleDbDataAdapter())
                 {
                     _dap.SelectCommand = _cmd;
                     _dap.Fill(SirusDataTable);
@@ -192,9 +194,9 @@ namespace PolyUKApp.Windows
             }
 
             //Correct mobile numbers from +44 to 0
-            foreach(DataRow row in SirusDataTable.Rows)
+            foreach (DataRow row in SirusDataTable.Rows)
             {
-                if (row["Number"].ToString().Substring(0,3) == "+44")
+                if (row["Number"].ToString().Substring(0, 3) == "+44")
                 {
                     row["Number"] = "0" + row["Number"].ToString().Substring(3);
                 }
@@ -217,7 +219,7 @@ namespace PolyUKApp.Windows
 
             //Get Hour of call being made
             SirusDataTable.Columns.Add("CallHour");
-            foreach(DataRow row in SirusDataTable.Rows)
+            foreach (DataRow row in SirusDataTable.Rows)
             {
                 row["CallHour"] = Convert.ToDateTime(row["Call Time"]).Hour;
             }
@@ -309,7 +311,7 @@ namespace PolyUKApp.Windows
                 // Target and comparison
                 if (ownerTargets.TryGetValue(ownerGroup.Key, out double fullWeekTarget))
                 {
-                    if(CurrentWeekNum == ISOWeek.GetWeekOfYear(DateTime.Now))
+                    if (CurrentWeekNum == ISOWeek.GetWeekOfYear(DateTime.Now))
                     {
                         double daysWorked = GetDaysWorked(ownerGroup.Key);
                         double adjustedTarget = fullWeekTarget * (daysWorked / 5.0);
@@ -332,7 +334,7 @@ namespace PolyUKApp.Windows
                 summaryTable.Rows.Add(newRow);
             }
 
-            foreach(DataRow row in summaryTable.Rows)
+            foreach (DataRow row in summaryTable.Rows)
             {
                 if (Convert.ToDouble(row["TotalTime"]) >= Convert.ToDouble(row["Target"]))
                 {
@@ -402,7 +404,7 @@ namespace PolyUKApp.Windows
 
         private void BtnCallTimeToggle_Click(object sender, RoutedEventArgs e)
         {
-            if(TxtSalesPeople.Visibility == Visibility.Visible)
+            if (TxtSalesPeople.Visibility == Visibility.Visible)
             {
                 NameStack.Visibility = Visibility.Collapsed;
                 TxtSalesPeople.Visibility = Visibility.Collapsed;
@@ -410,7 +412,7 @@ namespace PolyUKApp.Windows
             else
             {
                 NameStack.Visibility = Visibility.Visible;
-                TxtSalesPeople.Visibility= Visibility.Visible;
+                TxtSalesPeople.Visibility = Visibility.Visible;
             }
         }
     }
