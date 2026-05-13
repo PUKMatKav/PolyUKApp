@@ -460,7 +460,7 @@
                HorizontalAlignment="Left"/>
 
         <TextBlock x:Name="versionbox"
-                   Text="v1.4.0.0"
+                   Text="v1.4.1.0"
                    Grid.Row="3"
                    FontFamily="Aptos"
                    Foreground="Gray"
