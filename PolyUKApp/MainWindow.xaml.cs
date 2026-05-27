@@ -485,7 +485,8 @@ namespace PolyUKApp
                 "- Reworked logic for all sub-windows in van calendar screen to show top-most window at all times when refocused\n" +
                 "- CALL TIME NOW INSIDE SALES TOOLS MENU\n" +
                 "\r" + "" + "\r" +
-                "v1.4.1.0 - added normalised call time graph to call data (showing daily time based on number of days worked)\n");
+                "v1.4.1.0 - added normalised call time graph to call data (showing daily time based on number of days worked)\n" +
+                "v1.4.2.0 - added material filter to weight calculator, can swap between LLDPE and LDPE to change relative density\n");
         }
 
         private void BtnCommInvoice_Click(object sender, RoutedEventArgs e)

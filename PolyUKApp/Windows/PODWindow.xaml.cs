@@ -24,6 +24,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+
 namespace PolyUKApp.Windows
 {
     /// <summary>
@@ -34,9 +35,9 @@ namespace PolyUKApp.Windows
         String MonthSelected = "";
         String YearSelected = "";
         DataTable SupplierTable = new DataTable();
-        DataTable DataSheetTable = new DataTable();
+        DataTable CoCTable = new DataTable();
         DataTable DataSheetSavedTable = new DataTable();
-
+        String CurrentUser = Environment.UserName;
         public PODWindow()
         {
             InitializeComponent();
@@ -123,7 +124,6 @@ namespace PolyUKApp.Windows
         public async Task SupplierLoad()
         {
 
-            String CurrentUser = Environment.UserName;
             String YearSelected = ComboBoxYear.Text.Substring(2, 2);
             await Task.Delay(100);
             String MonthSelected = ComboBoxMonth.Text.Substring(0, 3);
@@ -191,7 +191,7 @@ namespace PolyUKApp.Windows
         public async Task PODInfoLoad()
         {
             await Task.Delay(100);
-            String CurrentUser = Environment.UserName;
+
             String YearSelected = ComboBoxYear.Text.Substring(2, 2);
             String MonthSelected = ComboBoxMonth.Text.Substring(0, 3);
             String filepath = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Finance - Documents\\Invoiced Figures\\YE Dec " + YearSelected + "\\Invoiced " + MonthSelected + " " + YearSelected + ".xlsx";
@@ -314,7 +314,7 @@ namespace PolyUKApp.Windows
             
 
             //get list of PODs saved currently
-            var CurrentUser = Environment.UserName;
+
             var Filepath = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Accounts - Documents\\PODS 2020";
             var filePathCoC = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\BRC &  ISO 2020\\BRCGS\\Coc & Data Sheets\\BRC SUPPLIER CERTIFICATES OF CONFORMITY";
 
@@ -458,11 +458,13 @@ namespace PolyUKApp.Windows
             TxtSelectYr.Visibility = Visibility.Visible;
             ComboBoxYear.Visibility = Visibility.Visible;
             DataSearchBtn.Visibility = Visibility.Collapsed;
+            CoCExporthBtn.Visibility = Visibility.Collapsed;
+            DataGrid1.ItemsSource = null;
             PODBtn.Opacity = 0.5;
-            DataBtn.Opacity = 1;
+            CoCBtn.Opacity = 1;
         }
 
-        private void DataBtn_Click(object sender, RoutedEventArgs e)
+        private void CoCBtn_Click(object sender, RoutedEventArgs e)
         {
             TextBlockStock.Text = "Data Sheet System";
             TxtSelectYr.Visibility = Visibility.Collapsed;
@@ -475,82 +477,109 @@ namespace PolyUKApp.Windows
             ComboBoxSupplier.Visibility = Visibility.Collapsed;
             ComboBoxSupplier.Text = " ";
             DataSearchBtn.Visibility = Visibility.Visible;
+            CoCExporthBtn.Visibility = Visibility.Visible;
             DataGrid1.ItemsSource = null;
             PODBtn.Opacity = 1;
-            DataBtn.Opacity = 0.5;
+            CoCBtn.Opacity = 0.5;
         }
 
         private void DataSearchBtn_Click(object sender, RoutedEventArgs e)
         {
-            DataSheetTable.Dispose();
-            DataSheetTable.Clear();
+            CoCTable.Dispose();
+            CoCTable.Clear();
             DataGrid1.ItemsSource = null;
+            var filePathCoC = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\BRC &  ISO 2020\\BRCGS\\Coc & Data Sheets\\BRC SUPPLIER CERTIFICATES OF CONFORMITY";
+
+            string[] CoCArray = Directory.GetFiles(filePathCoC, "*.*", SearchOption.AllDirectories);
+            String CoCFiles = String.Concat(CoCArray);
+
             var connectionString = DataAccess.GlobalSQL.Connection;
 
             using (SqlConnection _con = new SqlConnection(connectionString))
             {
-                var queryStatement = DataAccess.GlabalSQLQueries.BRCDataSheetCheck;
+                var queryStatement = DataAccess.GlabalSQLQueries.CoCChecker;
                 _con.Open();
 
                 using (SqlCommand _cmd = new SqlCommand(queryStatement, _con))
                 {
                     SqlDataAdapter _dap = new SqlDataAdapter(_cmd);
 
-                    _dap.Fill(DataSheetTable);
+                    _dap.Fill(CoCTable);
 
                 }
             }
-            //filter down to newest order only
 
-            List<string> CodeList = new List<string>();
+            CoCTable.Columns.Add("CoC Saved");
 
-            foreach (DataRow row in DataSheetTable.Rows)
+            foreach (DataRow row in CoCTable.Rows)
             {
-                if (!CodeList.Contains(row[0].ToString()))
+                string TestNum = row[1].ToString().Substring(4, 6);
+                string TestNumFull = row[1].ToString();
+                string ItemCodeString = row[0].ToString().Replace("/", "");
+                if (CoCArray.Any(s => s.Contains(TestNum)) || CoCArray.Any(s => s.Contains(TestNumFull)))
                 {
-                    CodeList.Add(row[0].ToString());
+                    row[2] = "Yes";
+                }
+                else if (CoCArray.Any(s => s.Contains(ItemCodeString)) && !CoCArray.Any(s => s.Contains(TestNum)) && !CoCArray.Any(s => s.Contains(TestNumFull)))
+                {
+                    row[2] = "Code Match but no CoC for this order";
                 }
                 else
                 {
-                    row.Delete();
-                }
-            }
-            DataSheetTable.AcceptChanges();
-
-            //pull Data Sheets from folders for comparison
-
-
-            DataSheetSavedTable.Columns.Add("Sup");
-            DataSheetSavedTable.Columns.Add("Item");
-            List<string> DataSheetList = new List<string>();
-            var CurrentUser = Environment.UserName;
-            var filePathDataSheets = "C:\\Users\\" + CurrentUser + "\\Polythene UK Limited\\Shared - Documents\\BRC &  ISO 2020\\BRCGS\\Coc & Data Sheets\\BRC SUPPLIER  DATA SHEETS";
-            DataSheetList = Directory.GetFiles(filePathDataSheets, "*.*", SearchOption.AllDirectories).ToList<string>();
-
-            for (int i = 0; i < DataSheetList.Count; i++)
-            {
-                var Line = DataSheetList[i].Substring(131);
-                if(Line.Contains("1. PUK"))
-                {
-                    if (!Line.ToUpper().Contains("ARCHIVED"))
-                    {
-                        DataSheetSavedTable.Rows.Add(Line.Substring(14).Split('\\'));
-                    }
-                }
-                else
-                {
-                    if (!Line.ToUpper().Contains("ARCHIVED"))
-                    {
-                        DataSheetSavedTable.Rows.Add(Line.Split('\\'));
-                    }
+                    row[2] = "MISSING";
                 }
             }
 
-
-
-            //String DataSheetFiles = String.Concat(DataSheetArray);
+            DataGrid1.ItemsSource = CoCTable.DefaultView;
 
             System.Windows.MessageBox.Show("Done");
+        }
+
+        private void ExportToExcel()
+        {
+            Microsoft.Win32.SaveFileDialog saveDialog = new Microsoft.Win32.SaveFileDialog();
+
+            saveDialog.Filter = "Excel Files|*.xlsx";
+            saveDialog.Title = "Save Excel File";
+            saveDialog.FileName = "Export.xlsx";
+
+            if (saveDialog.ShowDialog() == true)
+            {
+                using (var workbook = new XLWorkbook())
+                {
+                    var worksheet = workbook.Worksheets.Add("Sheet1");
+
+                    // Write column headers from DataGrid
+                    for (int col = 0; col < DataGrid1.Columns.Count; col++)
+                    {
+                        worksheet.Cell(1, col + 1).Value = DataGrid1.Columns[col].Header?.ToString() ?? "";
+                        worksheet.Cell(1, col + 1).Style.Font.Bold = true;
+                    }
+
+                    // Write row data
+                    DataTable dt = ((DataView)DataGrid1.ItemsSource).Table;
+
+                    for (int row = 0; row < dt.Rows.Count; row++)
+                    {
+                        for (int col = 0; col < dt.Columns.Count; col++)
+                        {
+                            worksheet.Cell(row + 2, col + 1).Value = dt.Rows[row][col]?.ToString() ?? "";
+                        }
+                    }
+
+                    // Auto-fit columns for readability
+                    worksheet.Columns().AdjustToContents();
+
+                    workbook.SaveAs(saveDialog.FileName);
+                }
+
+                System.Windows.MessageBox.Show("Export successful!", "Export", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+        private void CoCExporthBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ExportToExcel();
         }
     }
 }

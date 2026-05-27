@@ -44,7 +44,8 @@
                 RenderOptions.EdgeMode="Aliased">
             <StackPanel Orientation="Horizontal"
                         Margin="10,0"
-                        VerticalAlignment="Center">
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left">
                 <Button x:Name="WeightBtn"
                         Style="{DynamicResource GeneralButtonTheme}"
                         RenderOptions.EdgeMode="Aliased"
@@ -59,7 +60,35 @@
                         Content="Meters"
                         Click="MeterBtn_Click"/>
             </StackPanel>
-            
+        </Border>
+        <Border x:Name="LogoBar2"
+                Grid.Row="1"
+                HorizontalAlignment="Right"
+                Background="Transparent">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"                        
+                        Margin="10,0">
+                <TextBlock Text="Material:"
+                           VerticalAlignment="Center"
+                           Foreground="{DynamicResource Accent}"
+                           FontSize="16"
+                           FontFamily="Aptos"/>
+                <Button x:Name="LDPEBtn"
+                        Style="{DynamicResource GeneralButtonTheme}"
+                        RenderOptions.EdgeMode="Aliased"
+                        Width="60"
+                        Content="LDPE"
+                        Click="LDPEBtn_Click"
+                        Margin="15,0"/>
+                <Button x:Name="LLDPEBtn"
+                        Style="{DynamicResource GeneralButtonTheme}"
+                        RenderOptions.EdgeMode="Aliased"
+                        Width="60"
+                        Content="LLDPE"
+                        Click="LLDPEBtn_Click"/>
+
+            </StackPanel>
+
         </Border>
 
         <Border x:Name="BotBar0"

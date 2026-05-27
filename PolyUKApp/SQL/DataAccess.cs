@@ -334,6 +334,12 @@ namespace PolyUKApp.SQL
                 "LEFT JOIN Company ON Comm_Link.CmLi_Comm_CompanyId=Company.Comp_CompanyId " +
                 "WHERE CmLi_Comm_UserId IS NULL AND Communication.Comm_Status != 'Complete' ";
 
+            public static String CoCChecker = "SELECT SOPOrderReturnLine.ItemCode, SOPOrderReturn.DocumentNo " +
+                "FROM SOPOrderReturnLine " +
+                "LEFT JOIN SOPOrderReturn ON SOPOrderReturnLine.SOPOrderReturnID=SOPOrderReturn.SOPOrderReturnID " +
+                "WHERE SOPOrderReturnLine.ItemCode LIKE '%BRC%' AND SOPOrderReturn.DocumentTypeID = 0 AND SOPOrderReturn.DocumentStatusID = 2 " +
+                "ORDER BY SOPOrderReturn.DocumentNo DESC";
+
         }
         public static class GlobalSQLNonQueries
         {

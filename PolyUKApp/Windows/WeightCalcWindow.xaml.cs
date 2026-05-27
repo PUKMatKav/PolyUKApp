@@ -97,6 +97,8 @@ namespace PolyUKApp.Windows
         bool WeightMeasuring = true;
         bool MeterMeasuring = false;
 
+        double relativeDensity = 0.923;
+
         int bagtube = 1;
         double itemLength;
         double itemWidth;
@@ -165,6 +167,7 @@ namespace PolyUKApp.Windows
 
             exampleformulaupdate();
             MeterStackPanel.Opacity = 0.2;
+            LLDPEBtn.Opacity = 0.2;
 
         }
 
@@ -515,14 +518,14 @@ namespace PolyUKApp.Windows
         {
             if (WeightMeasuring)
             {
-                unitWeightTotal = (itemLength * itemWidth * itemthickness * 0.923 * bagtube) * bagboxQuantity;
+                unitWeightTotal = (itemLength * itemWidth * itemthickness * relativeDensity * bagtube) * bagboxQuantity;
                 unitWeightAnswer.Text = Math.Round(unitWeightTotal, 2).ToString() + "kg";
-                totalWeightTotal = ((itemLength * itemWidth * itemthickness * 0.923 * bagtube) * bagboxQuantity) * unitQuantity;
+                totalWeightTotal = ((itemLength * itemWidth * itemthickness * relativeDensity * bagtube) * bagboxQuantity) * unitQuantity;
                 totalWeightAnswer.Text = Math.Round(totalWeightTotal, 2).ToString() + "kg";
             }
             else if (MeterMeasuring)
             {
-                linearMeterTotal = unitWeightTotal / bagboxQuantity / bagtube / 0.923 / itemthickness / itemWidth;
+                linearMeterTotal = unitWeightTotal / bagboxQuantity / bagtube / relativeDensity / itemthickness / itemWidth;
                 if(double.IsFinite(linearMeterTotal))
                 {
                     TotalMeter.Text = Math.Round(linearMeterTotal, 2).ToString() + "m";
@@ -576,11 +579,11 @@ namespace PolyUKApp.Windows
 
                 if (ProductTypeText == "Roll" || ProductTypeText == "Sheet" || ProductTypeText == "CFS")
                 {
-                    FormulaExampleTxt.Text = LengthString + "(m) x " + WidthString + "(m) x " + thicknessString + "(mm) x " + "0.923 (r.d.)" + " x " + QtyString + " (" + QtyNameText + ") = " + weightString + "(kg)";
+                    FormulaExampleTxt.Text = LengthString + "(m) x " + WidthString + "(m) x " + thicknessString + "(mm) x " + relativeDensity.ToString() + " (r.d.)" + " x " + QtyString + " (" + QtyNameText + ") = " + weightString + "(kg)";
                 }
                 else if (ProductTypeText == "Bag" || ProductTypeText == "LFT")
                 {
-                    FormulaExampleTxt.Text = LengthString + "(m) x " + WidthString + "(m) x " + thicknessString + "(mm) x " + "0.923 (r.d.)" + " x " + "2 (bag/tube)" + " x " + QtyString + " (" + QtyNameText + ") = " + weightString + "(kg)";
+                    FormulaExampleTxt.Text = LengthString + "(m) x " + WidthString + "(m) x " + thicknessString + "(mm) x " + relativeDensity.ToString() + " (r.d.)" + " x " + "2 (bag/tube)" + " x " + QtyString + " (" + QtyNameText + ") = " + weightString + "(kg)";
                 }
             }
             else if (MeterMeasuring)
@@ -602,11 +605,11 @@ namespace PolyUKApp.Windows
 
                 if(ProductTypeText == "LFT")
                 {
-                    FormulaExampleTxt.Text = unitWeightTotalString + "(kg) / 0.923 (r.d.) / 2 (bag/tube) / " + thicknessString + "(mm) / " + WidthString + "(m) = " + Math.Round(linearMeterTotal, 2).ToString() + "(m)";
+                    FormulaExampleTxt.Text = unitWeightTotalString + "(kg) / " + relativeDensity + " (r.d.) / 2 (bag/tube) / " + thicknessString + "(mm) / " + WidthString + "(m) = " + Math.Round(linearMeterTotal, 2).ToString() + "(m)";
                 }
                 else
                 {
-                    FormulaExampleTxt.Text = unitWeightTotalString + "(kg) / 0.923 (r.d.) / " + thicknessString + "(mm) / " + WidthString + "(m) = " + Math.Round(linearMeterTotal, 2).ToString() + "(m)";
+                    FormulaExampleTxt.Text = unitWeightTotalString + "(kg) / " + relativeDensity + " (r.d.) / " + thicknessString + "(mm) / " + WidthString + "(m) = " + Math.Round(linearMeterTotal, 2).ToString() + "(m)";
                 }
 
             }
@@ -698,6 +701,24 @@ namespace PolyUKApp.Windows
 
             WeightCalculationMethod();
             exampleformulaupdate();
+        }
+
+        private void LLDPEBtn_Click(object sender, RoutedEventArgs e)
+        {
+            LLDPEBtn.Opacity = 1;
+            LDPEBtn.Opacity = 0.2;
+            relativeDensity = 0.92;
+            exampleformulaupdate();
+            WeightCalculationMethod();
+        }
+
+        private void LDPEBtn_Click(object sender, RoutedEventArgs e)
+        {
+            LDPEBtn.Opacity = 1;
+            LLDPEBtn.Opacity = 0.2;
+            relativeDensity = 0.923;
+            exampleformulaupdate();
+            WeightCalculationMethod();
         }
     }
 }

@@ -84,6 +84,17 @@
                         Visibility="Collapsed"
                         Click="DataSearchBtn_Click"/>
 
+                <Button x:Name="CoCExporthBtn"
+                  Width="100"
+                  Height="30"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  Margin="200,100,0,0"
+                        Style="{DynamicResource GeneralButtonTheme}"
+                        Content="Export"
+                        Visibility="Collapsed"
+                        Click="CoCExporthBtn_Click"/>
+
                 <TextBlock Name="TextBlockMonth"
                     Text="Select Month"
             HorizontalAlignment="Left"
@@ -213,12 +224,12 @@
         Margin="20,0"
         Content="Check PODs / CoCs"
                     Click="PODBtn_Click"/>
-            <Button x:Name="DataBtn"
+            <Button x:Name="CoCBtn"
         Style="{DynamicResource GeneralButtonTheme}"
         Width="120"
         Margin="0,0,20,0"
-        Content="Check Data Sheets"
-                    Click="DataBtn_Click"/>
+        Content="Check All CoC"
+                    Click="CoCBtn_Click"/>
             <Button x:Name="BtnMainMenu"
                 Content="Main Menu"
                 Click="BtnMainMenu_Click"
