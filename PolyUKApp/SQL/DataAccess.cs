@@ -332,7 +332,23 @@ namespace PolyUKApp.SQL
                 "FROM Communication " +
                 "LEFT JOIN Comm_Link ON Communication.Comm_CommunicationId=Comm_Link.CmLi_Comm_CommunicationId " +
                 "LEFT JOIN Company ON Comm_Link.CmLi_Comm_CompanyId=Company.Comp_CompanyId " +
-                "WHERE CmLi_Comm_UserId IS NULL AND Communication.Comm_Status != 'Complete' ";
+                "WHERE CmLi_Comm_UserId IS 'NULL' AND Communication.Comm_Status != 'Complete' ";
+
+            public static String EditableCRMQuery = "SELECT Company.comp_sc_salesperson, Company.Comp_Name, Company.Comp_CompanyId, " +
+                "Comm_Link.CmLi_Comm_CompanyId, Comm_Link.CmLi_Comm_CommunicationId, CmLi_Comm_UserId, " +
+                "Communication.Comm_CommunicationID, Communication.Comm_UpdatedBy, Communication.Comm_Status " +
+                "FROM Company " +
+                "LEFT JOIN Comm_Link ON Comm_Link.CmLi_Comm_CompanyId=Company.Comp_CompanyId " +
+                "LEFT JOIN Communication ON Communication.Comm_CommunicationID=Comm_Link.CmLi_Comm_CommunicationId " +
+                "WHERE Company.Comp_PrimaryUserId = '35' AND Company.Comp_Type = 'Customer'";
+
+            public static String JWCustomerTMComm = "SELECT Company.comp_sc_salesperson, Company.Comp_Name, Company.Comp_CompanyId, " +
+                "Comm_Link.CmLi_Comm_CompanyId, Comm_Link.CmLi_Comm_CommunicationId, CmLi_Comm_UserId, " +
+                "Communication.Comm_CommunicationID, Communication.Comm_UpdatedBy " +
+                "FROM Company " +
+                "LEFT JOIN Comm_Link ON Comm_Link.CmLi_Comm_CompanyId=Company.Comp_CompanyId " +
+                "LEFT JOIN Communication ON Communication.Comm_CommunicationID=Comm_Link.CmLi_Comm_CommunicationId " +
+                "WHERE Company.Comp_PrimaryUserId = '35' AND Comp_Deleted IS NULL AND Communication.Comm_Status = 'Pending' AND CmLi_Comm_UserId = '46'";
 
             public static String CoCChecker = "SELECT SOPOrderReturnLine.ItemCode, SOPOrderReturn.DocumentNo " +
                 "FROM SOPOrderReturnLine " +

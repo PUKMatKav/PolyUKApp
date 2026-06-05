@@ -256,7 +256,7 @@ namespace PolyUKApp
         private void BtnCallTime_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
             TextBlockInfo.Document.Blocks.Clear();
-            TextBlockInfo.AppendText("Displays current call time for the week and last week as well as graphs showing the total call time over the year, heatmat with busiest call periods and a normalised call time graph showing average time per day");
+            TextBlockInfo.AppendText("Displays current call time for the week and last week as well as graphs showing the total call time over the year, heatmap with busiest call periods and a normalised call time graph showing average time per day");
         }
 
         private void BtnWorksOrders_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
@@ -486,7 +486,9 @@ namespace PolyUKApp
                 "- CALL TIME NOW INSIDE SALES TOOLS MENU\n" +
                 "\r" + "" + "\r" +
                 "v1.4.1.0 - added normalised call time graph to call data (showing daily time based on number of days worked)\n" +
-                "v1.4.2.0 - added material filter to weight calculator, can swap between LLDPE and LDPE to change relative density\n");
+                "v1.4.2.0 - added material filter to weight calculator, can swap between LLDPE and LDPE to change relative density\n" +
+                "v1.4.2.1 - added exception catcher to hopefully display errors if program runs into a problem!\n" +
+                "v1.4.2.2 - added target time for SS\n");
         }
 
         private void BtnCommInvoice_Click(object sender, RoutedEventArgs e)
@@ -898,9 +900,32 @@ namespace PolyUKApp
 
         private void BtnWeightCalc_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-
+            TextBlockInfo.Document.Blocks.Clear();
+            TextBlockInfo.AppendText("Tool for calculating weight of a roll/bag/sheet etc, can be swapped to work out linear meters too and LLDPE/LDPE.");
         }
 
+        private void BtnMarginCalc_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            TextBlockInfo.Document.Blocks.Clear();
+            TextBlockInfo.AppendText("Tool to help calculate margins, does what it says on the tin!");
+        }
 
+        private void BtnMarginCalc_Click(object sender, RoutedEventArgs e)
+        {
+            var existing = _childWindows.OfType<WeightCalcWindow>().FirstOrDefault(w => w.IsLoaded);
+            if (existing != null) { existing.Activate(); return; }
+
+            var thisWindow = Application.Current.MainWindow;
+            var MarginCalcBox = new MarginCalcWindow
+            {
+                Left = thisWindow.Left,
+                Top = thisWindow.Top,
+                Height = thisWindow.Height,
+                Width = thisWindow.Width
+            };
+
+            OpenChildWindow(MarginCalcBox);
+
+        }
     }
 }

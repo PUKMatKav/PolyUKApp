@@ -272,7 +272,8 @@ namespace PolyUKApp.Windows
                     { "James Woollard",   10800 },  // 3 hours
                     { "Ryan King",   14400 },  // 4 hours
                     { "Jack Mungall",   10800 },  // 3 hours
-                    { "Max Arnold",   18000 }  // 8 hours
+                    { "Max Arnold",   18000 },  // 5 hours
+                    { "Scott Stanyon",   18000 }  // 5 hours
 
                 };
 

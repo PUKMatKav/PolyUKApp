@@ -360,6 +360,11 @@
                         Style="{DynamicResource MenuButtonTheme}"
                         Click="BtnWeightCalc_Click"
                         MouseEnter="BtnWeightCalc_MouseEnter"/>
+                <Button x:Name="BtnMarginCalc"
+                        Content="Margin Calculator"
+                        Style="{DynamicResource MenuButtonTheme}"
+                        Click="BtnMarginCalc_Click"
+                        MouseEnter="BtnMarginCalc_MouseEnter"/>
             </StackPanel>
             <StackPanel x:Name="SystemsSubMenuPanel"
                         Width="200"
@@ -460,7 +465,7 @@
                HorizontalAlignment="Left"/>
 
         <TextBlock x:Name="versionbox"
-                   Text="v1.4.1.1"
+                   Text="v1.4.2.2"
                    Grid.Row="3"
                    FontFamily="Aptos"
                    Foreground="Gray"

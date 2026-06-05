@@ -523,12 +523,13 @@ namespace PolyUKApp.Windows
 
         private void SqlCRMJamesandJames()
         {
+            List<string> CommList = new List<string>();
             string connectionString = DataAccess.GlobalSQL.ConnectionCRM;
             DataTable CRMTable = new DataTable();
 
             using (SqlConnection _con = new SqlConnection(connectionString))
             {
-                string queryStatement = DataAccess.GlabalSQLQueries.CommsJamesWandS;
+                string queryStatement = DataAccess.GlabalSQLQueries.JWCustomerTMComm;
 
                 using (SqlCommand _cmd = new SqlCommand(queryStatement, _con))
                 {
@@ -539,6 +540,24 @@ namespace PolyUKApp.Windows
                     _con.Close();
                 }
             }
+
+            //foreach (DataRow row in CRMTable.Rows)
+            //{
+            //    if (row["Comm_Status"].ToString() == "Pending" || row["Comm_Status"].ToString() == "InProgress")
+            //    {
+            //        CommList.Add(row["Comp_Name"].ToString());
+            //    }
+            //}
+
+            //foreach (DataRow row in CRMTable.Rows)
+            //{
+            //    if (CommList.Contains(row["Comp_Name"].ToString()))
+            //    {
+            //        row.Delete();
+            //    }
+            //}
+            //CRMTable.AcceptChanges();
+
         }
 
         private void BtnCRMCommLink_Click(object sender, RoutedEventArgs e)
