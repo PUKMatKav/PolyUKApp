@@ -488,7 +488,9 @@ namespace PolyUKApp
                 "v1.4.1.0 - added normalised call time graph to call data (showing daily time based on number of days worked)\n" +
                 "v1.4.2.0 - added material filter to weight calculator, can swap between LLDPE and LDPE to change relative density\n" +
                 "v1.4.2.1 - added exception catcher to hopefully display errors if program runs into a problem!\n" +
-                "v1.4.2.2 - added target time for SS\n");
+                "v1.4.2.2 - added target time for SS\n" +
+                "v1.4.3.0 - added margin calculation tool so work out current margins or convert to new margins\n" +
+                "v1.4.3.0 - changed logic for weight and margin window, now hides menu behind\n");
         }
 
         private void BtnCommInvoice_Click(object sender, RoutedEventArgs e)
@@ -876,19 +878,10 @@ namespace PolyUKApp
 
         private void BtnWeightCalc_Click(object sender, RoutedEventArgs e)
         {
-            var existing = _childWindows.OfType<WeightCalcWindow>().FirstOrDefault(w => w.IsLoaded);
-            if (existing != null) { existing.Activate(); return; }
-
-            var thisWindow = Application.Current.MainWindow;
-            var WeightCalcBox = new WeightCalcWindow
-            {
-                Left = thisWindow.Left,
-                Top = thisWindow.Top,
-                Height = thisWindow.Height,
-                Width = thisWindow.Width
-            };
-
-            OpenChildWindow(WeightCalcBox);
+            var WeightWindow = new WeightCalcWindow();
+            WeightWindow.Closed += childFormWeightClosed;
+            WeightWindow.Show();
+            this.Hide();
 
         }
 
@@ -912,20 +905,17 @@ namespace PolyUKApp
 
         private void BtnMarginCalc_Click(object sender, RoutedEventArgs e)
         {
-            var existing = _childWindows.OfType<WeightCalcWindow>().FirstOrDefault(w => w.IsLoaded);
-            if (existing != null) { existing.Activate(); return; }
+            var MarginWindow = new MarginCalcWindow();
+            MarginWindow.Closed += childFormWMarginClosed;
+            MarginWindow.Show();
+            this.Hide();
 
-            var thisWindow = Application.Current.MainWindow;
-            var MarginCalcBox = new MarginCalcWindow
-            {
-                Left = thisWindow.Left,
-                Top = thisWindow.Top,
-                Height = thisWindow.Height,
-                Width = thisWindow.Width
-            };
+        }
 
-            OpenChildWindow(MarginCalcBox);
-
+        void childFormWMarginClosed(object sender, EventArgs e)
+        {
+            ((MarginCalcWindow)sender).Closed -= childFormWMarginClosed;
+            this.Show();
         }
     }
 }

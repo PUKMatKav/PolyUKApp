@@ -40,7 +40,7 @@ namespace PolyUKApp.Windows
         public MarginCalcWindow()
         {
             InitializeComponent();
-            CurrentMarginExplain();
+
         }
 
         private void TopBar0_MouseDown(object sender, MouseButtonEventArgs e)
@@ -99,12 +99,14 @@ namespace PolyUKApp.Windows
                 }
             }
 
-            if (CostPrice != null && SalesPrice != null && CarriageCharge != null && CarriageCharge != null && Quantity != null)
+            if (CostPriceTextBox.Text != "" && SalePriceTextBox.Text != "" && CarriageCostTextBox.Text != "" && CarriageChargeTextBox.Text != "" && QtyTextBox.Text != "")
             {
-                CurrentMargin = Math.Round((1 - ((CostPrice + CarriageCost) / (SalesPrice + CarriageCharge))) * 100,2);
+                CurrentMargin = Math.Round((1 - ((CostPrice + CarriageCost) / (SalesPrice + CarriageCharge))) * 100, 2);
+                CurrentMarginExplain();
             }
             FinalMarginCalcText.Text = CurrentMargin.ToString() + " %";
             CurrentMarginNewCostText.Text = CurrentMargin.ToString() + " %";
+
 
         }
 
@@ -154,7 +156,8 @@ namespace PolyUKApp.Windows
         private void CurrentMarginExplain()
         {
             CurrentMarginTextExp.Text = "";
-            CurrentMarginTextExp.Text = "This is a very long test to make sure it carries over line to line";
+            CurrentMarginTextExp.Text = "This is calculating Gross Profit. In this particular case that would be £" + (SalesPrice + CarriageCharge).ToString() + " (Sales) - £" + (CostPrice + CarriageCost).ToString() + " (Costs) = £" + ((SalesPrice + CarriageCharge) - (CostPrice + CarriageCost)).ToString() + " (The Difference)\n" +
+                                        "£" + ((SalesPrice + CarriageCharge) - (CostPrice + CarriageCost)).ToString() + " / £" + (SalesPrice + CarriageCharge).ToString() + " = " + Math.Round((((SalesPrice + CarriageCharge) - (CostPrice + CarriageCost)) / (SalesPrice + CarriageCharge)),2).ToString() + " (or " + Math.Round(((((SalesPrice + CarriageCharge) - (CostPrice + CarriageCost)) / (SalesPrice + CarriageCharge)) *100),2).ToString() + "%)";
         }
 
         private void CostPriceTextBox_TextChanged(object sender, TextChangedEventArgs e)
