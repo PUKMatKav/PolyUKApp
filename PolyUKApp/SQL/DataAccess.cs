@@ -348,7 +348,7 @@ namespace PolyUKApp.SQL
                 "FROM Company " +
                 "LEFT JOIN Comm_Link ON Comm_Link.CmLi_Comm_CompanyId=Company.Comp_CompanyId " +
                 "LEFT JOIN Communication ON Communication.Comm_CommunicationID=Comm_Link.CmLi_Comm_CommunicationId " +
-                "WHERE Company.Comp_PrimaryUserId = '35' AND Comp_Deleted IS NULL AND Communication.Comm_Status = 'Pending' AND CmLi_Comm_UserId = '46'";
+                "WHERE Company.Comp_PrimaryUserId = '46' AND Comp_Deleted IS NULL AND Communication.Comm_Status = 'Pending' AND CmLi_Comm_UserId = '35'";
 
             public static String CoCChecker = "SELECT SOPOrderReturnLine.ItemCode, SOPOrderReturn.DocumentNo " +
                 "FROM SOPOrderReturnLine " +

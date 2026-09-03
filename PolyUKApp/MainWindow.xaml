@@ -365,6 +365,11 @@
                         Style="{DynamicResource MenuButtonTheme}"
                         Click="BtnMarginCalc_Click"
                         MouseEnter="BtnMarginCalc_MouseEnter"/>
+                <Button x:Name="BtnSpecSheet"
+                        Content="Spec Sheet Generator"
+                        Style="{DynamicResource MenuButtonTheme}"
+                        Click="BtnSpecSheet_Click"
+                        MouseEnter="BtnSpecSheet_MouseEnter"/>
             </StackPanel>
             <StackPanel x:Name="SystemsSubMenuPanel"
                         Width="200"
@@ -465,7 +470,7 @@
                HorizontalAlignment="Left"/>
 
         <TextBlock x:Name="versionbox"
-                   Text="v1.4.3.0"
+                   Text="v1.5.3.0"
                    Grid.Row="3"
                    FontFamily="Aptos"
                    Foreground="Gray"

@@ -490,7 +490,12 @@ namespace PolyUKApp
                 "v1.4.2.1 - added exception catcher to hopefully display errors if program runs into a problem!\n" +
                 "v1.4.2.2 - added target time for SS\n" +
                 "v1.4.3.0 - added margin calculation tool so work out current margins or convert to new margins\n" +
-                "v1.4.3.0 - changed logic for weight and margin window, now hides menu behind\n");
+                "v1.4.3.0 - changed logic for weight and margin window, now hides menu behind\n" +
+                "\r" + "" + "\r" +
+                "v1.5.0.0 - Added basic spec sheet generator, will parse text from item spec on sage and filter into hopefully correct spots on sheet (in Sales Tools)\n" +
+                "v1.5.1.0 - Adjusted logic of generator for spec sheet, will now hide empty fields\n" +
+                "v1.5.2.0 - Added ability to see leftover text and original spec from sage to the screen\n" +
+                "v1.5.3.0 - Can now export as PDF and edit fields if required");
         }
 
         private void BtnCommInvoice_Click(object sender, RoutedEventArgs e)
@@ -917,5 +922,26 @@ namespace PolyUKApp
             ((MarginCalcWindow)sender).Closed -= childFormWMarginClosed;
             this.Show();
         }
+
+        private void BtnSpecSheet_Click(object sender, RoutedEventArgs e)
+        {
+            var SpecWindow = new SpecSheetWindow();
+            SpecWindow.Closed += childFormSpecClosed;
+            SpecWindow.Show();
+            this.Hide();
+        }
+
+        void childFormSpecClosed(object sender, EventArgs e)
+        {
+            ((SpecSheetWindow)sender).Closed -= childFormSpecClosed;
+            this.Show();
+        }
+
+        private void BtnSpecSheet_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            TextBlockInfo.Document.Blocks.Clear();
+            TextBlockInfo.AppendText("Will Generate a Spec Sheet for a specified item code");
+        }
+
     }
 }

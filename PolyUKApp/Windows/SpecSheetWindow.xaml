@@ -1,0 +1,219 @@
+﻿<Window x:Class="PolyUKApp.Windows.SpecSheetWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PolyUKApp.Windows"
+        mc:Ignorable="d"
+        Title="SpecSheetWindow" Height="650" Width="900"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResizeWithGrip"
+        Icon="Images/PUKIco.ico">
+
+    <Window.Resources>
+        <Style x:Key="ActionButtonTheme" TargetType="Button">
+            <Setter Property="Background" Value="{DynamicResource Accent}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="16,8"/>
+            <Setter Property="FontFamily" Value="Aptos"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <Border x:Name="TopBar0"
+            Background="{DynamicResource Accent}"
+            CornerRadius="5,5,0,0"
+            BorderBrush="{DynamicResource AccentBorder}"
+            BorderThickness="1,1,1,0"
+            MouseDown="TopBar0_MouseDown"/>
+
+        <Border Background="{DynamicResource BackgroundBase}"
+            Grid.Row="2"
+            BorderBrush="{DynamicResource Border}"
+            BorderThickness="1,0"
+            RenderOptions.EdgeMode="Aliased"
+            Opacity="1"/>
+
+        <Border x:Name="LogoBar0"
+            Background="{DynamicResource BackgroundMid}"
+            Grid.Row="1"
+            HorizontalAlignment="Stretch"
+            BorderBrush="{DynamicResource Border}"
+            BorderThickness="1,0,1,1"
+            RenderOptions.EdgeMode="Aliased">
+            <TextBlock Text="Spec Sheet Generator"
+                       Foreground="{DynamicResource Accent}"
+                       FontFamily="Aptos"
+                       FontWeight="SemiBold"
+                       FontSize="18"
+                       VerticalAlignment="Center"
+                       Margin="20,0,0,0"/>
+        </Border>
+
+        <Border x:Name="BotBar0"
+            Background="{DynamicResource BackgroundMid}"
+            Grid.Row="3"
+            CornerRadius="0,0,5,5"
+            BorderBrush="{DynamicResource Border}"
+            BorderThickness="1"/>
+
+        <Grid x:Name="DisplayGrid" Grid.Row="2" Margin="15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Left: search + results -->
+            <Border Grid.Column="0"
+                    Background="{DynamicResource BackgroundLight}"
+                    CornerRadius="5"
+                    BorderBrush="{DynamicResource BorderMid}"
+                    BorderThickness="1"
+                    Margin="0,0,10,0">
+                <DockPanel Margin="10">
+                    <TextBlock DockPanel.Dock="Top"
+                               Text="Search Item Code / Name"
+                               Foreground="{DynamicResource Text}"
+                               FontFamily="Aptos"
+                               Margin="0,0,0,5"/>
+                    <Border DockPanel.Dock="Top"
+                            Background="{DynamicResource BackgroundMid}"
+                            Height="26"
+                            CornerRadius="10"
+                            Margin="0,0,0,10">
+                        <TextBox x:Name="SearchTextBox"
+                                 Background="Transparent"
+                                 Foreground="{DynamicResource Text}"
+                                 BorderThickness="0"
+                                 Padding="10,4"
+                                 VerticalContentAlignment="Center"
+                                 TextChanged="SearchTextBox_TextChanged"/>
+                    </Border>
+                    <TextBlock x:Name="StatusText"
+                               DockPanel.Dock="Bottom"
+                               Foreground="{DynamicResource Text}"
+                               FontFamily="Aptos"
+                               FontSize="10"
+                               Margin="0,8,0,0"
+                               TextWrapping="Wrap"/>
+                    <ListBox x:Name="ResultsListBox"
+                             Background="Transparent"
+                             BorderThickness="0"
+                             SelectionChanged="ResultsListBox_SelectionChanged"
+                             DisplayMemberPath="DisplayLabel"/>
+                </DockPanel>
+            </Border>
+
+            <!-- Right: parsed preview + generate -->
+            <Border Grid.Column="1"
+                    Background="{DynamicResource BackgroundLight}"
+                    CornerRadius="5"
+                    BorderBrush="{DynamicResource BorderMid}"
+                    BorderThickness="1">
+                <DockPanel Margin="15">
+                    <StackPanel DockPanel.Dock="Top">
+                        <TextBlock x:Name="SelectedItemHeader"
+                                   Text="Select an item on the left"
+                                   Foreground="{DynamicResource Accent}"
+                                   FontFamily="Aptos"
+                                   FontWeight="Bold"
+                                   FontSize="16"
+                                   Margin="0,0,0,15"/>
+                    </StackPanel>
+
+                    <Button x:Name="BtnGeneratePdf"
+                            DockPanel.Dock="Bottom"
+                            Content="Generate PDF Spec Sheet"
+                            Style="{StaticResource ActionButtonTheme}"
+                            HorizontalAlignment="Left"
+                            Margin="0,15,0,0"
+                            IsEnabled="False"
+                            Click="BtnGeneratePdf_Click"/>
+
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <!-- Populated in code-behind: one row per non-empty parsed field -->
+                            <StackPanel x:Name="FieldsPanel"/>
+
+                            <TextBlock Text="Additional Notes"
+                                       Foreground="{DynamicResource Accent}"
+                                       FontFamily="Aptos"
+                                       FontWeight="SemiBold"
+                                       Margin="0,15,0,5"/>
+                            <Border Background="{DynamicResource BackgroundMid}"
+                                    CornerRadius="5"
+                                    Margin="0,0,0,5">
+                                <TextBox x:Name="LeftoverTextBlock"
+                                     Background="Transparent"
+                                     Foreground="{DynamicResource Text}"
+                                     FontFamily="Aptos"
+                                     FontSize="11"
+                                     BorderThickness="0"
+                                     Padding="8"
+                                     MinHeight="60"
+                                     MaxHeight="150"
+                                     TextWrapping="Wrap"
+                                     AcceptsReturn="True"
+                                     VerticalScrollBarVisibility="Auto"/>       
+                            </Border>
+
+                            <TextBlock Text="Original Sage Description"
+                                       Foreground="{DynamicResource Text}"
+                                       FontFamily="Aptos"
+                                       FontStyle="Italic"
+                                       FontSize="10"
+                                       Margin="0,15,0,5"/>
+                            <TextBlock x:Name="RawDescriptionTextBlock"
+                                       Foreground="Gray"
+                                       FontFamily="Aptos"
+                                       FontSize="10"
+                                       TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </DockPanel>
+            </Border>
+        </Grid>
+
+        <StackPanel Orientation="Horizontal"
+                HorizontalAlignment="Right"
+                Margin="0,0,10,0">
+            <Button x:Name="BtnMinimise"
+                    Width="40" Height="35"
+                    Content="_"
+                    Style="{DynamicResource ControlButtonTheme}"
+                    Click="BtnMinimise_Click"/>
+            <Button x:Name="BtnMaximise"
+                    Width="40" Height="35"
+                    Content="🗖"
+                    Style="{DynamicResource ControlButtonTheme}"
+                    Click="BtnMaximise_Click"/>
+            <Button x:Name="BtnClose"
+                    Width="40" Height="35"
+                    Content="X"
+                    Style="{DynamicResource ControlButtonTheme}"
+                    Click="BtnClose_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

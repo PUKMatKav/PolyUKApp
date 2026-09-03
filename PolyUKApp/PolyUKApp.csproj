@@ -51,7 +51,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Core\" />
     <Folder Include="Fonts\" />
     <Folder Include="Helper Classes\" />
     <Folder Include="MVVM\Model\" />
@@ -72,6 +71,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.1" />
     <PackageReference Include="MySql.Data" Version="9.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="QuestPDF" Version="2026.7.1" />
     <PackageReference Include="RestSharp" Version="112.1.0" />
     <PackageReference Include="System.Data.OleDb" Version="9.0.1" />
     <PackageReference Include="System.Web.Services.Description" Version="8.1.1" />
