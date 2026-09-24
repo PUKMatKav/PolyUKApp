@@ -495,7 +495,8 @@ namespace PolyUKApp
                 "v1.5.0.0 - Added basic spec sheet generator, will parse text from item spec on sage and filter into hopefully correct spots on sheet (in Sales Tools)\n" +
                 "v1.5.1.0 - Adjusted logic of generator for spec sheet, will now hide empty fields\n" +
                 "v1.5.2.0 - Added ability to see leftover text and original spec from sage to the screen\n" +
-                "v1.5.3.0 - Can now export as PDF and edit fields if required");
+                "v1.5.3.0 - Can now export as PDF and edit fields if required\n" +
+                "v1.5.3.1 - Updated permissions for van calendar, reworked logic for checking the user");
         }
 
         private void BtnCommInvoice_Click(object sender, RoutedEventArgs e)
